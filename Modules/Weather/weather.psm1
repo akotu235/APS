@@ -52,7 +52,7 @@ function Get-Weather{
     if(!$Config){
         Write-Verbose "Generating default configuration."
         $Config = New-Object PSObject -Property @{
-            AppId = "e734800c9dc90fda039ba3d4ce67422a"
+            AppId = Read-Host -Prompt "Enter API key from api.openweathermap.org"
             City = "$(Get-Geolocation -City)"
             Units = "metric"
             Geolocalization = "enable"
@@ -186,8 +186,8 @@ Set-Alias "pogoda" Get-Weather
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU+n1PA7hzsg0Uq6ri/TswFxf2
-# 0EOgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUo/4u1rPDs2nXFpybpwRGbrl6
+# RsGgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -207,11 +207,11 @@ Set-Alias "pogoda" Get-Weather
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUTBZVmnV4sTs+K/ULPM1BZDr7m20wDQYJKoZIhvcNAQEBBQAEggEAivFT
-# +plNWYzKu5VzXcI8+w+M3FnlctrMDUr8fjnpF1G3er7R8lDJOD4w/N30ORox7GXV
-# UWy4CRTJLXEc56krG6l62ccHHQwx0d/J9SLKy8u2ehQaFKlh9dLBTzvFn1Y+3Uxc
-# VDsoJq129PkkyBcRCV7IGyk1qeHFB0cViohFqK170wdrnG5dKNQNUnzK2kPyfufR
-# Q4CSPtXjimt1jv6bo/f5Liu+BP7QxZQoiMtE7m/eoZzifUOJobsZC+Cd6TK3TYWb
-# 2kqDzSSE9NRXbyGCrdRE3GxXmcefKruya4NbtOY7Y5lwDwpa09+jLXEDolTn6h0F
-# 1cLqPpnz+G22vO2aug==
+# CQQxFgQU7acIYHf6j9LzBI/TJWkf/M/u5YkwDQYJKoZIhvcNAQEBBQAEggEAB0YG
+# VUY7Tz25v78R3pUY9AialqBTdjaflGVfIsXqWClr3UeEHZK4tvvieUlESKhgEnCH
+# r38SvdDMyogYFC0Goof13oBWthwVCOZgWUFNhSJMnfiILtFlrNBBv8TTwOivlAq3
+# UB7z2qt6SV3drEOTiqtJjHLCOEaLsUQBc+lXR7kinM5Cv9q6acjBQPGWBV+mG0xB
+# NXjrrwPUOde2igrrBHIgUombFpZ4XWqM+5hsCc0xZ9ph1iHP2If6zcm1Ty7Cy9a3
+# vDx1HCihgN+qv9kWbBHN0qvstEa/7vnhGNBa7KinvavehODO7nOr25zRhBl/SWEr
+# FQokyHtPQprFa8xfdQ==
 # SIG # End signature block
