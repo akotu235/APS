@@ -4,9 +4,6 @@ if(!($Env:PSModulePath.Split(";") | where {$PSItem -like "*\Modules\APS*"})){
     $Env:PSModulePath = $Env:PSModulePath + ";$PSScriptRoot\Modules"
 }
 
-New-Variable -Name APSBase -Value "$PSScriptRoot"
-Export-ModuleMember -Variable APSBase
-
 Write-Host "Windows PowerShell"
 Write-Host "Hi! It is $(Get-Date -Format g)"
 Write-Host "You are working as $env:UserName"
@@ -16,8 +13,8 @@ Write-Host ""
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUq7kJZriF5DIRQgL3RSf8Dr8C
-# agagggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUQqGmiAZt1If1qE+rU0s6PxD
+# 5XqgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -37,11 +34,11 @@ Write-Host ""
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUtVh4J9wo+Yi/WDs6GVL6nxyWiGUwDQYJKoZIhvcNAQEBBQAEggEAi5y5
-# kyn6QFEMLqmhVe2sO+OGp7MZHCUxoUGBm/bawZvdoU8WFr1Pqe/rHAsoVvLfwnZG
-# Up8N5gGkRysU7MBZ6kcK7lhKvdu1ewkNpjHiwD5/RAcXzRxxmUvBiQAE/iZv9+tn
-# Zr12fnKihdhQdVLESmWRvuYA49vMaH0i2G/DAvox+EbiwGy2yP/bFm1qvARhNo7P
-# gvxnyXZhe3mEOotulf3SStDmY+DOG6kvbsqEea1n95d6RurSa3/aJVVWseN7Eazg
-# iNpW19dNNe8bLaAPG9WuqQb6lIiv0GXQIPZFHYivjOyGzgTNzw28GnijbsHK1xGt
-# p6dkMOtcCHU8gPne7g==
+# CQQxFgQUP/QDDFPp2gT52MpB1yRyYxJQIlIwDQYJKoZIhvcNAQEBBQAEggEATZcX
+# 23UpewFK9u69cLvvdExzhKwaKJjaneVhrOkyh0t1tJLe136/nolj4sBDUUEqJDC0
+# yxe4mSqPjbvU4IZG3iwah1SothXzus/RdSDyMW6ahwVfugDWaztb2TjU/XioteVY
+# AfJFcRMh+/zVcJaADWz836N5WFEwkI9KsTc3Nds4CaCOPTgqfPVcEiNviyRFI/gm
+# GS/oTZIPPaxr5EF1RZxQ66E9l9vxUQZpKT1s++slc5YqaQ/S8fQmuANHFCV1J5NL
+# UxFKLkVHnThSWKnl8ySzitM8LPtgx4TOkHhpL9KBJFjhgGJCJbkMsQtweBiaughY
+# OaGckzbTTJTMQ4yzMg==
 # SIG # End signature block
