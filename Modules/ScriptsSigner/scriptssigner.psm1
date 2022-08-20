@@ -89,11 +89,30 @@ function Add-Signature{
         Set-AuthenticodeSignature $File $Cert
     }
 }
+
+<#
+.SYNOPSIS
+Removes the signature.
+.PARAMETER File
+Enter the path of the script to remove the signature.
+.EXAMPLE
+.\Remove-Signature.ps1 -File .\scriptNmae.ps1
+#>
+function Remove-Signature{
+    [CmdletBinding()] 
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$File
+    )
+    
+    $FileContent = Get-Content $File
+    $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
+}
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUbHAPCJttnjzSxaMCZdhdL5fK
-# dM2gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUBDWPObPI3GZ8ncyhu3vdeV7M
+# 4B6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -113,11 +132,11 @@ function Add-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUP9ocxWggQ1WJ/OU7unLL8mvTf9cwDQYJKoZIhvcNAQEBBQAEggEAGOE2
-# Vu4UruxjOZdPcdD9X/Zeg4ZB2Lqw1l1zgTm1WDZJxApsuvbhrJWPqm4bhuRTAnB3
-# QThsrs0d7h4RyEIiuUO2HXsxUFap7Carq/lgnX5wsEOaKD/GK0xC/bYihjBMNllg
-# m+mz56h7gBYCF6U2ci51Nskf2srCeyOIf2uvj4ij4cnzVASGNekZF8B1O61dz7c5
-# c4fiulKAECZ7/ck+I1VOvpBNLYVAs5RK5k90H4yFkcMrftUDqkhTghbcYADBOskh
-# 4V/EKTOt21ZChbMgHY9Mf8PmoI5EljufpyXoiwgpg7cA6giufTPHrNWEiN0QSRjF
-# w9oTw2LHOJigQn0cmw==
+# CQQxFgQUw0Su+8miIQsqi29C2focMisPHkgwDQYJKoZIhvcNAQEBBQAEggEAODhy
+# T8qPSHriyfRwLA0j1QVmYHgs5oI1vpmNpW7yQ/kuKKb2nNUygh5hnjZQ3Dj1HoLq
+# jbQRtDhAzuiezabQxKBRT6iHmUJjVJKUWEnx/gt7xF6MAfmjE+/6R1xf5avXFfsU
+# FWCYJs3czniHBOuwWTWAn/i036c0tKB7MlW/yhFXaZq39FvwG9aPF9EVy797uasb
+# LFgJDOKLmabrh+qGOlEedvfOyH+fAwNDTOrcWMjQLVzzGN48pz4YGtI3OEbYZoJ2
+# RHj+WSqmQiwf92kYkULgIHnFSGmKQgkaNoaxTnZLGgIMt03hqxw7h6LC3pQhrMHx
+# pNnUyiyjQ4yCTyjLGg==
 # SIG # End signature block
