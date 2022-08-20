@@ -82,10 +82,12 @@ function Add-Signature{
     if((Get-ItemProperty $File).Mode -like "d-*" ){
         $Files = Get-ChildItem -Path $File -Recurse | where -Property Extension -Match ".psm?1"
         foreach ($f in $Files){
+            Remove-Signature $f.FullName
             Set-AuthenticodeSignature $f.FullName $Cert
         }
     }
     else{
+        Remove-Signature $f.FullName
         Set-AuthenticodeSignature $File $Cert
     }
 }
@@ -108,11 +110,14 @@ function Remove-Signature{
     $FileContent = Get-Content $File
     $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
 }
+##########
+
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUBDWPObPI3GZ8ncyhu3vdeV7M
-# 4B6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUxJ0QARW7uu+N8pYwplQJDAkt
+# 7xCgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -132,11 +137,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUw0Su+8miIQsqi29C2focMisPHkgwDQYJKoZIhvcNAQEBBQAEggEAODhy
-# T8qPSHriyfRwLA0j1QVmYHgs5oI1vpmNpW7yQ/kuKKb2nNUygh5hnjZQ3Dj1HoLq
-# jbQRtDhAzuiezabQxKBRT6iHmUJjVJKUWEnx/gt7xF6MAfmjE+/6R1xf5avXFfsU
-# FWCYJs3czniHBOuwWTWAn/i036c0tKB7MlW/yhFXaZq39FvwG9aPF9EVy797uasb
-# LFgJDOKLmabrh+qGOlEedvfOyH+fAwNDTOrcWMjQLVzzGN48pz4YGtI3OEbYZoJ2
-# RHj+WSqmQiwf92kYkULgIHnFSGmKQgkaNoaxTnZLGgIMt03hqxw7h6LC3pQhrMHx
-# pNnUyiyjQ4yCTyjLGg==
+# CQQxFgQUTuBjfksUalCNM2y8zKKP5dqYD/owDQYJKoZIhvcNAQEBBQAEggEAjFau
+# 3sRd3E++28YVIMLLf0gCfP9D1xxuvdpjLiwzUkDgZisLaP2dwaQOGqEro8VmF3l+
+# sj+wdLHfqufBex/6oVF2ZxxpdpptNAVpTMcIYnOSEnWCH2zAY94te3xMxwwRWaq5
+# 9njiOz9loelfSNwIYVdoBsoUUQTBAYJgtOmPphJzazESIcZ2MKS/zMpa8aA+RRyg
+# k4r0uZtQVk2ffjYrxjj89a2COrxVAW5IaX++6Zm17+U36pTEA4FYLnq3e9kSb8xs
+# QnTRoOX0Ag1sOsalKTCTNCC55SeYbuK03/FcOdoD++PccV5x+rtpAqNp84hBFfa6
+# DhdUBKG/5xdAtgKnbA==
 # SIG # End signature block
