@@ -20,15 +20,23 @@ function Confirm-Admin{
         [string]$CommandPath,
         [switch]$NoExit = $true
     )
-
+    
     #Script block prepare
-    $Module = (Get-Module akotu.PowerShell.Utilities).ModuleBase
+    $Module = Convert-Path "$PSScriptRoot\..\..\aps.psm1"
     if($CommandPath){
         $Command="& {
                         try{
                             Import-Module -Name $Module
                         }
-                        catch{}
+                        catch{
+                            try{
+                                Set-ExecutionPolicy Bypass -Scope Process -Force
+                                Import-Module -Name $Module
+                            }
+                            catch{
+                                Write-Error 'Cannot find the APS module'
+                            }
+                        }
                         cd $PWD
                         Set-Variable PSCommandPath -Value $CommandPath
                         $ScriptBlock
@@ -39,7 +47,15 @@ function Confirm-Admin{
                         try{
                             Import-Module -Name $Module
                         }
-                        catch{}
+                        catch{
+                            try{
+                                Set-ExecutionPolicy Bypass -Scope Process -Force
+                                Import-Module -Name $Module
+                            }
+                            catch{
+                                Write-Error 'Cannot find the APS module'
+                            }
+                        }
                         cd $PWD
                         $ScriptBlock
                    }"
@@ -213,8 +229,8 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUaSOkq5JK7PKLMQMJgu2RjLET
-# 7T+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUJ6NflC2ak84mOWZ5EhqzgjaV
+# PTugggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -234,11 +250,11 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUJgcK8moztGRO0sIYIevYSiUVJRswDQYJKoZIhvcNAQEBBQAEggEAnGXj
-# o+L+sVrPhPOkhj8N2DThOxK+WjWUz2VFHQHdXF92gAM/zhWzZpNc0ZjJDnBn2xi0
-# k2zlgM3GaLfhscpOsvls3+uuarfBqt9iwM6h4AMbDoD3Z/BVBeszHEOpibStp4vd
-# YtBnt3DnNlxfLsJ1j5JB2VcQ160NLeWEyn4FaPwY+tjupn67wuzMIk5z3h6zQD0G
-# BWQN6yYX6jJa0jO9m3eRP5d5j0uffUi0iRpGtnv/DZFA7gvkAhuyXszsosV3Ktce
-# nGSFeM9WTXD5J5LcWXZ0OCN4l6n88ZoNmLow22lKvJXqlsGbXYvVksAWe3pAgxFF
-# 7NgPAwEqvlHoVOTmJg==
+# CQQxFgQUyeuKSFtJEu1HKlCm3NQr6kvwTc0wDQYJKoZIhvcNAQEBBQAEggEAcdMJ
+# MDk9WBbNxUH4iZKpDJ0BEVzokTbgNUbLCV7Y13h67YcOwyvccZ0N3+ag58Xftfrm
+# 4ApXwPHyBxPQI68atGkk8grQwXPCH0ueon+jm5LMhhiOPGaGH+raLn4E+PZk0AGQ
+# FzSvqOVcTOtrOYcClyZ17TODjst04mJXIy0luEwf5JmMQqXiTxQT6ULwFMiTcQ94
+# 0CQtYjrRhRZa+gpY0e9r9HPMnxwYCHjIKps69nD7wIMpXuaCn00GfxdWybNecc68
+# 8adOirL506g0Lzju8AqY5UR2tL0JqJaYDEUutO1d+onezYT6H//lU9keevryG/Sh
+# mbRdPsn/Ckdifv9wgw==
 # SIG # End signature block
