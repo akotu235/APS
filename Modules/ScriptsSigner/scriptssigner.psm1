@@ -18,7 +18,6 @@ function Add-Signature{
     if(@(Get-ChildItem cert:\CurrentUser\My -codesigning).Length -gt 0){
         if((Get-ChildItem cert:\CurrentUser\My -codesigning).Length -eq 1){
             $Cert = (Get-ChildItem cert:\CurrentUser\My -CodeSigningCert)[0]
-            Set-AuthenticodeSignature $File $Cert
         }
         else{        
             Add-Type -AssemblyName System.Windows.Forms
@@ -69,7 +68,6 @@ function Add-Signature{
 
             if($result -eq [System.Windows.Forms.DialogResult]::OK){
                 $Cert=(Get-ChildItem cert:\CurrentUser\My -codesigning | where Subject -like "*$($listBox.SelectedItem)*")
-                Set-AuthenticodeSignature $File $Cert
             }
         }
     }
@@ -80,12 +78,22 @@ function Add-Signature{
             New-CodeSigningCert
         }
     }
+
+    if((Get-ItemProperty $File).Mode -like "d-*" ){
+        $Files = Get-ChildItem -Path $File -Recurse | where -Property Extension -Match ".psm?1"
+        foreach ($f in $Files){
+            Set-AuthenticodeSignature $f.FullName $Cert
+        }
+    }
+    else{
+        Set-AuthenticodeSignature $File $Cert
+    }
 }
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUIkiHg/hs7f3OR8f/zMtVfM/J
-# XOWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUbHAPCJttnjzSxaMCZdhdL5fK
+# dM2gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -105,11 +113,11 @@ function Add-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUst5lwYzVhwEH2581ZKyPCeKuTjQwDQYJKoZIhvcNAQEBBQAEggEAY2qk
-# CYO+BVggriVlBe8lR/YnMeK0ul/wI+elA68ML8bxVlQInxKstNI+INjdQKQVpnF5
-# bsvt2ntsEPp4n3eyFtk2JuzljSHyIzj7K1l+66F+n5kZpnkJEx1CIlZMid7CINXf
-# zTqm2V2Qn/JTz7PdScutyj2Cax7GSb1OaQ7uFKX1lv6hkHyJqoixbn4kf81XKDwL
-# cPh2HRwBivhcdU+z7KPupjGwinJeoQIqhKd5/UnTeHT8Hc2H8r9NkZEdT+BvGK0S
-# u88gjDNC3SfA3DmLQmVEJvQyqU6648/5pavnvlW2NrXU27z9xcAauARfeYn0VbB4
-# 2Yz+h5rn8Ux7HmyPrQ==
+# CQQxFgQUP9ocxWggQ1WJ/OU7unLL8mvTf9cwDQYJKoZIhvcNAQEBBQAEggEAGOE2
+# Vu4UruxjOZdPcdD9X/Zeg4ZB2Lqw1l1zgTm1WDZJxApsuvbhrJWPqm4bhuRTAnB3
+# QThsrs0d7h4RyEIiuUO2HXsxUFap7Carq/lgnX5wsEOaKD/GK0xC/bYihjBMNllg
+# m+mz56h7gBYCF6U2ci51Nskf2srCeyOIf2uvj4ij4cnzVASGNekZF8B1O61dz7c5
+# c4fiulKAECZ7/ck+I1VOvpBNLYVAs5RK5k90H4yFkcMrftUDqkhTghbcYADBOskh
+# 4V/EKTOt21ZChbMgHY9Mf8PmoI5EljufpyXoiwgpg7cA6giufTPHrNWEiN0QSRjF
+# w9oTw2LHOJigQn0cmw==
 # SIG # End signature block
