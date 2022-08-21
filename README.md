@@ -21,8 +21,7 @@ Expand-Archive -Path "$APS_Base/APS-master.zip" -DestinationPath $APS_Base
 mv $APS_Base\APS-master\aps.psd1 $APS_Base
 mv $APS_Base\APS-master\aps.psm1 $APS_Base
 mv $APS_Base\APS-master\Modules $APS_Base
-rm -r $APS_Base\APS-master.zip
-rm -r $APS_Base\APS-master
+rm -Force -Recurse "$APS_Base\APS-master*"
 Set-ExecutionPolicy Bypass -Scope Process -Force
 Import-Module "$APS_Base\Modules\AutoConfiguration"
 Import-Module "$APS_Base\Modules\ScriptsSigner"
@@ -42,4 +41,9 @@ if($answer -like "" -or $answer -like "y*"){
     Add-Signature $Profile
 }
 Import-Module APS
+```
+## Update
+Upgrade to the latest version using the command:
+```Powershell
+Update-APS
 ```
