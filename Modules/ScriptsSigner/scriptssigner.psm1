@@ -107,7 +107,7 @@ function Remove-Signature{
         [string]$File
     )
     
-    if($File.Contains("SIG # Begin signature block")){
+    if((Get-Content $File).Contains("# SIG # Begin signature block")){
         try{
             $FileContent = Get-Content $File
             $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
@@ -123,8 +123,8 @@ function Remove-Signature{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUHO5zfK1dZ99YViibB0HnukYU
-# L+igggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUafozlOKMwlMCo/GKFNHGe01D
+# 8NSgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -144,11 +144,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUIKjdVOmX4Sz2rQMHso+VnKzdCKgwDQYJKoZIhvcNAQEBBQAEggEAg9RD
-# YrQlsbyYZBjcblOecg6RDHoBf/kSiEBlKjAViLVMkNLAGBYLoB+jcTjIAtGNSqhE
-# YPwIEZQqu99DwXr2/ne0Bg5dniBGx81hMvO94A/KXYOt37cOfScekEM+KUfTSOAk
-# 5W4t9B5LXdp7jaTZmjFM8jbi/v8GP6h6N+njx2M1E62DW3Noo53hdzT885nuxzpc
-# hCHYYhiRPsleCnogAwyKh5x/+i6GXIYZSYjacZNyXtTImtrqr6Qf6m9zqYmMEJmW
-# NG5BNbSSJxsFqmFuRDh29bcPX8UGNtc+rPJ9gXHI9PQUA/CrXBHKoRpmEhWCW/fk
-# LSRvVvrSzAqZLt/Qgg==
+# CQQxFgQULEk6zeBYSNKT72HrKacI7xdqYOYwDQYJKoZIhvcNAQEBBQAEggEAfPu3
+# K2m+DabUke1vn+yGaEGw8hrVcUyEopifSdhG+1XPJNS99jNlMNRoGu8kHVjK5Rvi
+# b6bDVBZhGCbdTRzawuGuzzAIH1PoNCDzn7FdKC+2SLGco74diiGoCTnCyG+AFKw7
+# qb/Q8jvT8nMdd4LKRCg6+TST8Jb7YMnnf1cVfB5tP8dEv5nsERAajpIwFFJjSQaJ
+# N0oKwA+6/U/wxeUcFnQgdZga9kRipWV/YEfqVZGFqPTDJeEd2aXDqygDnFvM594g
+# 477cbyMsL+xD1nQk9K529bLA4JRZ4I2+QIRa2fIArPLHFAdFVCQWXUaYm7A26VFn
+# RS7Gn51kvwCtnbqQ2g==
 # SIG # End signature block
