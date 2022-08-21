@@ -107,12 +107,14 @@ function Remove-Signature{
         [string]$File
     )
     
-    try{
-        $FileContent = Get-Content $File
-        $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
-    }
-    catch{
-        Write-Host "Signature could not be removed."
+    if($File.Contains("SIG # Begin signature block")){
+        try{
+            $FileContent = Get-Content $File
+            $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
+        }
+        catch{
+            Write-Host "Signature could not be removed."
+        }
     }
 }
 ##########
@@ -121,8 +123,8 @@ function Remove-Signature{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUx74K3Gjrvgi2T1nr72NC/oWi
-# mWegggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUHO5zfK1dZ99YViibB0HnukYU
+# L+igggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -142,11 +144,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUv0laUeD2mPN3gVw3L6FM8qucusUwDQYJKoZIhvcNAQEBBQAEggEAWTLU
-# 02B/+FyUqAw0OE+f05WxaBMmi9R96OJz0aDLlu3k9jSgkiNjIy4q5smscKT2R4SQ
-# SWFDnXSTKfWq3X3RNWDouiWyNTOBbhepKB+q1rT/hc2yKqCsRvvteJFSF7bOuHhS
-# 3uoQRQqzQiX/Kj8/lKFu3h0PMB/p3jgVTwQoLCUsHQlNnJiP4+KdKYFP7u3jeLZp
-# vtmWUFr/cUZGqIClwc2TrxFZ1tcbVS6/iio67zgRCaDU3ouAR3Aayc59JJOA32Pc
-# F0dDi/txrMbsk+kZxZB5Kj8fBzbVKyS3acNko81jGzWJBvAGBrRXN/VrVdEC08n6
-# fRbSz4MVcCjAKegz3A==
+# CQQxFgQUIKjdVOmX4Sz2rQMHso+VnKzdCKgwDQYJKoZIhvcNAQEBBQAEggEAg9RD
+# YrQlsbyYZBjcblOecg6RDHoBf/kSiEBlKjAViLVMkNLAGBYLoB+jcTjIAtGNSqhE
+# YPwIEZQqu99DwXr2/ne0Bg5dniBGx81hMvO94A/KXYOt37cOfScekEM+KUfTSOAk
+# 5W4t9B5LXdp7jaTZmjFM8jbi/v8GP6h6N+njx2M1E62DW3Noo53hdzT885nuxzpc
+# hCHYYhiRPsleCnogAwyKh5x/+i6GXIYZSYjacZNyXtTImtrqr6Qf6m9zqYmMEJmW
+# NG5BNbSSJxsFqmFuRDh29bcPX8UGNtc+rPJ9gXHI9PQUA/CrXBHKoRpmEhWCW/fk
+# LSRvVvrSzAqZLt/Qgg==
 # SIG # End signature block
