@@ -16,9 +16,8 @@ function Update-APS{
     if($APS_Version -notlike $APS_Current_Version){
         $Client.DownloadFile("https://github.com/akotu235/APS/archive/refs/heads/master.zip","$APS_Base\APS-master.zip")
         Expand-Archive -Path "$APS_Base/APS-master.zip" -DestinationPath $APS_Base
-        mv -Force "$APS_Base\APS-master\aps.psd1" $APS_Base
-        mv -Force "$APS_Base\APS-master\aps.psm1" $APS_Base
-        mv -Force "$APS_Base\APS-master\Modules" $APS_Base
+        cp -Force "$APS_Base\APS-master\aps.ps*" $APS_Base
+        cp -Recurse -Force "$APS_Base\APS-master\Modules" $APS_Base
         rm -Force -Recurse "$APS_Base\APS-master*"
         Add-Signature $APS_Base
     }
@@ -26,11 +25,12 @@ function Update-APS{
         Write-Host "APS is up to date"
     }    
 }
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUwxw6RoscwoFPaCquu25QhqBN
-# V6CgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUceGwbqHTcRAxrViyLbH4QmcQ
+# kxigggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -50,11 +50,11 @@ function Update-APS{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU5PRKOI03uOohxIfxsR+N1bBs7N4wDQYJKoZIhvcNAQEBBQAEggEARODm
-# 0+0i1s2vKDryh8QqGpRICsXqRn9iKcwMSy05NiKKDTA/9zLgLPmivV/3+n+qF9d6
-# kdJbsYQly2JTMB/Ena0QSakYM8hZjhTnywkUlP/uvx6tZPeJkI58JB+gpdZU4VWf
-# aQD5Y/7WzeRp7eSyvc9t/HKUFaLcwJl6D5mAZXQIxVhpDvnmuwZFhnpFQQyK6UgV
-# sjx6TeB/I31UL5XMKn/ALDVQCpcLbi59lYffHxNFaraIl0pMttUWrhGAmIKd3Yvo
-# +y7d+DLqwqOkyYEhvheqNFkaILVMXeaY2m6U+u1EvfnPK8tZmkHHvS6R/wvOWy6m
-# TQctcz5xCuug7P6yMA==
+# CQQxFgQUqBPomq7KsGQp7VF++tfNuhijOE0wDQYJKoZIhvcNAQEBBQAEggEAj9lq
+# eSFMqGf/KZM9IG1NTkeNS8uZgEwr5EkzW6NFnRM6lOPJwM/9G2mJtwAVfH3e7zRo
+# ZWLamRPvbB7r6DOFyRljzOj5L9SV1jiJjBtHkv2vPF5fsNC3L7fuqE9r/Gz3HPj5
+# DU9bVD7MRhMfNleSWWNRO9Wl02qTln0wBlArcfnZ1Mk+rWNdEB0RHGXoiauHZtv0
+# qw7FvfnJbw9HXkM61qa/ZrPAN35LEz7RwgGJq5H2vMQOTxYzxOCqmruZpkQoKUYZ
+# /Dzl3j5a8YFVzXY9QeDRzDXULERoCmr9T1Fp99qtE9P6YEC7I2D/anEzKJ8y+iiM
+# MOpmodJhvuLJyX4gOw==
 # SIG # End signature block
