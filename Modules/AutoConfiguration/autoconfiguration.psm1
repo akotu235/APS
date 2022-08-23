@@ -214,6 +214,16 @@ function New-CodeSigningCert{
     #Securing a personal certificate
     $CertPath = Get-AutoConfigurationPath "$Name.pfx"
     $CertPassword = (Read-Host -AsSecureString -Prompt "Create a certificate password")
+    $ConfirmedPassword = (Read-Host -AsSecureString -Prompt "Confirm the certificate password")
+    $CertPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $CertPassword).Password
+    $ConfirmedPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $ConfirmedPassword).Password
+    while($CertPasswordAsPlainText -notlike $ConfirmedPasswordAsPlainText){
+        Write-Warning "Passwords are not the same"
+        $CertPassword = (Read-Host -AsSecureString -Prompt "Create a certificate password")
+        $ConfirmedPassword = (Read-Host -AsSecureString -Prompt "Confirm the certificate password")
+        $CertPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $CertPassword).Password
+        $ConfirmedPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $ConfirmedPassword).Password
+    }
     Export-PfxCertificate -Cert $Cert -FilePath $CertPath -Password $CertPassword 
     &$CertPath
 
@@ -226,11 +236,12 @@ function New-CodeSigningCert{
 }
 
 Set-Alias -Name "sudo" -Value Confirm-Admin
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0dggB9V9SRl1rkeH5Gj48CbM
-# vL6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7AAhc0oAudfOBXLvXfEyxowZ
+# JrOgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -250,11 +261,11 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU+Ih6lXDgO1f4O9YmUZnSnbaiOx0wDQYJKoZIhvcNAQEBBQAEggEAC1n0
-# s+rxOlBiBMe7LxWTMAtN8jxCBGVFkkGAPacOWd4/fOpsa4veY2QHYEou1Jp2NF34
-# cdnSu8hlWmzxnMqgzNDzh51n22Uri/mq6/N6uM32czFv+VSaa2s31ORyVOAYPqpw
-# ItAmlIRjNPp+RIgds8E4RY3xsn8O6d8XLhxkX0D3/F43KQcZ2j0dgnt2L0C4YwnS
-# 5qLno5d1fzQ04ZkJdvnuVTjwgy2w4aEE69FCkLqa4rGav3x19i1Trs25SN2qF+4r
-# gKUIpXaHEDmIPQObeEV1gyM08ExrIuKzr3CFVkCPCMJ0cYqk6YFcEZkXhCNE6LIx
-# uhEh8M49CJLGr7/OeQ==
+# CQQxFgQUpw6fc81T+qYTJss9GQApcVEF4NowDQYJKoZIhvcNAQEBBQAEggEAPe3k
+# eAUpsFPICPCXwG91m6uMo7l5MkzvIL1u58o0RUWq5Mt5HbTPonw8kQtx8/B5VrQx
+# qsyS9C4hZKci0I+X/XWsrx4JPglWXX4rIZ7EdZGvoQqGzhpr+1fA+dvabtNgNYlu
+# nFo6onbVWlzpqQXAKKTj4d382ATL/1XyvhoNFZoTQ8S3ZfzcKWoUdcTbn1iHKt0C
+# XFR511zjmysJyxn9Z65q1RNLaAUSFwUWByzz73Zeq/60hPIeEO4PxpyVXK0xdeA2
+# RSrhgGfnfwchRbBf82V5jFkJPsB/CFQVXas1vsP9vU9mhu+1GYOoslyVD3QV84OH
+# 97Uk6oSil089/s4KKg==
 # SIG # End signature block
