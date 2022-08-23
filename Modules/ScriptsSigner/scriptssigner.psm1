@@ -112,9 +112,7 @@ function Remove-Signature{
             $FileContent = Get-Content $File
             $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
         }
-        catch{
-            Write-Host "Signature could not be removed."
-        }
+        catch{}
     }
 }
 ##########
@@ -123,8 +121,8 @@ function Remove-Signature{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUafozlOKMwlMCo/GKFNHGe01D
-# 8NSgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkhqnAfdroVZMTxVCzj3bnxt6
+# UYWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -144,11 +142,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQULEk6zeBYSNKT72HrKacI7xdqYOYwDQYJKoZIhvcNAQEBBQAEggEAfPu3
-# K2m+DabUke1vn+yGaEGw8hrVcUyEopifSdhG+1XPJNS99jNlMNRoGu8kHVjK5Rvi
-# b6bDVBZhGCbdTRzawuGuzzAIH1PoNCDzn7FdKC+2SLGco74diiGoCTnCyG+AFKw7
-# qb/Q8jvT8nMdd4LKRCg6+TST8Jb7YMnnf1cVfB5tP8dEv5nsERAajpIwFFJjSQaJ
-# N0oKwA+6/U/wxeUcFnQgdZga9kRipWV/YEfqVZGFqPTDJeEd2aXDqygDnFvM594g
-# 477cbyMsL+xD1nQk9K529bLA4JRZ4I2+QIRa2fIArPLHFAdFVCQWXUaYm7A26VFn
-# RS7Gn51kvwCtnbqQ2g==
+# CQQxFgQUz4omBPhc4CHQ6fbanNrsXLnTwn4wDQYJKoZIhvcNAQEBBQAEggEALOFK
+# iqaH0CDXfe4YoPoL9adovFsSJAUnBU2dzIkSR4c46TdiKthvaNpqa0KhxhUOkafx
+# GiIURE8bhF/I5Bj4ybKFfKJzoPcp81vrLIyrd7sWMLzPaVTvOwvqYvEwi9F45Q+2
+# DiKGdy5lhihz6HIaiI5mIZG43aCf18dyrxYwG2Aq8TI7tftTSXI13FjKv3GGlxW3
+# LnvHV1dfHpwl3JWZd1oCUd3tuVSCeDCg4VL+mPM9zBYGgps5TIQiajE88xaoiNIS
+# hM/tsVu0WyiXstNA1qyavBB4lkTzJTG7E4BNcYEW72D2hvaIj5T/98T00tEAIqLw
+# 10/VfpHt+DiHPXwVVg==
 # SIG # End signature block
