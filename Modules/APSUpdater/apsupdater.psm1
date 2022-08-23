@@ -20,19 +20,20 @@ function Update-APS{
         cp -Force "$APS_Base\APS-master\aps.ps*" $APS_Base
         cp -Recurse -Force "$APS_Base\APS-master\Modules" $APS_Base
         rm -Force -Recurse "$APS_Base\APS-master*"
-        Add-Signature $APS_Base
+        Add-Signature $APS_Base >> $null
     }
     else{
-        Write-Host "APS is up to date"
+        Write-Host "APS is up to date" -ForegroundColor DarkGreen
     }    
 }
+
 
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUai/xZ6AjA8XaTjaoRqRHKZ1S
-# 0kSgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUGc7zD9y7heLM/CvxUmStZJ+7
+# qVKgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -52,11 +53,11 @@ function Update-APS{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUraiDCi/lON5Q835ZlekbUU5He+QwDQYJKoZIhvcNAQEBBQAEggEAm1kN
-# J0yMOzSppgCw9vsbeotBi75zSMQkmM5djQmPXErrZ3l9gAeHMRYS0+ZQ1zTDTyYu
-# Ea2XhGPwggAWJzs9Bqymv7ZYJlyv0Nzy6v747/05+8ahw7H55hEdVGwe6K72iyq+
-# Rz33UewLC5JzTMv3DhA8guWqu1Mkp4X0a4q+xqI/bXOyULZBD38K1i2GB0YlgSA3
-# Ubtf8zDNeTutnzEi6bmf4bIrvFZsemkYIjiJ1qpKBy4pDpGfeIMBVnTQkEqXEQ07
-# 1Tqg/d14l3m+5a940cQ8QQ2e09wlpPdVIBqW6Jgydq+DBz3iv3xKiQO56eee4hek
-# LRv1lMH8DcCEESNANg==
+# CQQxFgQUfS1e3F64ZO2zjN7qIsV7RkIN2hUwDQYJKoZIhvcNAQEBBQAEggEAloSN
+# gd2ExqQKEqS0M2+XC39GXnKMSLgIqDyjDvWuFDQ08C3PiMizVsURzhlTcXarYFHg
+# IUsKoV26KWYJbhXnsX/U1YT0TsjuiJONIt8NifiS29nPeBbgX61O3Gk/lw0cRBGQ
+# W6Hr2zResG0tD991Cb2u7daSGO6Ofc6jtm+TSUGCgepRfz5MGWhi2Ygi2g3eiesy
+# SH+L7poALl2AMCf+//k/IVqQ6VSpir5HiTLhQK5zCKE0kvfcg+RSbclKThq7Qf8H
+# On4w6nqk4F7SNm0KzVURwPZ7ZScaxyGAFFed4ScEzq4AH7Yd5j34AlE23C9uys0c
+# /YNjEJCHGER7hl64hw==
 # SIG # End signature block
