@@ -7,13 +7,17 @@ Downloads and installs the latest APS from the github repository.
 Update-APS
 #>
 function Update-APS{
+    [CmdletBinding()] 
+    param(
+        [switch]$Force
+    )
     $APS_Base = (Get-Module APS).ModuleBase
     $APS_Version = (Get-Content "$APS_Base\aps.psd1" | Select-String "ModuleVersion =")
     $Client = New-Object System.Net.WebClient
     $Client.DownloadFile("https://raw.githubusercontent.com/akotu235/APS/master/aps.psd1","$APS_Base\current")
     $APS_Current_Version = (Get-Content "$APS_Base\current" | Select-String "ModuleVersion =")
     rm -Force "$APS_Base\current"
-    if($APS_Version -notlike $APS_Current_Version){
+    if($APS_Version -notlike $APS_Current_Version -or $Force){
         Import-Module ScriptsSigner
         $Client.DownloadFile("https://github.com/akotu235/APS/archive/refs/heads/master.zip","$APS_Base\APS-master.zip")
         Expand-Archive -Path "$APS_Base/APS-master.zip" -DestinationPath $APS_Base
@@ -29,11 +33,12 @@ function Update-APS{
 
 
 
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUGc7zD9y7heLM/CvxUmStZJ+7
-# qVKgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUShY/QRwpdJL6Dk3qH0swnCsE
+# H/qgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -53,11 +58,11 @@ function Update-APS{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUfS1e3F64ZO2zjN7qIsV7RkIN2hUwDQYJKoZIhvcNAQEBBQAEggEAloSN
-# gd2ExqQKEqS0M2+XC39GXnKMSLgIqDyjDvWuFDQ08C3PiMizVsURzhlTcXarYFHg
-# IUsKoV26KWYJbhXnsX/U1YT0TsjuiJONIt8NifiS29nPeBbgX61O3Gk/lw0cRBGQ
-# W6Hr2zResG0tD991Cb2u7daSGO6Ofc6jtm+TSUGCgepRfz5MGWhi2Ygi2g3eiesy
-# SH+L7poALl2AMCf+//k/IVqQ6VSpir5HiTLhQK5zCKE0kvfcg+RSbclKThq7Qf8H
-# On4w6nqk4F7SNm0KzVURwPZ7ZScaxyGAFFed4ScEzq4AH7Yd5j34AlE23C9uys0c
-# /YNjEJCHGER7hl64hw==
+# CQQxFgQU6xf3x5OLCYmxT3bcV4gy704+B1YwDQYJKoZIhvcNAQEBBQAEggEAdqRH
+# vIC84K2j5IUd8kx5i6LHageaxAqXDHVYGcvA5FAsrOUs9N4abgBbqYa6paK/4pr0
+# 62HKtypOJpcfgIPCTTR4+UGLYyMb4TaqpbHmBCIZ+OG8IGZjGCLsj2fzHDOiBRUT
+# ZqfblB9XQfbE6K2c5Kjor+mhDwD5ik4yMtSoZUdmwYAeeyT0jH4iLedQcWosKM6C
+# 1bM+5esJ55hh0hr6mFT8rM6QLP7X1ra0K6vaggwLnjhsY7cZFUCEOOsn0OkICLNn
+# 6yKr1IPrg289N1peTKCz1ugtxwSMkubqCPUpH/ki1yYmNXOQJABgLnCoqT4k1yzn
+# KK+cj+WlHGzH7uXT7w==
 # SIG # End signature block
