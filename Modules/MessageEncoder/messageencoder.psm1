@@ -51,7 +51,7 @@ Encrypts the message with the indicated rsa public key and copies it to the clip
 .PARAMETER Name
 Enter your message.
 .EXAMPLE
-Protect-Message "secret"
+Protect-Message "<secret>"
 #>
 function Protect-Message{
     [CmdletBinding()] 
@@ -90,9 +90,9 @@ Decrypts the message.
 .DESCRIPTION
 Decrypts the message if the appropriate private key is installed.
 .PARAMETER Name
-Enter an encrypted message.
+Enter an decrypted message.
 .EXAMPLE
-Protect-Message "secret"
+Unprotect-Message "<decrypted message>"
 #>
 function Unprotect-Message{
     [CmdletBinding()]
@@ -112,14 +112,11 @@ function Unprotect-Message{
     }
 }
 
-
-
-
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUtwQ9oQhcTHEDqVzFBJRyccuf
-# L6+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUddLkGY/LYBuTQmhPfNRkl4Dt
+# Kk6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -139,11 +136,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUQb9h7BZD56muC0CmEDKG+FvjYSIwDQYJKoZIhvcNAQEBBQAEggEAQZi0
-# GN2z338tMqfWW+Wq8txfCTiyrlNHBamQgH+j3hQNAqjZVSHcX68WWh6fdy5AX0IX
-# FozJTbcdckIDH2+H+MsYw5wb9OFk3GEZN6UtaUXWxrvOsimoYLU9SXKPBsDCebCT
-# LW0ou/jdzLxwuLCenx5+DF+xNaqTGAD+O1xmOF8x4CSsBFZ0XIKMlc1tlWR6O5ny
-# 0IHr2kizq4ZC5tidi3yoJNNdqXkZolH7KvyFir66POpWauSjK2+knc0osYE0+QFW
-# iVG6szSsOMX9sRgcPvxcqu5zUrYdT2S9yg0o0GRQzvBTb4WAOzJ50uhyUgNFzOeb
-# COFtql2Lp6UbbcNLxQ==
+# CQQxFgQUgWD5a5hCFf/VKLcXWUJHJ1pyW/4wDQYJKoZIhvcNAQEBBQAEggEAace9
+# G71Kg4wGx2RO5v/dn33kwhvq5wTqh5n3DTUDt0OBlkUGfYivOq8z+VhHsRRgC5Zb
+# wXSE72qSusXIG/BLyGCHfh59EQt+cSf9wHi+6wgi3mM3JUQ4HeZhy4XXQ0CJD9m0
+# ib9J/37RAYC0ai7Tq6Ufdo5OGUbFpL/k7L36pjNNkiCO75urIq5FeMf9LsvtbfWV
+# YYnbAuxE1YcxjXYnKHeBL47aZp3hL6p2iTrNTG/a0ivWkrdM0yU7959kr57VhTAv
+# weW7XSlstORJ5Ol6RP8nd6wq8CaOneR1gGi5jGJJeWMWIq1QvZ469zrNRp+vCK1C
+# 98DrIPVIOkpsOYs8vw==
 # SIG # End signature block
