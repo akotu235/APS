@@ -100,17 +100,26 @@ function Unprotect-Message{
         [Parameter(Mandatory=$true)]
         [string]$Message = $cipher
     )
-    Write-Host "Decrypted message:" -ForegroundColor Green
+    
     $Message = "-----BEGIN CMS-----$($Message.TrimStart('"').TrimEnd('"'))-----END CMS-----".Replace(";","`r`n")
-    $Message | Unprotect-CmsMessage
+    try{
+        $decryptedMessage = ($Message | Unprotect-CmsMessage)
+        Write-Host "Decrypted message:" -ForegroundColor Green
+        $decryptedMessage
+    }
+    catch{
+        Write-Host "No proper key to read this message" -ForegroundColor Red
+    }
 }
+
+
 
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0z3RrnrjCekG3/aebrcKZO3v
-# G0ugggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUtwQ9oQhcTHEDqVzFBJRyccuf
+# L6+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -130,11 +139,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU/CA46g148G80fzYBEfPgm+5HbbowDQYJKoZIhvcNAQEBBQAEggEAZRsd
-# zM5l58yqhwcj74x9zwe+gBm3PgKo9RX1HkAEsbzoOopOn6sHmrn9S6qOZgCT1REV
-# WoQzaDynUwVH1KwWO0Z0YZLX3H2BuCk09KdGwZJ1sRPjtyVWuy3xRDq+PmTAjUsH
-# 2rVJ4hobgOiOnnauHjAbM93UnwPVRHHVpfqWkbPkh2LnWoO+6gCjo5I3geIDJbUX
-# scgasOlMbg70ixi55fyC5yv61mDapOgYuN3565eByonykB8bshA10GZwQlFX4oAp
-# oqJZhjjOksYpZuo3h/5FX2Iq/8A0cqlaOIaYrMG9n5bwA0R9Ogf8nXXe77XlJ46f
-# Srf2YzgkmlaC/yA0VA==
+# CQQxFgQUQb9h7BZD56muC0CmEDKG+FvjYSIwDQYJKoZIhvcNAQEBBQAEggEAQZi0
+# GN2z338tMqfWW+Wq8txfCTiyrlNHBamQgH+j3hQNAqjZVSHcX68WWh6fdy5AX0IX
+# FozJTbcdckIDH2+H+MsYw5wb9OFk3GEZN6UtaUXWxrvOsimoYLU9SXKPBsDCebCT
+# LW0ou/jdzLxwuLCenx5+DF+xNaqTGAD+O1xmOF8x4CSsBFZ0XIKMlc1tlWR6O5ny
+# 0IHr2kizq4ZC5tidi3yoJNNdqXkZolH7KvyFir66POpWauSjK2+knc0osYE0+QFW
+# iVG6szSsOMX9sRgcPvxcqu5zUrYdT2S9yg0o0GRQzvBTb4WAOzJ50uhyUgNFzOeb
+# COFtql2Lp6UbbcNLxQ==
 # SIG # End signature block
