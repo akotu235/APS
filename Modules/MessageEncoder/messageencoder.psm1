@@ -14,9 +14,7 @@ function New-EncryptionKey{
         [Parameter(Mandatory=$true)]
         [string]$Name
     )
-
     $store = "cert:\CurrentUser\My"
-
     $params = @{
         CertStoreLocation = $store
         Subject = "CN=$Name"
@@ -26,24 +24,16 @@ function New-EncryptionKey{
         Type = "DocumentEncryptionCert"
         NotAfter = (Get-Date).AddYears(10)
     }
-
     $cert = New-SelfSignedCertificate @params
-
     $keysDir = "$HOME\.keys"
     $privateKey = "$keysDir\My\$Name.pfx"
     $publicKey = "$keysDir\My\$Name.pub.cer"
-    
     mkdir "$keysDir\My" -Force >> $null
-    
     $keyPassword = (Read-Host -AsSecureString -Prompt "Create a key password")
-
     Export-PfxCertificate -FilePath $privateKey -Cert $cert -Password $keyPassword
     Export-Certificate -FilePath $publicKey -Cert $cert
-
     explorer.exe "$keysDir\My"
-
     $cert | Remove-Item
-
     Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword -ProtectPrivateKey VSM
 }
 
@@ -63,9 +53,7 @@ function Protect-Message{
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-
-    $encryptionCerts = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert
-            
+    $encryptionCerts = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert     
     if($encryptionCerts.Count -eq 0){
         Write-Host "No encryption certificates"
     }
@@ -76,11 +64,10 @@ function Protect-Message{
         if($CN -notlike "CN=*"){
             $CN = "CN=$CN"
         }
-
         $cipher = $Message  | Protect-CmsMessage -To $CN
         Write-Host "Cipher:" -ForegroundColor Green
+        $cipher = "`"$($cipher.Replace("`r`n",";").Replace("`n",";").TrimStart("-----BEGIN CMS-----").TrimEnd("-----END CMS-----"))`""
         $cipher
-    
         Set-Clipboard -Value $cipher
     }
 }
@@ -96,19 +83,21 @@ Enter an encrypted message.
 Protect-Message "secret"
 #>
 function Unprotect-Message{
-    [CmdletBinding()] 
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$Message
+        [string]$Message = $cipher
     )
     Write-Host "Decrypted message:" -ForegroundColor Green
+    $Message = "-----BEGIN CMS-----$($Message.TrimStart('"').TrimEnd('"'))-----END CMS-----".Replace(";","`r`n")
     $Message | Unprotect-CmsMessage
 }
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUe19t/bCCUmsJPyTY1BjA61pY
-# dGqgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUe0GmJbuSzqbp94Wf+l5suvoJ
+# 4hegggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -128,11 +117,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU5HmcCx17XK1h0yJwkhdVlUYcGtwwDQYJKoZIhvcNAQEBBQAEggEAcIlp
-# kVK0489YUpmMWGYFtfa2SKwOO/4VF2OuAl56lmbZ6+qQc70e8gkZmCtkkb+t2QN3
-# OdtSeIfzyTxU0PIUjHXUB/89vJYVr40LtGLG2OZ0FERl8AIrzSTgja6ha235V4Vr
-# c1MU8mZiMgzZsisyhKXHwL+ahRR/78k8/YiYit4wWHbNmKwSsbG0SIzHMd9b8eO0
-# 0dwev2zYbkzOL4ZD8EtjTpiYEbL6bvPDWDhlGiSHZK7BAPJ4ofPEtzVhAcHeaZnN
-# 5aDGLUF9hw1CnrhgpyhRqTrxei1ufJi3NuvABykoMLF/GshTeiubGPuPucsKPixb
-# NhY0Ikmr2If9yOwVew==
+# CQQxFgQUeH7TXAyFZKHIUx5hOTn2uQkN+H4wDQYJKoZIhvcNAQEBBQAEggEAIvvK
+# hUYcNXD775Cctq3h9QJHIyvvT2kj3sQ0nkuxqHaSMIbwdwnu6eDLZZupyZYnDrzb
+# SiXAI9BxPpbOT9V0yw9CPc7B2sEBXrb3bAmqfvGxZFeQX0BIWjfA94EbWQa2CMrq
+# gQvPtaDeQwYxQjoAy7xufkkT86pokQqpnHWXLVdZ5rXrYfBEfKq/+dwGFmdMFkFJ
+# LXyw7iZU+54MNsRy0C7CIW4ZmrhsDMTI9WSAOSeNnABYqOMSJ0kamchHbmMKtFMh
+# gTkC5brWfxJD0byrPId4EgfJplxt2uXwvRcJa9PaD0Hi/axvafGJgbckcdSLVA0I
+# F/Ai5i4LLKZZy40UdQ==
 # SIG # End signature block
