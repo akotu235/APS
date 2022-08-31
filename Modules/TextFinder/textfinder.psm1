@@ -29,7 +29,6 @@ function Search-InFile{
         [switch]$AsSecure, 
         [switch]$CaseSensitive = $true
     )
-
     $DisplayResult = {
         param (
             [Parameter(Mandatory)]
@@ -37,17 +36,13 @@ function Search-InFile{
             [int]$Occurrence = 0,
             [string]$Scanned
         )
-        
         $Result = "found: $Occurrence  time: $(&$TimeMeasurement $StartTime)"
-
         if($Scanned){
             $Result = "scanned: $Scanned  $Result"
         }
-        
         Write-Host $Result
         Write-Host ""
     }
-
     $TimeMeasurement = {
         param (
             [Parameter(Mandatory)]
@@ -68,7 +63,6 @@ function Search-InFile{
             return "$([int]($TotalTime.TotalHours)) h $($TotalTime.ToString('mm')) min $($TotalTime.ToString('ss')) sec"
         }
     }
-
     $FindOperations = {
         param (
             [Parameter(Mandatory)]
@@ -79,7 +73,6 @@ function Search-InFile{
             [boolean]$StopSearching,
             $Line
         )
-
         if($StopSearching){
             &$DisplayResult $StartTime
             return $true
@@ -87,21 +80,17 @@ function Search-InFile{
         else{
             Write-Host "[$CurrentLine] $Line"
         }
-
         return $false
     }
-
     if($AsSecure){
         $SecurePhrase = Read-Host "Enter a search term" -AsSecureString
         $Phrase = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePhrase))
-       
     } 
     else{
         if(!$Phrase){
             $Phrase = Read-Host -Prompt "Enter a search term"
         }
     }
-
     if(!$Path){
         $Path = ".\"
     }
@@ -112,10 +101,8 @@ function Search-InFile{
     else{
         $Files = @($File)
     }
-
     $Occurrence = 0
     $StartTime = Get-Date
-
     foreach($f in $Files){
         Write-Host "Scaning $($f.Name)..."
         $CurrentStartTime = Get-Date
@@ -176,18 +163,17 @@ function Search-InFile{
         }
         &$DisplayResult $CurrentStartTime $CurrentOccurrence
     }
-    
     if($File.PSIsContainer){
         &$DisplayResult $StartTime $Occurrence $($Files.Count)
     }
-
     return [boolean]$Occurrence
 }
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1WvOyL4oTjIsCc9Okn7MK+yL
-# rpWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUUorokvRUjE93+PuulkAUPBEV
+# 636gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -207,11 +193,11 @@ function Search-InFile{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUfldN4QkJQaeE6O8UMpKfwAUoCMUwDQYJKoZIhvcNAQEBBQAEggEAFmC9
-# anAPOULV+JOPRW5wUfQRRt7dXSWIc/YKAij4TOxdT/Opb4dy513rloUudBue3h5P
-# CcPcydyFMC9TYNfq1ywWwEh/Yv7Jic/4A7bxzmlJCMqV2dwgYDq3tPsvzXprkX5k
-# DJujv8SVUuFtAlYUfookbh2jT9BUy/hUMN3quAclSDQ0e9XipMmwtucJApw6PaPN
-# T1xwTdtnqeKjXUA6j3VMHOqPCKf28R8US1vq3zkjttt2pbZWYxBawaMroJ81jIp2
-# zy8/GJ3B4n80NaEQWcYNupXJAReI2buA6szwGjeCWEHeP10K+d2sD6SPGog69k1K
-# YqFZY0K3bWbkhH0nLw==
+# CQQxFgQUHLbzg2TmPX2ed9izb9e6b2bZ/KgwDQYJKoZIhvcNAQEBBQAEggEAm4BG
+# hy/eWWIXfPnL620aCXL//AbbPjC58zzVjWO4AVdUj8F7lGSBSjaq5RtuQxE9ox65
+# Xxv63S080oRnLJaBmiJkqWB0uirQXsAVZGSWftkfrkb6CEljzkutPrOID2hU9/Rj
+# lc0FXErJlE3sbnXJbkAS1XBlHYvFTGPNvUa9hdmwKR5yADkCweaU4Vz4+2mnQQwl
+# jFpTmbegibFz+GHDHWkSWqHCesLjQk328DUM8HW3Fp10TV09Ha+Llwh/OanQUiXD
+# 0zVBaDycau5iEhlYKB3aPS7wb+uQElz7bON6dWRuAb7SuOQ3L3E8ZUxPexbUge+N
+# sC2l7//lUpaEL2Gw8w==
 # SIG # End signature block

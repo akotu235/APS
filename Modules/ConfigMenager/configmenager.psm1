@@ -104,14 +104,12 @@ function Get-ConfigPath{
         [string]$FileName,
         [switch]$SkipTest
     )
-
     if(!$FileName){
         $FileName = "$((@($ModuleBase.Split("\"))[-1]).ToString().ToLower()).config.xml"
     }
     elseif(!($FileName -like "*.xml")){
         $FileName = "$FileName.config.xml"
     }
-
     if($ConfigPath){
         if(!($ConfigPath -like "*.xml")){
             $ConfigPath = "$ConfigPath\$FileName"
@@ -119,7 +117,6 @@ function Get-ConfigPath{
     }else{
         $ConfigPath = "$ModuleBase\..\..\Configuration\$FileName"     
     }
-
     if($SkipTest){
         return $ConfigPath
     }
@@ -130,11 +127,12 @@ function Get-ConfigPath{
         return $null
     }
 }
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUs1nm9uRU8LhFVB7zReesCJ/l
-# vbGgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUeoddwpvRrRVXULiUa1VXTrK/
+# mIqgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -154,11 +152,11 @@ function Get-ConfigPath{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUgIAa6k0C5FN84wEk9cgeEmehRdcwDQYJKoZIhvcNAQEBBQAEggEAQF/1
-# kwyfJwyIy4cUwfvSBhPG8kV3wRL/VU3/TdAKNC5tTbLtlzqu9GU5jIhqnGeWPA5q
-# zaijA+0AVK1ApT4C5EH4RTjdVpcpaWBb1gYePsM85qCvLdRxaIOPvgSO9npNtSht
-# 1H59VJp/GnvOBXESvMC3zPvhGd1zrNWg1pMYnaP9OxrJzaOdIILfY8LMhurG9aR+
-# wFicuQQm2OJdgPv8OvTeiw4AL/6ZhDhNfHeYonCXVicXI40mh/XnUWVJQAk6619p
-# xKslNzjuCKZthATL5zDn4iGV14JdMCfMoePh/OWR3Lc8d8uKfy35ogw3yRQqkVMd
-# VtNn8vyPgtpK63wqRA==
+# CQQxFgQU0KyNSwayXSRTy8BtOOHVgMEK0a4wDQYJKoZIhvcNAQEBBQAEggEAj3+d
+# KSu3TXp4ZeS85sZaPx2olGGg9qcvHpbNPJ9Vr3FrjdruvhbP5iQPQjQeIDj/hKQ2
+# w/QeXzNXf7OHYZkW8iiPIbFxYl4mlB45StHyWrjgFTjgq9cNrtVweHe+TaO/Hmhu
+# ytHm6j+Hqp3wzaSkSIexA/Rg+vPX8UNG83HEe4syU8dfprGMPsjPihR5hjNB6c2W
+# 0B57rT0lDnmLqKm2Ld3haLahk/2JIlZKJBur/ApbGlW93v1frBprBFUcOcoVDWRY
+# hubJbaAVpX3XP2kqLJpR4/tqmAPO1jzjhC4T7OAbZAw4Ao+wlNA5ZJlHEGu10g0w
+# DDJxbMh6bHXl4WqDmg==
 # SIG # End signature block

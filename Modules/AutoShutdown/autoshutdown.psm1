@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Shuts down the computer.
 .DESCRIPTION
@@ -9,7 +9,7 @@ Enter the number of minutes until system shutdown.
 Cancel current shutdown.
 .PARAMETER ShutdownNow
 Shuts down the computer now.
-.PARAMETER ShutdownNow
+.PARAMETER ShutdownInMinute
 Shuts down the computer in minue.
 .EXAMPLE
 Stop-ComputrLater
@@ -25,7 +25,6 @@ function Stop-ComputerLater{
         [switch]$Cancel,
         [switch]$ShutdownNow,
         [switch]$ShutdownInMinute
-
     )
     if($Minutes -eq 0){
         $ShutdownNow = $true
@@ -33,7 +32,6 @@ function Stop-ComputerLater{
     elseif($Minutes -eq 1){
         $ShutdownInMinute = $true
     }
-
     if($Cancel){
         if(Get-ScheduledTaskInfo -TaskName "Stop-Computer" -ErrorAction Ignore){
                 Unregister-ScheduledTask -TaskName "Stop-Computer" -Confirm:$false
@@ -54,31 +52,24 @@ function Stop-ComputerLater{
             if(Get-ScheduledTaskInfo -TaskName "Stop-Computer" -ErrorAction Ignore){
                 Unregister-ScheduledTask -TaskName "Stop-Computer" -Confirm:$false
             }
-
             $t=(Get-Date).AddMinutes(1)
             $action=New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-WindowStyle Hidden -command Stop-ComputerLater -ShutdownNow"
             $triger=New-ScheduledTaskTrigger -Once -At $t
             $options=New-ScheduledTaskSettingsSet -Hidden -DontStopIfGoingOnBatteries
             Register-ScheduledTask -TaskName "Stop-Computer" -Action $action -Settings $options -Trigger $triger >> $null
-
             $ToastTitle = "Autoshutdown"
             $ToastText = "The computer will shut down in less than a minute"
-
             [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
             $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
-
             $RawXml = [xml] $Template.GetXml()
             ($RawXml.toast.visual.binding.text|where {$_.id -eq "1"}).AppendChild($RawXml.CreateTextNode($ToastTitle)) > $null
             ($RawXml.toast.visual.binding.text|where {$_.id -eq "2"}).AppendChild($RawXml.CreateTextNode($ToastText)) > $null
-
             $SerializedXml = New-Object Windows.Data.Xml.Dom.XmlDocument
             $SerializedXml.LoadXml($RawXml.OuterXml)
-
             $Toast = [Windows.UI.Notifications.ToastNotification]::new($SerializedXml)
             $Toast.Tag = "shutdown"
             $Toast.Group = "shutdown"
             $Toast.ExpirationTime = [DateTimeOffset]::Now.AddMinutes(1)
-
             $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("APS")
             $Notifier.Show($Toast);
         }
@@ -97,13 +88,13 @@ function Stop-ComputerLater{
         }
     }
 }
-
 Set-Alias -Name "spcl" -Value Stop-ComputerLater
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUTnRew7JNb7WehJHlXRRa8WNQ
-# 0pygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKCU1S0c5cA6K2U9xz2Jk+6kE
+# pxygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -123,11 +114,11 @@ Set-Alias -Name "spcl" -Value Stop-ComputerLater
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU2MmMIPiH+W+PaOk67VHqh6c/BPYwDQYJKoZIhvcNAQEBBQAEggEAUo0t
-# vVWK+puSMhPfzZpBvjFBEdMGHwko08GRIpQgPCKrZNnjNAj28a571cJdTxoaKkuC
-# v9xmH6Y22N1i0/rvL10yZ0W0OZN3EIgicB/CtbpzjlvHrRW3ZZ1E/5lDJ1oxikA3
-# ecZMm8NzYA9cvbN2cT2IFlekDNuQX3m5b2FBju1WC3nQtAJWl6zW7IqpmNzvMT5j
-# aBjxpXjlJBMuySGwXalcUSwiaSOVBIMy9DvNBQ9vnSuh1EIQD2rk64LIGJFXY4cs
-# 3AdbdB38UWhsDRlHmNC1NGV92Q3fBcdEr65Dpm8cMsacEHcRKKdgE7S9zweAP8a5
-# mJxp8EA8PmJBkCCsyA==
+# CQQxFgQU8kLrnEdWP8Ft37TcOTcq5WFbj4MwDQYJKoZIhvcNAQEBBQAEggEAUGkb
+# Of5xP9ecWcnPJTeiYu0rbN+ONgRA2O1hbA1Db104lS6XrHspPhC+WEvaa4Mlbc24
+# 5RqwEJ/auwtvmxjlmPeX4hmUGQkcYZ2t14/5VVh4ogtnvzx5oAtq2jcHU9VVQh0x
+# 4SPEyBBcYIMfNrW+upiBgL/hWoqIDFc2E7EK1RYgSGoMWYLD27vbfh4A1D7BhQAM
+# F5BQ2IQJZkwDBlr79Hoc4MCfVup9waKqIUPIw7y2b0JB2IelF8ZQG4col2mpzCgB
+# z2buQTWPib/W+YPGQvlVzTOOG4ocbQJHplDvYqFw5g2wZ57TJ0JH7yUOmjh5e6YO
+# 29XiSAb623auD1Crkw==
 # SIG # End signature block

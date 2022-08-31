@@ -14,7 +14,6 @@ function Add-Signature{
         [Parameter(Mandatory=$true)]
         [string]$File
     )
-        
     if(@(Get-ChildItem cert:\CurrentUser\My -codesigning).Length -gt 0){
         if((Get-ChildItem cert:\CurrentUser\My -codesigning).Length -eq 1){
             $Cert = (Get-ChildItem cert:\CurrentUser\My -CodeSigningCert)[0]
@@ -22,12 +21,10 @@ function Add-Signature{
         else{        
             Add-Type -AssemblyName System.Windows.Forms
             Add-Type -AssemblyName System.Drawing
-
             $form = New-Object System.Windows.Forms.Form
             $form.Text = 'Select a Certificate'
             $form.Size = New-Object System.Drawing.Size(300,200)
             $form.StartPosition = 'CenterScreen'
-
             $okButton = New-Object System.Windows.Forms.Button
             $okButton.Location = New-Object System.Drawing.Point(75,120)
             $okButton.Size = New-Object System.Drawing.Size(75,23)
@@ -35,7 +32,6 @@ function Add-Signature{
             $okButton.DialogResult = [System.Windows.Forms.DialogResult]::OK
             $form.AcceptButton = $okButton
             $form.Controls.Add($okButton)
-
             $cancelButton = New-Object System.Windows.Forms.Button
             $cancelButton.Location = New-Object System.Drawing.Point(150,120)
             $cancelButton.Size = New-Object System.Drawing.Size(75,23)
@@ -43,29 +39,22 @@ function Add-Signature{
             $cancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
             $form.CancelButton = $cancelButton
             $form.Controls.Add($cancelButton)
-
             $label = New-Object System.Windows.Forms.Label
             $label.Location = New-Object System.Drawing.Point(10,20)
             $label.Size = New-Object System.Drawing.Size(280,20)
             $label.Text = 'Please select Certificate:'
             $form.Controls.Add($label)
-
             $listBox = New-Object System.Windows.Forms.ListBox
             $listBox.Location = New-Object System.Drawing.Point(10,40)
             $listBox.Size = New-Object System.Drawing.Size(260,20)
             $listBox.Height = 80
-
             $Certs = @(Get-ChildItem cert:\CurrentUser\My -codesigning)
             foreach($Cert in $Certs){
                 [void] $listBox.Items.Add($Cert.Subject.ToString())
             }
-
             $form.Controls.Add($listBox)
-
             $form.Topmost = $true
-
             $result = $form.ShowDialog()
-
             if($result -eq [System.Windows.Forms.DialogResult]::OK){
                 $Cert=(Get-ChildItem cert:\CurrentUser\My -codesigning | where Subject -like "*$($listBox.SelectedItem)*")
             }
@@ -78,7 +67,6 @@ function Add-Signature{
             New-CodeSigningCert
         }
     }
-
     if((Get-ItemProperty $File).Mode -like "d-*" ){
         $Files = Get-ChildItem -Path $File -Recurse | where -Property Extension -Match ".psm?1"
         foreach ($f in $Files){
@@ -106,7 +94,6 @@ function Remove-Signature{
         [Parameter(Mandatory=$true)]
         [string]$File
     )
-    
     if((Get-Content $File).Contains("# SIG # Begin signature block")){
         try{
             $FileContent = Get-Content $File
@@ -117,12 +104,11 @@ function Remove-Signature{
 }
 ##########
 
-
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkhqnAfdroVZMTxVCzj3bnxt6
-# UYWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU9hrwCQDxzVHoNyjBqfzWhtjg
+# Nf+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -142,11 +128,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUz4omBPhc4CHQ6fbanNrsXLnTwn4wDQYJKoZIhvcNAQEBBQAEggEALOFK
-# iqaH0CDXfe4YoPoL9adovFsSJAUnBU2dzIkSR4c46TdiKthvaNpqa0KhxhUOkafx
-# GiIURE8bhF/I5Bj4ybKFfKJzoPcp81vrLIyrd7sWMLzPaVTvOwvqYvEwi9F45Q+2
-# DiKGdy5lhihz6HIaiI5mIZG43aCf18dyrxYwG2Aq8TI7tftTSXI13FjKv3GGlxW3
-# LnvHV1dfHpwl3JWZd1oCUd3tuVSCeDCg4VL+mPM9zBYGgps5TIQiajE88xaoiNIS
-# hM/tsVu0WyiXstNA1qyavBB4lkTzJTG7E4BNcYEW72D2hvaIj5T/98T00tEAIqLw
-# 10/VfpHt+DiHPXwVVg==
+# CQQxFgQUCVmyrChaTkUbDQGQfoh1/rlJiuIwDQYJKoZIhvcNAQEBBQAEggEAC4/0
+# mqa1u/MrKfT9nj6qOtsVogr3KiwHnkVDi31Y1Kn7sE0p0JSPHWzeeYFco/aDB+IT
+# O0d60tRwphPa7uQA0Xag6zPl3wHyB0NpcALQw0M8h+N0z+z5ao0hA8irnCc8Hs2V
+# 3pg6G8QKubvMez4lhHCz/MIsJrmdazbYdOUT1BH1t67IH9pVQDoQYVRPngY4YCBE
+# Vf75Rqrvmm50G8lZvUKMzCFXo4nkgf8LPFr7duoTFaLTA1n18UdmtDIgshmeW8S/
+# au/9KSD8Kcm9MJQ0gJNgnTRp5Xu+UEmImVGBKNz5M4GWpTUV8IWrq/+5nukCiE9F
+# XxRy2tfC+pTWQtBebQ==
 # SIG # End signature block

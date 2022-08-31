@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Cleans the desktop.
 .DESCRIPTION
@@ -33,7 +33,6 @@ Clear-Desktop -ExceptionList
 Clear-Desktop -AddException "filename"
 .EXAMPLE
 Clear-Desktop -SetDefaultExceptionList
-
 #>
 function Clear-Desktop{
     [CmdletBinding()] 
@@ -49,13 +48,11 @@ function Clear-Desktop{
     )
     $ExceptionsFile = $PSScriptRoot + "\exceptions.txt"
     $ArchivesDir ="$HOME\Archiwum pulpitu\"
-
     if($ExceptionList){
         $Skip=$true
         Write-Verbose "The exception list has been opened with a notepad."
         Start-Process notepad $ExceptionsFile
     }
-
     if($SaveCurrentDesktopState){
         $Skip=$true
         $Src = Get-ChildItem ~\Desktop
@@ -68,25 +65,21 @@ function Clear-Desktop{
         }
         Write-Verbose "New exception list has been created."
     }
-    
     if($SetDefaultExceptionList){
         $Skip=$true
         Set-Content $ExceptionsFile "desktop.ini`r`ndesktop_backup.ini`r`nTODO.txt`r`ntemp"
         Write-Verbose "Default file list has been restored."
     }
-
     if($AddException){
         $Skip=$true
         Add-Content $ExceptionsFile $AddException
         Write-Verbose "Exception `"$AddException`" added to the list."
     }
-
     if($Archives){
         $Skip=$true
         explorer.exe $($ArchivesDir)
         Write-Verbose "The desktop archive has been opened in the file explorer."
     }
-
     if($Autorun){
         $Disable=$false
         $action=New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-NoLogo -NonInteractive -WindowStyle Hidden -command Clear-Desktop" 
@@ -94,15 +87,13 @@ function Clear-Desktop{
         $triger=New-ScheduledTaskTrigger -User $env:UserName -AtLogOn
         $task=Get-ScheduledTaskInfo -TaskName "Clear-Desktop" -ErrorAction Ignore
         if(!($task)){
-            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action –Force >> $null
+            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action �Force >> $null
             Write-Verbose "Created Scheduled Task."
         }
         else{
             Write-Host "Autostart was already on."
         }
-
     }
-    
     if($Disable){
         $Skip=$true
         $task=Get-ScheduledTaskInfo -TaskName "Clear-Desktop" -ErrorAction Ignore
@@ -114,7 +105,6 @@ function Clear-Desktop{
             Write-Host "Autostart was already turned off."
         }
     }
-    
     if(!$Skip){
         $Src = Get-ChildItem ~\Desktop
         Write-Verbose "The contents of the desktop have been read."
@@ -123,24 +113,19 @@ function Clear-Desktop{
             mkdir $ArchivesDir >> $null
             Write-Verbose "Created path: $ArchivesDir."
         }
-        
         if(!(Test-Path $DestPath)){
             mkdir $DestPath >> $null
             Write-Verbose "Created path: $DestPath."
         }
-
          if(!(Test-Path $ExceptionsFile)){
             Clear-Desktop -SetDefaultExceptionList
         }
-
         $exceptions = Get-Content $ExceptionsFile
         foreach($file in $Src){
             $filename = $file.Name
             $filebase = $file.BaseName
             $fileext = $file.Extension
-
             $filenameNU = $filename
-
             if($exceptions.Contains($file.Name)){
                 Write-Verbose "Kept file: $file."
             }
@@ -159,11 +144,12 @@ function Clear-Desktop{
         Write-Verbose "Cleaning complete."
     }
 }
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUf1vqKPZeFq59EBRBnL9DU8m4
-# ISSgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUaq3/JEYlDBTcd3jpSACD74As
+# 2l2gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -183,11 +169,11 @@ function Clear-Desktop{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUaPyBPjgpz9XxIdqtRlvZdLEwTSwwDQYJKoZIhvcNAQEBBQAEggEANHg3
-# cWm9xjreuTpnI+oleNfNqAQqu0+WfH/DoCZNeBhIuFrpvgazNWwdq/+ipqaI8lD1
-# gFa5wX6wgG8KnD6vbxy00/PByVX/cyZXHkErv1qNPB1p2U7TKRVz85nzyodDPy0h
-# Ffudn9EddpTPmC8STYNNve0130rw8zMrCFE2lXW0t+FlY2MIIVUmQs/TLscdlmgY
-# bz6h297zLiQZrYfLFpnAsUpZf8bjRmB4asVoDhrZZlnLgzG9Ov5N427zmYnzcoII
-# IPYfRd9SPdOZBvFXEr4KEZWCzFWNQg7X8fwRMCbbKyZlarfvPUrKgO1OSk34g8fk
-# 82wG0UOHgb4rRR7hsg==
+# CQQxFgQUPmvgRnsOi6hI4+y6sVYTzR76IVIwDQYJKoZIhvcNAQEBBQAEggEAT+CM
+# awJTlkGHWwsEREiLfl5DjYIpQ65naYFJ0DI8vEtzOnguuaRq3+/uikQQ5VH0NpK2
+# rHr/viZ6j6E9gGaQ1UdUxY5vGcocFp6mHj1+yafpkHAQaTR0pvHQzGAlolX/klMY
+# Os2F7hs9/HDDQcx3CMdHkZnpcOehZitjG+KAxWRf3Afn9Fa/LsUYvkQsXWGLt2ec
+# M37IR8qoq/OoerbfzAxaf3OZ1f5x4M932e3n02Izp26M/77jZhuFag0xu5pYNSu9
+# cptLuQ26wfGY53nMoOqWEw2Qw3bRs3MGtGcF7J1fXFlBrhzkY8xGbfdNvh/thetD
+# AvkE39rjBqwHYGqiGw==
 # SIG # End signature block

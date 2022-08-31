@@ -1,4 +1,4 @@
-ï»¿<#
+<#
 .SYNOPSIS
 Shows the weather.
 .DESCRIPTION
@@ -32,17 +32,16 @@ function Get-Weather{
         [string]$City,
         [switch]$Detailed,
         [switch]$Data,
-        [ValidateSet(â€œstandardâ€,â€metricâ€,â€imperialâ€)] 
+        [ValidateSet(“standard”,”metric”,”imperial”)] 
         [string]$Units,
         [switch]$RestoreDefaultConfig,
         [string]$SetDefaultCity,
         [string]$SetAppId,
-        [ValidateSet(â€œstandardâ€,â€metricâ€,â€imperialâ€)] 
+        [ValidateSet(“standard”,”metric”,”imperial”)] 
         [string]$SetDefaultUnits  ,
-        [ValidateSet(â€œenableâ€,â€disableâ€)] 
+        [ValidateSet(“enable”,”disable”)] 
         [string]$Geolocalization
     )
-
     if($RestoreDefaultConfig){
         Remove-Config $PSScriptRoot
     }else{
@@ -59,25 +58,21 @@ function Get-Weather{
         }
         Save-Config $PSScriptRoot $Config
     }
-
     if($SetDefaultCity){
         Write-Verbose "Setting default city."
         Set-ConfigField $PSScriptRoot "City" $SetDefaultCity
         $City = $SetDefaultCity
     }
-
     if($SetAppId){
       Write-Verbose "Changing AppId."
       Set-ConfigField $PSScriptRoot "AppId" $SetAppId
       $AppId = $SetAppId
     }
-
     if($SetDefaultUnits){
         Write-Verbose "Setting default units."
         Set-ConfigField $PSScriptRoot "Units" $SetDefaultUnits
         $Units = $SetDefaultUnits
     }
-
     if($Geolocalization -like "enable"){
         Write-Verbose "Enabling geolocalization."
         Set-ConfigField $PSScriptRoot "Geolocalization" "enable"
@@ -85,7 +80,6 @@ function Get-Weather{
         Write-Verbose "Disabling Geolocalization."
         Set-ConfigField $PSScriptRoot "Geolocalization" "disable"
     }
-
     if(!$City){
         if($Config.Geolocalization -like "enable"){
             Write-Verbose "Determining the location."
@@ -107,9 +101,7 @@ function Get-Weather{
         Write-Verbose "Loading AppId from configuration."
         $AppId=$Config.AppId
     }
-
     $uri="api.openweathermap.org/data/2.5/weather?q=$City&appid=$AppId&units=$Units"
-
     try{
         $Response = Invoke-WebRequest -Uri $uri -UseBasicParsing
     }catch{
@@ -117,7 +109,6 @@ function Get-Weather{
         $Response.Add('StatusDescription', "Cannot retrieve data.")
         $Response.Add('StatusCode', "0")
     }
-    
     if($Response.StatusCode -like "200"){
         $WeatherData = $Response.Content | ConvertFrom-Json
         if($detailed){
@@ -134,7 +125,7 @@ function Get-Weather{
                 Pressure="$($WeatherData.main.pressure) hPa";
                 "Cloud cover"="$($WeatherData.clouds.all) %";
                 Wind="$($WeatherData.wind.speed) $(Get-UnitSymbol $Units "V")";
-                Direction="$($WeatherData.wind.deg) Â°";
+                Direction="$($WeatherData.wind.deg) °";
                 Visibility="$($WeatherData.visibility) m";
             }
             return $WeatherObj
@@ -155,25 +146,25 @@ function Get-Weather{
 function Get-UnitSymbol{
     param(
         [Parameter(Mandatory=$true)]
-        [ValidateSet(â€œstandardâ€,â€metricâ€,â€imperialâ€)] 
+        [ValidateSet(“standard”,”metric”,”imperial”)] 
         [string]$Units,
         [Parameter(Mandatory=$true)]
-        [ValidateSet(â€œTâ€,â€Vâ€)] 
-        [string]$Size=â€Tâ€
+        [ValidateSet(“T”,”V”)] 
+        [string]$Size=”T”
     )
     if($Size -like "T"){
         if($Units -like "metric"){
-            return "Â°C"
+            return "°C"
         }
-        elseif($Units -like â€imperialâ€){
-            return "Â°F"
+        elseif($Units -like ”imperial”){
+            return "°F"
         }
-        elseif($Units -like â€standardâ€){
+        elseif($Units -like ”standard”){
             return "K"
         }
     }
     elseif($Size -like "V"){
-        if($Units -like â€imperialâ€){
+        if($Units -like ”imperial”){
             return "mph"
         }
         else{
@@ -181,13 +172,13 @@ function Get-UnitSymbol{
         }
     }
 }
-
 Set-Alias "pogoda" Get-Weather
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUo/4u1rPDs2nXFpybpwRGbrl6
-# RsGgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUrd1OvzB2LDR2xSFD5O1P3hy/
+# t3agggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -207,11 +198,11 @@ Set-Alias "pogoda" Get-Weather
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU7acIYHf6j9LzBI/TJWkf/M/u5YkwDQYJKoZIhvcNAQEBBQAEggEAB0YG
-# VUY7Tz25v78R3pUY9AialqBTdjaflGVfIsXqWClr3UeEHZK4tvvieUlESKhgEnCH
-# r38SvdDMyogYFC0Goof13oBWthwVCOZgWUFNhSJMnfiILtFlrNBBv8TTwOivlAq3
-# UB7z2qt6SV3drEOTiqtJjHLCOEaLsUQBc+lXR7kinM5Cv9q6acjBQPGWBV+mG0xB
-# NXjrrwPUOde2igrrBHIgUombFpZ4XWqM+5hsCc0xZ9ph1iHP2If6zcm1Ty7Cy9a3
-# vDx1HCihgN+qv9kWbBHN0qvstEa/7vnhGNBa7KinvavehODO7nOr25zRhBl/SWEr
-# FQokyHtPQprFa8xfdQ==
+# CQQxFgQUcJ1x6xj4ffJqoOrtyiVgSkbGzp8wDQYJKoZIhvcNAQEBBQAEggEAYS1u
+# q43nwlkvgtWFN5NL6H/xFz7/Ut7rE1zg/tYsS8d7JZet4BfcYwS3yFbEbdT/RZvA
+# 7W2953gIbitHQ6CftvnEH49qDFGahj1Ktc4tNTUjG2mqj/8FvW/69IRc5oVbXetn
+# TqX2BeL8wy7OitgdIS7gUYoeHNoQQbwUpVUWwO9gA73MrRSWNSUihUPyxZ0qMkDz
+# wBIjHC2Geq4jFyBO/O0VS9n8QSoEkM/wDrtTK8VK3e4Stz9mKz6+O+1qPoBc6Out
+# ylLdFVwgfPy2XXEd7t07BzoX+tYO9NBlfcRpIFy0o/AUUYyOkzBA2+S5LIz5Yb9S
+# Eo2RMgX4Ycd0fjtqJA==
 # SIG # End signature block

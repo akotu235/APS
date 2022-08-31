@@ -20,7 +20,6 @@ function Confirm-Admin{
         [string]$CommandPath,
         [switch]$NoExit = $true
     )
-    
     #Script block prepare
     $Module = Convert-Path "$PSScriptRoot\..\..\aps.psm1"
     if($CommandPath){
@@ -60,7 +59,6 @@ function Confirm-Admin{
                         $ScriptBlock
                    }"
     }
-    
     if((Test-Admin) -eq $false){
         if($NoExit){
             Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -command ' + $Command)
@@ -141,8 +139,6 @@ function Install-SSH {
 <#
 .SYNOPSIS
 Secures SSH
-.DESCRIPTION
-
 .EXAMPLE
 Protect-SSH
 #>
@@ -176,8 +172,6 @@ function Get-AutoConfigurationPath{
 <#
 .SYNOPSIS
 Creates a new code signing certificate.
-.DESCRIPTION
-
 .EXAMPLE
 New-CodeSigningCert
 #>
@@ -200,7 +194,6 @@ function New-CodeSigningCert{
         HashAlgorithm = 'sha256'
     }
     $Cert = New-SelfSignedCertificate @Params
-
     #Add to trusted certification root 
     $exported = Get-AutoConfigurationPath "exported_cert.cer"
     Export-Certificate -Cert $Cert -FilePath $exported
@@ -210,7 +203,6 @@ function New-CodeSigningCert{
             exit
         }
     }
-   
     #Securing a personal certificate
     $CertPath = Get-AutoConfigurationPath "$Name.pfx"
     $CertPassword = (Read-Host -AsSecureString -Prompt "Create a certificate password")
@@ -226,7 +218,6 @@ function New-CodeSigningCert{
     }
     Export-PfxCertificate -Cert $Cert -FilePath $CertPath -Password $CertPassword 
     &$CertPath
-
     #cleaning after completion
     Write-Warning "After completing the wizard, press enter to continue.." 
     Read-Host >> $null
@@ -234,14 +225,13 @@ function New-CodeSigningCert{
     rm -Force $CertPath
     Write-Output "Done."
 }
-
 Set-Alias -Name "sudo" -Value Confirm-Admin
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7AAhc0oAudfOBXLvXfEyxowZ
-# JrOgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUF27RMsrde6yj9egPlIwxym8O
+# iTWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -261,11 +251,11 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUpw6fc81T+qYTJss9GQApcVEF4NowDQYJKoZIhvcNAQEBBQAEggEAPe3k
-# eAUpsFPICPCXwG91m6uMo7l5MkzvIL1u58o0RUWq5Mt5HbTPonw8kQtx8/B5VrQx
-# qsyS9C4hZKci0I+X/XWsrx4JPglWXX4rIZ7EdZGvoQqGzhpr+1fA+dvabtNgNYlu
-# nFo6onbVWlzpqQXAKKTj4d382ATL/1XyvhoNFZoTQ8S3ZfzcKWoUdcTbn1iHKt0C
-# XFR511zjmysJyxn9Z65q1RNLaAUSFwUWByzz73Zeq/60hPIeEO4PxpyVXK0xdeA2
-# RSrhgGfnfwchRbBf82V5jFkJPsB/CFQVXas1vsP9vU9mhu+1GYOoslyVD3QV84OH
-# 97Uk6oSil089/s4KKg==
+# CQQxFgQUXki1x9ky4ymawqVl0GryaG9KzBgwDQYJKoZIhvcNAQEBBQAEggEAmz3D
+# wglsZeeVncRg36Lt15b3270XyXnrE/CBb7Z+SIU9mC7u/oG66B3gBzAhrbweUgvB
+# oLsGV7EwDw+UryptSZYByPb23CWaW3Qr7VnK751ojbQjiGSWl//ZfnSqCHyUc9Nf
+# e7dmFLGvn0BBNRLk6VFHyjKD8mtJ93qtF3iXXT8rcajuvAAbH3BaHg8ov6eKqwhD
+# p6qIY6acr72GFIYp/mWcR55CZrWTHe4s6TVzU4VSNp9PgIIB3kUUTj3WPSThJRth
+# ofF1fH9YMKCoTO+jtTXqepk8/K00K+i914E1n9UBCa0NI8S0RHzi8THxGhQR1lqF
+# UFEPBkJlxqximtl4XQ==
 # SIG # End signature block
