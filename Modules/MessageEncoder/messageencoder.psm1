@@ -34,7 +34,12 @@ function New-EncryptionKey{
     Export-Certificate -FilePath $publicKey -Cert $cert
     explorer.exe "$keysDir\My"
     $cert | Remove-Item
-    Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword -ProtectPrivateKey VSM
+    try{
+        Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword -ProtectPrivateKey VSM
+    }
+    catch{
+        Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword
+    }
 }
 
 <#
@@ -96,8 +101,8 @@ function Unprotect-Message{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUe0GmJbuSzqbp94Wf+l5suvoJ
-# 4hegggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUM+ly8lLyyXEOFnEjv5D6nbsF
+# +pagggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -117,11 +122,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUeH7TXAyFZKHIUx5hOTn2uQkN+H4wDQYJKoZIhvcNAQEBBQAEggEAIvvK
-# hUYcNXD775Cctq3h9QJHIyvvT2kj3sQ0nkuxqHaSMIbwdwnu6eDLZZupyZYnDrzb
-# SiXAI9BxPpbOT9V0yw9CPc7B2sEBXrb3bAmqfvGxZFeQX0BIWjfA94EbWQa2CMrq
-# gQvPtaDeQwYxQjoAy7xufkkT86pokQqpnHWXLVdZ5rXrYfBEfKq/+dwGFmdMFkFJ
-# LXyw7iZU+54MNsRy0C7CIW4ZmrhsDMTI9WSAOSeNnABYqOMSJ0kamchHbmMKtFMh
-# gTkC5brWfxJD0byrPId4EgfJplxt2uXwvRcJa9PaD0Hi/axvafGJgbckcdSLVA0I
-# F/Ai5i4LLKZZy40UdQ==
+# CQQxFgQUjc4vwFyWafnKoXfminajKUapGYwwDQYJKoZIhvcNAQEBBQAEggEAaut7
+# 4xepsTJOu5wrGJjbJiwcvZO4GzTQ3JIuTTr0CHRDf2RMBX/79wZRBsJdBs9WSpsO
+# swq6RpJWtqXSPYnM7BXmp6zxSjAr3EZuGHie7bXcE1Cm/Khsrirf6fC13Zc0oXUe
+# TzsQHrXyvD2dJf7UZWcBUsuhifDMwGZn9TzaFQaBlVQKRsZ7TcSYeKLIrvdVz4C4
+# Fdnnaze7e+NG1TcZ7GJ9TRkFR7c4+hrIIsD8Lo4Z8TrUAwnXQMX/yGsgAAohfud7
+# gNgyGIowyIdQHJX83ur7gT717cn7gZy5rdq9JU2RY2rV7XH3u3wXDV8zbvYT32pb
+# pNWo3lFiRVD2nW5M+w==
 # SIG # End signature block
