@@ -17,9 +17,9 @@ function New-EncryptionKey{
     $store = "cert:\CurrentUser\My"
     $params = @{
         CertStoreLocation = $store
-        Subject = "CN=$Name"
+        Subject = "CN=APS_$Name"
         KeyLength = 4096
-        KeyAlgorithm = "RSA" 
+        KeyAlgorithm = "RSA"
         KeyUsage = "DataEncipherment"
         Type = "DocumentEncryptionCert"
         NotAfter = (Get-Date).AddYears(10)
@@ -40,6 +40,7 @@ function New-EncryptionKey{
     catch{
         Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword
     }
+    Get-ChildItem Cert:\CurrentUser\CA | where Subject -Like "CN=APS_$Name" | Remove-Item
 }
 
 <#
@@ -58,18 +59,24 @@ function Protect-Message{
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    $encryptionCerts = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert     
+    $storageCA = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert | where Subject -Like "CN=APS_*"
+    if($storageCA){
+        $storageCA | foreach {
+                Move-Item -Path Cert:\CurrentUser\CA\$($_.Thumbprint) -Destination Cert:\CurrentUser\My
+            }
+    }
+    $encryptionCerts = Get-ChildItem Cert:\CurrentUser\My -DocumentEncryptionCert
     if($encryptionCerts.Count -eq 0){
         Write-Host "No encryption certificates"
     }
     else{
         Write-Host "Installed certificates:"
-        $encryptionCerts | foreach {$_.Subject.TrimStart("CN=")}
+        $encryptionCerts | foreach {$_.Subject.TrimStart("CN=APS_")}
         $CN = Read-Host -Prompt "Enter the name of the encryption certificate"
-        if($CN -notlike "CN=*"){
-            $CN = "CN=$CN"
+        if($CN -notlike "CN=APS_*"){
+            $CN = "CN=APS_$CN"
         }
-        $cipher = $Message  | Protect-CmsMessage -To $CN
+        $cipher = $Message | Protect-CmsMessage -To $CN
         Write-Host "Cipher:" -ForegroundColor Green
         $cipher = "`"$($cipher.Replace("`r`n",";").Replace("`n",";").TrimStart("-----BEGIN CMS-----").TrimEnd("-----END CMS-----"))`""
         $cipher
@@ -98,11 +105,12 @@ function Unprotect-Message{
     $Message | Unprotect-CmsMessage
 }
 
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUM+ly8lLyyXEOFnEjv5D6nbsF
-# +pagggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0z3RrnrjCekG3/aebrcKZO3v
+# G0ugggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -122,11 +130,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUjc4vwFyWafnKoXfminajKUapGYwwDQYJKoZIhvcNAQEBBQAEggEAaut7
-# 4xepsTJOu5wrGJjbJiwcvZO4GzTQ3JIuTTr0CHRDf2RMBX/79wZRBsJdBs9WSpsO
-# swq6RpJWtqXSPYnM7BXmp6zxSjAr3EZuGHie7bXcE1Cm/Khsrirf6fC13Zc0oXUe
-# TzsQHrXyvD2dJf7UZWcBUsuhifDMwGZn9TzaFQaBlVQKRsZ7TcSYeKLIrvdVz4C4
-# Fdnnaze7e+NG1TcZ7GJ9TRkFR7c4+hrIIsD8Lo4Z8TrUAwnXQMX/yGsgAAohfud7
-# gNgyGIowyIdQHJX83ur7gT717cn7gZy5rdq9JU2RY2rV7XH3u3wXDV8zbvYT32pb
-# pNWo3lFiRVD2nW5M+w==
+# CQQxFgQU/CA46g148G80fzYBEfPgm+5HbbowDQYJKoZIhvcNAQEBBQAEggEAZRsd
+# zM5l58yqhwcj74x9zwe+gBm3PgKo9RX1HkAEsbzoOopOn6sHmrn9S6qOZgCT1REV
+# WoQzaDynUwVH1KwWO0Z0YZLX3H2BuCk09KdGwZJ1sRPjtyVWuy3xRDq+PmTAjUsH
+# 2rVJ4hobgOiOnnauHjAbM93UnwPVRHHVpfqWkbPkh2LnWoO+6gCjo5I3geIDJbUX
+# scgasOlMbg70ixi55fyC5yv61mDapOgYuN3565eByonykB8bshA10GZwQlFX4oAp
+# oqJZhjjOksYpZuo3h/5FX2Iq/8A0cqlaOIaYrMG9n5bwA0R9Ogf8nXXe77XlJ46f
+# Srf2YzgkmlaC/yA0VA==
 # SIG # End signature block
