@@ -35,7 +35,16 @@ function New-APSTask {
         $iTaskName = "$TaskName($i)"
     }
     Register-ScheduledTask -TaskName $iTaskName -Action $action -Settings $options -Trigger $triger -TaskPath "\APS\" >> $null
+
+    $APSTasks = Get-ScheduledTask -TaskPath "\APS\" 
+    foreach($task in $APSTasks) {
+        $taskInfo = $task | Get-ScheduledTaskInfo
+        if($taskInfo.NextRunTime -lt (Get-Date) -and $task.TaskName -notlike $iTaskName){
+            $task | Unregister-ScheduledTask -Confirm:$false
+        }
+    }
 }
+
 
 
 
@@ -43,8 +52,8 @@ function New-APSTask {
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUYB3t1oZXLHrtVpt/I+mOaSy5
-# 9VmgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkWuauKaa0NfFu4WhZ/LqtZF6
+# 5lmgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -64,11 +73,11 @@ function New-APSTask {
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUK4wUNdjAiALRJvjMtZYnklq09AEwDQYJKoZIhvcNAQEBBQAEggEAhRbl
-# 4ymUYptdwutFZLOef10kDwrnDMfTTqVwiSlk0rnz2cN99WiXH7masfkkYm+B12ad
-# P4quE3VR98OYq7B6s/ge10baoAkVurfjoDzvRufuTUV04yb4COReo7vjpIQLk0oO
-# XahGuKgWr8imdclDnz2lTrv6v+4/O0GfG6mLfSjBSEJPDxh6UbvAzF6fnc0MsJLt
-# m3aRyyMl47JTDv6aRorME4OyGviBH+6S3KExq3OamnK7UfAkOhd+FQKvnTc1m0Nh
-# G176vHhuJh4D/n+5ZTBQw5cSwBBJhelSHl6uuOJ3Tm/M5sFd1luaHmhTV6CkN13s
-# UMCf3mhb7Mom0lEheA==
+# CQQxFgQUP+IXscy02GSXk4Al21HRezQN7sswDQYJKoZIhvcNAQEBBQAEggEAHC9G
+# oZilXvMu0gAZbs/xCWiIJkSy3c/SMeUEQ58rirgdFrLDqF0MxogcpWhxigAyDPse
+# pZEKBfn+7ENO2geR/hqSxagXbzz7Y7Ua5F/o29JQ29I1nl45F7zXjTnrYm6jBoWe
+# M5eOOOQTZhRpPASLgYwsp2f+faWktgqRIkVpe0X5a+UYQSTRV3nCOOm4AADj7lMv
+# b/5PsT56mK80/nRiKBh1SH5b9U4YGmKSEN69u7WfU1cP5f3ssJP+JtTFZbT0yOIo
+# 1w50ciFBFoB4sHE7Liskj/iQpcLU3T5BU2WTimcF0UOmh1XhFSbMrvJQhQPnHQYG
+# tPBrRzSG+BvW/SbGNg==
 # SIG # End signature block
