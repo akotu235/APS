@@ -6,10 +6,11 @@ function Set-Notification{
         [System.DateTime]$Time = $((Get-Date).AddSeconds(3)),
         [switch]$OnlyVoiceNotification = $false,
         [switch]$VoiceNotification = $true,
-        [string]$Title
+        [string]$Title,
+        [switch]$Save
     )
     $Command = "Show-Notification -Text `'$Text`' -OnlyVoiceNotification:`$$OnlyVoiceNotification -VoiceNotification:`$$VoiceNotification $Title"
-    New-APSTask -Command $Command -StartTime $Time -TaskName "APS notification"
+    New-APSTask -Command $Command -StartTime $Time -TaskName "APS notification" -Save:$Save
 }
 
 function Show-Notification{
@@ -42,11 +43,12 @@ function Show-Notification{
 }
 
 
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUliD56haUq0SWRX9gM8Fif4Ue
-# 9IWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUVfkfZLAiw5MPB06f3pLvPOYi
+# MgegggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -66,11 +68,11 @@ function Show-Notification{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUFSyjVq7ZNVYGsb18q+guiKDdUtIwDQYJKoZIhvcNAQEBBQAEggEAXsw5
-# KiNW95EmaX99dI4cuG38X4/TpHNu7y2lr352W2cW7v42pBotE4xUwDy3Gmed+xZB
-# bqYorXcqagIxlT2iWeRLg1kophPS9P9245sspXPZJmAGk3XZ8j50c60tc4sh77uK
-# Xm5taLrcZ4G0bXIaJN7ziV0Ok+Pfz7+MnkmWWBv0WpGNMv5AX0AgbWJDqZ+9Rpst
-# r2b591hJiCrJ+bnjGGv5sIjryrIvQ8xXzcsjYm8JweOLjspzOa+BCQRu5EKIji6e
-# 4AOz6x/QYZoYfLX4LXn6t72ucjUI8qREgWe2RRi5sYuUcHZoZ0iAPpzOaXnveunV
-# n/bDudRwygic8wl8gw==
+# CQQxFgQUinHocBrVi5opxQwDdxY8Rz/8QzUwDQYJKoZIhvcNAQEBBQAEggEAP9Sg
+# PsiQWN6ZSi8bbdGR44ZMT4i3zq2RknAcvk+0CG/flp7dqUzGHf+62LxBtdQ5D4ri
+# 70Euq+O/Ggu6PXLyjltNMcvzmttUD1jQQyzAB7np5natEvJbIISTk2q6uu6w5a54
+# xgQJBiOYcB638Oug6eGjqexSS/CyVG9VSOhLu63TviOaqAvxhvj6ou3NNS9ihg4K
+# WkQMVTcyD4CUcvl4nkzGeAAr5RFezhUPJSQLrWHC34fUtZR955zNycIOPysgtep/
+# M09D1qU6ojMkvCbDPMjGLapWl5OCEikDIwGLbg5pCQ73qs9tEwJap8D84iA5uLUl
+# w/h36yAq+z0aY3Ycww==
 # SIG # End signature block
