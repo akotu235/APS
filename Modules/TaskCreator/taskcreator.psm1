@@ -27,7 +27,7 @@ function New-APSTask {
     $Command = " & { $Command }"
     $action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument " -WindowStyle $WindowStyle -command $Command"
     $triger = New-ScheduledTaskTrigger -Once -At $StartTime
-    $options = New-ScheduledTaskSettingsSet -Hidden -DontStopIfGoingOnBatteries
+    $options = New-ScheduledTaskSettingsSet -Hidden -DontStopIfGoingOnBatteries -AllowStartIfOnBatteries
     $i = 0
     $iTaskName = $TaskName
     while((Get-ScheduledTask -TaskName "$iTaskName" -TaskPath "\APS\" -ErrorAction Ignore ) -ne $null){
@@ -46,14 +46,11 @@ function New-APSTask {
 }
 
 
-
-
-
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkWuauKaa0NfFu4WhZ/LqtZF6
-# 5lmgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUU7s+przMIjt2RbCZO3Obn1kw
+# ouagggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -73,11 +70,11 @@ function New-APSTask {
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUP+IXscy02GSXk4Al21HRezQN7sswDQYJKoZIhvcNAQEBBQAEggEAHC9G
-# oZilXvMu0gAZbs/xCWiIJkSy3c/SMeUEQ58rirgdFrLDqF0MxogcpWhxigAyDPse
-# pZEKBfn+7ENO2geR/hqSxagXbzz7Y7Ua5F/o29JQ29I1nl45F7zXjTnrYm6jBoWe
-# M5eOOOQTZhRpPASLgYwsp2f+faWktgqRIkVpe0X5a+UYQSTRV3nCOOm4AADj7lMv
-# b/5PsT56mK80/nRiKBh1SH5b9U4YGmKSEN69u7WfU1cP5f3ssJP+JtTFZbT0yOIo
-# 1w50ciFBFoB4sHE7Liskj/iQpcLU3T5BU2WTimcF0UOmh1XhFSbMrvJQhQPnHQYG
-# tPBrRzSG+BvW/SbGNg==
+# CQQxFgQUwPPkTrJyfl1PHpk0NKG3V9naAQYwDQYJKoZIhvcNAQEBBQAEggEANb0b
+# IwG/59m1vqEUtgJpLMQrFyo9qietmJXg3MAfEnobd+Rrq3F9x2IGtNzGjzbSpHWm
+# Chy4VADs9a97/vykrjpa8Slw4gK1GKenkSdUgLmzYargzty1108KodLmw0HwV2rT
+# r9htHPU+hhw5zYd9TVuju+4OSsgHYOHgsK3UjoJNZgh5s0Ky9WqoqdUDKQ4klruD
+# zpUZUHHaj3veKKFlN7DkpK64Q6C8FLgJuxFa4gGOOYEMBfImMeeM0BUgGO2wtG/9
+# LOTBEvHSBqtoyESPN/Oz7khOUUvwB+3cX98U/oNY5P43Amzt2pmVREwipWvwTbau
+# enCZIXn9F1zNtJIspA==
 # SIG # End signature block
