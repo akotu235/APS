@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Cleans the desktop.
 .DESCRIPTION
@@ -46,7 +46,7 @@ function Clear-Desktop{
     [switch]$Archives,
     [string]$AddException
     )
-    $ExceptionsFile = $PSScriptRoot + "\exceptions.txt"
+    $ExceptionsFile = "$HOME\AppData\Local\APS\Configuration\desktopcleaner.exceptions.txt"
     $ArchivesDir ="$HOME\Archiwum pulpitu\"
     if($ExceptionList){
         $Skip=$true
@@ -87,7 +87,7 @@ function Clear-Desktop{
         $triger=New-ScheduledTaskTrigger -User $env:UserName -AtLogOn
         $task=Get-ScheduledTaskInfo -TaskName "Clear-Desktop" -ErrorAction Ignore
         if(!($task)){
-            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action –Force >> $null
+            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action �Force >> $null
             Write-Verbose "Created Scheduled Task."
         }
         else{
@@ -145,11 +145,12 @@ function Clear-Desktop{
     }
 }
 
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUFSg0bJ1Yo2DO55U8lPzEunNo
-# EZygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU61OXpIpGknw2ItskRfquS42n
+# gM6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -169,11 +170,11 @@ function Clear-Desktop{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUsYqZ3aoItFfaDm9VfpyBKUCoR0QwDQYJKoZIhvcNAQEBBQAEggEAiB02
-# OfqoBSm2fJHuQJAuIFu0dT22PzZloUzBSRtuHJ+EoZS7PQwbkXbmo5fAB2b59MMH
-# cfXKEuHysXmsSVDp3jQcznLLfxh78UDNqwyohMOebvxUyrcbaeh4FcYr7X0bGCRK
-# AWgpiLTNT7Mwgzad7/6dChF3GSwjp1M4HGbDPPAYx0zxF2ESqbNY6t/sjw/iobvB
-# mz7uroEOUoq8On0UGnIMtHtbGQN1iokKplU4NgfPOi3Af22daHMcyUvaCP2GuG9o
-# JYPJQB15eyCVtST2k5aTkZmhAVMZUFICJxmDwupxtHy7sBkUt/cicAIRmkTpIJtF
-# e6SYeh62JxUxmTJq4A==
+# CQQxFgQUhVyKPi4Nkn9rO/otkR0XrvKx9UwwDQYJKoZIhvcNAQEBBQAEggEAjS9D
+# eGF6IIfG5WpbJ+hx8mPHCIaozCbsWNo20mUEXJGMukDwMkBfcm//Y4EMpK7NKSHk
+# 5O38Cjr6BoTNi5QSR5DMEPHQ3GAhrdhhxLngLexYrqrCGOZmaeW7JgMsooQ52+fl
+# Gsu0C8twSiPifAMeak7lwHwjvDMnypP6d6qU3S0HmKeRHTKm2J6W+RbioQtIxY9B
+# vFMbFLT+Z0BS3MdaYJ/oDZ53cRzhLyAA9ehcCYuaMNAl1jHCq5aMAhnnnkJh0uKd
+# O8yZtF8NzYTNJkRsWHwIEqJ87dnjO4sOE75lBhxJ2BmdImwIUQ+QToV6aOBBeT+6
+# M2njdYoBFBUd7A63YA==
 # SIG # End signature block
