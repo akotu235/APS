@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Shows the locations based on the network.
 .DESCRIPTION
@@ -30,17 +30,22 @@ function Get-Geolocation{
         }
         else{
             return $GeolocationData
-        }        
+        }
     }
     else{
         return $null
     }
 }
+
+
+
+
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7xnZwWDSxixPryLeM2PCl3KJ
-# Es+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUXYE4HiDRdjz4UttA2KeixgJm
+# v7ugggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -60,11 +65,11 @@ function Get-Geolocation{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUfwQp8GbszQjKoK6NSZ97cqJdAokwDQYJKoZIhvcNAQEBBQAEggEAXwGs
-# KIr8YyEbnDj19+utrfonl2azAzRx58qv8Z8ANq70C++KmGX5zlfKHyBj58J9YuMS
-# jnMKhE8Tw7e/ejn5jT7rbsNpkEUK2EhFNzDhWyjdhnHCXsfkkaBpxHwT9syGdGFF
-# dRgKa3lPgBgazR3ltWN7e4AcmHng3eC0yHpegnYshNaBm02EXnULQsEQMVN8xYq+
-# H84tueAdqSggizLBdje/3i0dxoMfMOXv3tDS7VJrsu5v3bb4kcQjufkt5lATa6Rp
-# vdAguAwcik1z8fjmdAMgiFvgrbSt8BGfk0f3YG7gCzZlkC5e212i/C3+kuhGHu2+
-# ZrKvz+q+j9+mTSV4gw==
+# CQQxFgQUDQeOoF9Zd8htgH/r6eC4qtCABqAwDQYJKoZIhvcNAQEBBQAEggEAggJW
+# zYThpkPK6ArjqcvPAd4H7mOfzJfMZ3h4UkouNAO9JJX4v+w6EZzQXynlb5a6ZtGw
+# uRhelDrvWjuEguVRghnn+hMhSN4lGanOlnOuKYo21D6DQFIOH201cqbKfUhMBIND
+# 4IgKIjEanvVwm1Ce+IPgPErCrCTR7eZTGktF+0FdM1isSq5y8RZUMyoHSz7+mwxM
+# 88jGvrcFqHlFc/6mYJn26Yyw61OEs4Z4lhafMiIU8gOf0+h2whSKKNpFFnwg+Aov
+# sr1+hWanyMkyrfNwOfXj0vHVl3ShMa743Od6HaCGwhAHfnhHWN4IDBbLClnH10iz
+# srFyw3gYZCuUDDW0Pg==
 # SIG # End signature block

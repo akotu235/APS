@@ -1,7 +1,7 @@
 function Get-Config{
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$ModuleBase,
         [string]$Field,
         [string]$ConfigPath,
@@ -26,13 +26,13 @@ function Get-Config{
 }
 
 function Set-ConfigField{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$ModuleBase,
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$Field,
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$Value,
         [string]$ConfigPath,
         [string]$FileName
@@ -51,9 +51,9 @@ function Set-ConfigField{
 }
 
 function Remove-Config{
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$ModuleBase,
         [string]$Field,
         [string]$ConfigPath,
@@ -78,9 +78,9 @@ function Remove-Config{
 function Save-Config{
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$ModuleBase,
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [psobject]$Config,
         [string]$ConfigPath,
         [string]$FileName
@@ -98,7 +98,7 @@ function Save-Config{
 function Get-ConfigPath{
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory = $true)] 
+        [Parameter(Mandatory = $true)]
         [string]$ModuleBase,
         [string]$ConfigPath,
         [string]$FileName,
@@ -115,7 +115,7 @@ function Get-ConfigPath{
             $ConfigPath = "$ConfigPath\$FileName"
         }
     }else{
-        $ConfigPath = "$ModuleBase\..\..\Configuration\$FileName"     
+        $ConfigPath = "$ModuleBase\..\..\Configuration\$FileName"
     }
     if($SkipTest){
         return $ConfigPath
@@ -128,11 +128,13 @@ function Get-ConfigPath{
     }
 }
 
+
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUeoddwpvRrRVXULiUa1VXTrK/
-# mIqgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUS4Y8WtWFOVZqngfNOTMWW2CD
+# AaSgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -152,11 +154,11 @@ function Get-ConfigPath{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU0KyNSwayXSRTy8BtOOHVgMEK0a4wDQYJKoZIhvcNAQEBBQAEggEAj3+d
-# KSu3TXp4ZeS85sZaPx2olGGg9qcvHpbNPJ9Vr3FrjdruvhbP5iQPQjQeIDj/hKQ2
-# w/QeXzNXf7OHYZkW8iiPIbFxYl4mlB45StHyWrjgFTjgq9cNrtVweHe+TaO/Hmhu
-# ytHm6j+Hqp3wzaSkSIexA/Rg+vPX8UNG83HEe4syU8dfprGMPsjPihR5hjNB6c2W
-# 0B57rT0lDnmLqKm2Ld3haLahk/2JIlZKJBur/ApbGlW93v1frBprBFUcOcoVDWRY
-# hubJbaAVpX3XP2kqLJpR4/tqmAPO1jzjhC4T7OAbZAw4Ao+wlNA5ZJlHEGu10g0w
-# DDJxbMh6bHXl4WqDmg==
+# CQQxFgQUEUamyRyZRuhSrLEcezdIht7vhWwwDQYJKoZIhvcNAQEBBQAEggEASK/a
+# ttKAGJBWdohof+7PUvdOMi7oB5HKfvJJySmubIxAniei9qJCzbzEl0LnPkyD/PIH
+# EndL+Nyr118A6m96XSRF0bfRNDltPO2xHaiEF0DQKwLMs3qfr7ZUY44iCuwIJRoa
+# 1uoIcznmTmJBeeSLimgV4T9L0pM9FUwSdwn2KRnnr7RuPPEyWnDBhjtP9wRgjqbg
+# DnG8rwVqOvSvva8plgyQnKIWFYiOaD3sCXs7WgHX+56aPFkDWYK76zxyz73DRczD
+# Vg6wJNULdhlPWTN+2Z75nBuQ2CSMe+3DQVVIZER7gefz/SlSC/eZSWd4na+7OPiU
+# ZZnUix9fC1c5SCM5Bw==
 # SIG # End signature block

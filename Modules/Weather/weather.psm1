@@ -1,11 +1,11 @@
-<#
+Ôªø<#
 .SYNOPSIS
 Shows the weather.
 .DESCRIPTION
 Gets current weather data from openweathermap.org.
 .PARAMETER City
 Enter the city name.
-.PARAMETER Units 
+.PARAMETER Units
 Display data in given units (standard, metric or imperial).
 .PARAMETER Detailed
 Show more details.
@@ -27,19 +27,20 @@ pogoda Tarnobrzeg
 Get-Weather Krakow -Detailed -Units standard
 #>
 function Get-Weather{
+    [OutputType([String])]
     [CmdletBinding()]
     param(
         [string]$City,
         [switch]$Detailed,
         [switch]$Data,
-        [ValidateSet(ìstandardî,îmetricî,îimperialî)] 
+        [ValidateSet(‚Äústandard‚Äù,‚Äùmetric‚Äù,‚Äùimperial‚Äù)]
         [string]$Units,
         [switch]$RestoreDefaultConfig,
         [string]$SetDefaultCity,
         [string]$SetAppId,
-        [ValidateSet(ìstandardî,îmetricî,îimperialî)] 
+        [ValidateSet(‚Äústandard‚Äù,‚Äùmetric‚Äù,‚Äùimperial‚Äù)]
         [string]$SetDefaultUnits  ,
-        [ValidateSet(ìenableî,îdisableî)] 
+        [ValidateSet(‚Äúenable‚Äù,‚Äùdisable‚Äù)]
         [string]$Geolocalization
     )
     if($RestoreDefaultConfig){
@@ -125,7 +126,7 @@ function Get-Weather{
                 Pressure="$($WeatherData.main.pressure) hPa";
                 "Cloud cover"="$($WeatherData.clouds.all) %";
                 Wind="$($WeatherData.wind.speed) $(Get-UnitSymbol $Units "V")";
-                Direction="$($WeatherData.wind.deg) ∞";
+                Direction="$($WeatherData.wind.deg) ¬∞";
                 Visibility="$($WeatherData.visibility) m";
             }
             return $WeatherObj
@@ -146,25 +147,25 @@ function Get-Weather{
 function Get-UnitSymbol{
     param(
         [Parameter(Mandatory=$true)]
-        [ValidateSet(ìstandardî,îmetricî,îimperialî)] 
+        [ValidateSet(‚Äústandard‚Äù,‚Äùmetric‚Äù,‚Äùimperial‚Äù)]
         [string]$Units,
         [Parameter(Mandatory=$true)]
-        [ValidateSet(ìTî,îVî)] 
-        [string]$Size=îTî
+        [ValidateSet(‚ÄúT‚Äù,‚ÄùV‚Äù)]
+        [string]$Size
     )
     if($Size -like "T"){
         if($Units -like "metric"){
-            return "∞C"
+            return "¬∞C"
         }
-        elseif($Units -like îimperialî){
-            return "∞F"
+        elseif($Units -like ‚Äùimperial‚Äù){
+            return "¬∞F"
         }
-        elseif($Units -like îstandardî){
+        elseif($Units -like ‚Äùstandard‚Äù){
             return "K"
         }
     }
     elseif($Size -like "V"){
-        if($Units -like îimperialî){
+        if($Units -like ‚Äùimperial‚Äù){
             return "mph"
         }
         else{
@@ -177,8 +178,8 @@ Set-Alias "pogoda" Get-Weather
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUrd1OvzB2LDR2xSFD5O1P3hy/
-# t3agggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUMy8NReSiXEbfwxvx/c36ToWY
+# sfWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -198,11 +199,11 @@ Set-Alias "pogoda" Get-Weather
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUcJ1x6xj4ffJqoOrtyiVgSkbGzp8wDQYJKoZIhvcNAQEBBQAEggEAYS1u
-# q43nwlkvgtWFN5NL6H/xFz7/Ut7rE1zg/tYsS8d7JZet4BfcYwS3yFbEbdT/RZvA
-# 7W2953gIbitHQ6CftvnEH49qDFGahj1Ktc4tNTUjG2mqj/8FvW/69IRc5oVbXetn
-# TqX2BeL8wy7OitgdIS7gUYoeHNoQQbwUpVUWwO9gA73MrRSWNSUihUPyxZ0qMkDz
-# wBIjHC2Geq4jFyBO/O0VS9n8QSoEkM/wDrtTK8VK3e4Stz9mKz6+O+1qPoBc6Out
-# ylLdFVwgfPy2XXEd7t07BzoX+tYO9NBlfcRpIFy0o/AUUYyOkzBA2+S5LIz5Yb9S
-# Eo2RMgX4Ycd0fjtqJA==
+# CQQxFgQU/etRLT+lBhrdcXknmPanJjiI0W0wDQYJKoZIhvcNAQEBBQAEggEAXd3+
+# OSyvc5EbUvkr8xMEdDN5N5OHv4DXFBSfb0xkb6yFucz2bJ2poSNL+l6mbeHkpPpr
+# 8SFUAMMOwYJRDaQ9wEbD3PCXA/vsQ8oBQC6Ick8DZgllTQA6ro2c1bLhgAvJH2VD
+# FR7rXNi5rk3DelfBF6/PiybHQpTeo1yDsukki+3SbGWtWR6vR7IRyRyae3V0PeS8
+# /5i2oZM7HMlKUwa6/lCCpsVpnMmLDt68EXeFofzzzOHo9d3sutofs/m78Jizdrti
+# 7UViEgrqtdueIQ1/Oy8yD9u2pHMU0RRWl5fuJa8YPk6OjmQyyibJ+78k0PyjAxYv
+# QeG3gI7LiTrBrsuNGw==
 # SIG # End signature block

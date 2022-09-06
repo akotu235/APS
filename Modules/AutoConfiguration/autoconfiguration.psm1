@@ -13,7 +13,7 @@ If set, do not close powershell window after task execution.
 Confirm-Admin -ScriptBlock {Start-Service sshd}
 #>
 function Confirm-Admin{
-    [CmdletBinding()] 
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [string]$ScriptBlock,
@@ -150,19 +150,19 @@ function Protect-SSH{
         # Start the service
         Start-Service ssh-agent
         if(Test-Path C:\ProgramData\ssh\sshd_config){
-            mv -Force C:\ProgramData\ssh\sshd_config C:\ProgramData\ssh\sshd_config.bak
+            Move-Item -Force C:\ProgramData\ssh\sshd_config C:\ProgramData\ssh\sshd_config.bak
         }
-        #configuration settings 
+        #configuration settings
         Get-Content (Get-AutoConfigurationPath "sshd_config") | Set-Content C:\ProgramData\ssh\sshd_config
         exit
     }
     Get-Content ~\.ssh\id_ed25519.pub | Set-Content ~\.ssh\authorized_keys
     #Load key file into ssh-agent
     ssh-add "$HOME\.ssh\id_ed25519"
-    Invoke-Item $HOME"\.ssh" 
+    Invoke-Item $HOME"\.ssh"
 }
 
-function Get-AutoConfigurationPath{ 
+function Get-AutoConfigurationPath{
     param(
         [string]$Name = ""
     )
@@ -176,17 +176,17 @@ Creates a new code signing certificate.
 New-CodeSigningCert
 #>
 function New-CodeSigningCert{
-    [CmdletBinding()] 
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [string]$Name = "PowerShell Local CA"
     )
-    while(Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | where Subject -Like "CN=$Name"){
+    while(Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Where-Object Subject -Like "CN=$Name"){
         $Name = Read-Host -Prompt "A certificate with this name already exists, please enter a different name"
     }
     $Params = @{
         Subject = "CN="+$Name
-        Type = "CodeSigningCert" 
-        KeySpec = "Signature" 
+        Type = "CodeSigningCert"
+        KeySpec = "Signature"
         KeyUsage = "DigitalSignature"
         FriendlyName = "Code signing"
         NotAfter = (Get-Date).AddYears(5)
@@ -194,7 +194,7 @@ function New-CodeSigningCert{
         HashAlgorithm = 'sha256'
     }
     $Cert = New-SelfSignedCertificate @Params
-    #Add to trusted certification root 
+    #Add to trusted certification root
     $exported = Get-AutoConfigurationPath "exported_cert.cer"
     Export-Certificate -Cert $Cert -FilePath $exported
     Confirm-Admin -NoExit {
@@ -216,22 +216,27 @@ function New-CodeSigningCert{
         $CertPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $CertPassword).Password
         $ConfirmedPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $ConfirmedPassword).Password
     }
-    Export-PfxCertificate -Cert $Cert -FilePath $CertPath -Password $CertPassword 
+    Export-PfxCertificate -Cert $Cert -FilePath $CertPath -Password $CertPassword
     &$CertPath
     #cleaning after completion
-    Write-Warning "After completing the wizard, press enter to continue.." 
+    Write-Warning "After completing the wizard, press enter to continue.."
     Read-Host >> $null
-    rm -Force $exported
-    rm -Force $CertPath
+    Remove-Item -Force $exported
+    Remove-Item -Force $CertPath
     Write-Output "Done."
 }
 Set-Alias -Name "sudo" -Value Confirm-Admin
 
+
+
+
+
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUF27RMsrde6yj9egPlIwxym8O
-# iTWgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUHhezt9acaScXmYnROVrHLIsv
+# 73WgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -251,11 +256,11 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUXki1x9ky4ymawqVl0GryaG9KzBgwDQYJKoZIhvcNAQEBBQAEggEAmz3D
-# wglsZeeVncRg36Lt15b3270XyXnrE/CBb7Z+SIU9mC7u/oG66B3gBzAhrbweUgvB
-# oLsGV7EwDw+UryptSZYByPb23CWaW3Qr7VnK751ojbQjiGSWl//ZfnSqCHyUc9Nf
-# e7dmFLGvn0BBNRLk6VFHyjKD8mtJ93qtF3iXXT8rcajuvAAbH3BaHg8ov6eKqwhD
-# p6qIY6acr72GFIYp/mWcR55CZrWTHe4s6TVzU4VSNp9PgIIB3kUUTj3WPSThJRth
-# ofF1fH9YMKCoTO+jtTXqepk8/K00K+i914E1n9UBCa0NI8S0RHzi8THxGhQR1lqF
-# UFEPBkJlxqximtl4XQ==
+# CQQxFgQU4hAxuCSI23g2I2G6LSept/05bd0wDQYJKoZIhvcNAQEBBQAEggEAdJBX
+# DZ94KHan8QnEzu2ARY0aBrIgEAFRiOZp+SCNjTt54MRv1w/YRxTxwwS26XVKqyCe
+# XQ4sci302unM+ldZmNj4rOttTGx4gPAoqr2sElL5bRUjh1oe6hCBHjG7csLcswRV
+# ZyX/BF56kbhTByT8Efc09Qq8UlKOKJil6dp0lu/DXg9tdVOFqzWk5GxQxVNuOrgT
+# Abg6hC29Otr710Y5djVviCZhGLGzGjdU7QvF9qZqebO7OKwQ2TmddogydPlBnbF7
+# zZrM5yBCf3VkBgvY5Sc103azdYZFF94FX+gIZOF19q/uxNCSYsZ6pKR4YySFS4Tt
+# GZtmtWuk+O6EC28FXQ==
 # SIG # End signature block

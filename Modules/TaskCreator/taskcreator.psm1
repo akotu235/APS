@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Creates a new task.
 .DESCRIPTION
@@ -16,14 +16,14 @@ Keep the task in the task schedule.
 .EXAMPLE
 New-APSTask -Command '[console]::beep(5000,3500)' -StartTime 6:00:00 -TaskName "Alarm"
 #>
-function New-APSTask {    
-    [CmdletBinding()] 
+function New-APSTask {
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
         [string]$Command,
         [System.DateTime]$StartTime = $((Get-Date).AddSeconds(3)),
         [string]$TaskName = "APS Task($($Command.TrimStart('"& {').Split(" ")[0]))",
-        [ValidateSet(�Normal","Minimized","Maximized","Hidden")] 
+        [ValidateSet(“Normal","Minimized","Maximized","Hidden")]
         [string]$WindowStyle = "Hidden",
         [switch]$Save
     )
@@ -35,7 +35,7 @@ function New-APSTask {
     else { $taskPath = "\APS\Temp\" }
     $i = 0
     $iTaskName = $TaskName
-    while((Get-ScheduledTask -TaskName "$iTaskName" -TaskPath $taskPath -ErrorAction Ignore ) -ne $null){
+    while($null -ne (Get-ScheduledTask -TaskName "$iTaskName" -TaskPath $taskPath -ErrorAction Ignore )){
         $i++
         $iTaskName = "$TaskName($i)"
     }
@@ -52,12 +52,11 @@ function New-APSTask {
     }
 }
 
-
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUI3oJDR+O42PKYysVsqXt1a3q
-# EWugggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0cOhOaCkkZGZpkyWM8c7B0cL
+# EVygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -77,11 +76,11 @@ function New-APSTask {
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQURoMwdcX9olfSHMiD9jp8COYDI00wDQYJKoZIhvcNAQEBBQAEggEANRrO
-# 2Vh0h8YMX6nAVB6MzH3N9BWyJai+p5roNaGxiI93cu7dzLtUYdXysA6DZQLRrOt1
-# 2xW4i44wHOLT4L+Lb0CoZTtOoz46jiZHSyRgvIt9rVYqbfkiBOp+F62AbjOqWY2g
-# ppZgyFhOq5KjSjrAT6jQM93HMqqgkGvKJ/fsIxZjT332bkdHGlTRrfkM8srmWxQi
-# P+FDSXcu2cnNMKrNG+KP8D5zl7X65/SQIluEbuB7JmbG27rK4m/mzUYLHlkM3tlA
-# Jy25+J3Ez00uOxqzF+A0uBTk3r32cy+42SkbZBvn7hSzd5TrKz4J9IW78yPP1pgy
-# f26V8m0hcNL82PQQUA==
+# CQQxFgQUWK7MIDJsfUVOIgkP1z41IGswaX0wDQYJKoZIhvcNAQEBBQAEggEAfgeC
+# /k+uVp2fhEYSmb7q62UEfrc3nEgKJLXdxlupKxDwvEnbUhIkqNe1sbRB3JXpdRx2
+# nad/AzZmCy25l+hY3CrJLa7/RzkFm3RdgTwW6IpRzg756c8DcQrQvAOEr4wGcM7M
+# R/Igxp4mFkUyr1ZLyaHUlRfRUJ3/+ehDB7bagopv2oJIsFK8gImkMtaecHz4OxqT
+# 3imcPdQdkLB5NEklnq0OL0FIT6dPeCNiifQZOip2DPjVZKBHA5aVuJy5teRXjaEd
+# j8Va5wOfOOyHHT6c9Ou5Tni1kJyZnWw3fwUCrCeeWmh3OokAV58OSFdDy3GDordx
+# FwcXY5PapU3r8ElJvA==
 # SIG # End signature block
