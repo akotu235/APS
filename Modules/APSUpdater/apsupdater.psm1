@@ -7,7 +7,7 @@ Downloads and installs the latest APS from the github repository.
 Update-APS
 #>
 function Update-APS{
-    [CmdletBinding()] 
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [switch]$Force
     )
@@ -16,29 +16,28 @@ function Update-APS{
     $Client = New-Object System.Net.WebClient
     $Client.DownloadFile("https://raw.githubusercontent.com/akotu235/APS/master/aps.psd1","$APS_Base\current")
     $APS_Current_Version = (Get-Content "$APS_Base\current" | Select-String "ModuleVersion =")
-    rm -Force "$APS_Base\current"
+    Remove-Item -Force "$APS_Base\current"
     if($APS_Version -notlike $APS_Current_Version -or $Force){
         Import-Module ScriptsSigner
         $Client.DownloadFile("https://github.com/akotu235/APS/archive/refs/heads/master.zip","$APS_Base\APS-master.zip")
         Expand-Archive -Path "$APS_Base/APS-master.zip" -DestinationPath $APS_Base
-        cp -Force "$APS_Base\APS-master\aps.ps*" $APS_Base
-        cp -Recurse -Force "$APS_Base\APS-master\Modules" $APS_Base
-        rm -Force -Recurse "$APS_Base\APS-master*"
+        Copy-Item -Force "$APS_Base\APS-master\aps.ps*" $APS_Base
+        Copy-Item -Recurse -Force "$APS_Base\APS-master\Modules" $APS_Base
+        Remove-Item -Force -Recurse "$APS_Base\APS-master*"
         Add-Signature $APS_Base >> $null
     }
     else{
-        Write-Host "APS is up to date" -ForegroundColor DarkGreen
-    }    
+        Write-Output "APS is up to date" -ForegroundColor DarkGreen
+    }
 }
-
 
 
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUShY/QRwpdJL6Dk3qH0swnCsE
-# H/qgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUcFYzkbv7mCvblIBvhUrLajmH
+# UdygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -58,11 +57,11 @@ function Update-APS{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU6xf3x5OLCYmxT3bcV4gy704+B1YwDQYJKoZIhvcNAQEBBQAEggEAdqRH
-# vIC84K2j5IUd8kx5i6LHageaxAqXDHVYGcvA5FAsrOUs9N4abgBbqYa6paK/4pr0
-# 62HKtypOJpcfgIPCTTR4+UGLYyMb4TaqpbHmBCIZ+OG8IGZjGCLsj2fzHDOiBRUT
-# ZqfblB9XQfbE6K2c5Kjor+mhDwD5ik4yMtSoZUdmwYAeeyT0jH4iLedQcWosKM6C
-# 1bM+5esJ55hh0hr6mFT8rM6QLP7X1ra0K6vaggwLnjhsY7cZFUCEOOsn0OkICLNn
-# 6yKr1IPrg289N1peTKCz1ugtxwSMkubqCPUpH/ki1yYmNXOQJABgLnCoqT4k1yzn
-# KK+cj+WlHGzH7uXT7w==
+# CQQxFgQU6NILquFuE05KKq5gpQe2rz3d6jowDQYJKoZIhvcNAQEBBQAEggEAeZlU
+# FgpdogSsGezgaQv1wInpaQ5S6Tb9AViLS2qGRGImHq8ZlYdAlOQmmhcNGO/jHt+0
+# YDJgNBKQdPGEJcosOxl8E51XNYg7V7Dk44BTfoeNXDinxAFTjFlhH9pGEZ/uMDVE
+# 84/9J4kux1yphvX512aEbm9+gTrRtRZ+D1/NUlW1RoERyERkERoTmrBT8Jm8yxIV
+# ZlOB3uuMiF6zpOiO3wJIKw19bLbZuVMZfhuRn4J3PFEgHdzqoWUYEmP2akGsMsPT
+# tP9y8EOXFnivXh3MKnKBxZXj+GhkCiTH2SjzyLY7zW8EPU3qJcLaUvxsUyffGlfp
+# 1WiQAI9sZ0Tlq8obow==
 # SIG # End signature block

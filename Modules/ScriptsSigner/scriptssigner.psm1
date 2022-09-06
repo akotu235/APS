@@ -4,12 +4,12 @@ Signs the script with my certificate
 .DESCRIPTION
 Signs the script passed by the parameter
 .PARAMETER File
-Enter the path to the file 
+Enter the path to the file
 .EXAMPLE
 .\Add-Signature.ps1 -File .\scriptToSign.ps1
 #>
 function Add-Signature{
-    [CmdletBinding()] 
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [string]$File
@@ -18,7 +18,7 @@ function Add-Signature{
         if((Get-ChildItem cert:\CurrentUser\My -codesigning).Length -eq 1){
             $Cert = (Get-ChildItem cert:\CurrentUser\My -CodeSigningCert)[0]
         }
-        else{        
+        else{
             Add-Type -AssemblyName System.Windows.Forms
             Add-Type -AssemblyName System.Drawing
             $form = New-Object System.Windows.Forms.Form
@@ -56,7 +56,7 @@ function Add-Signature{
             $form.Topmost = $true
             $result = $form.ShowDialog()
             if($result -eq [System.Windows.Forms.DialogResult]::OK){
-                $Cert=(Get-ChildItem cert:\CurrentUser\My -codesigning | where Subject -like "*$($listBox.SelectedItem)*")
+                $Cert=(Get-ChildItem cert:\CurrentUser\My -codesigning | Where-Object Subject -like "*$($listBox.SelectedItem)*")
             }
         }
     }
@@ -68,7 +68,7 @@ function Add-Signature{
         }
     }
     if((Get-ItemProperty $File).Mode -like "d-*" ){
-        $Files = Get-ChildItem -Path $File -Recurse | where -Property Extension -Match ".psm?1"
+        $Files = Get-ChildItem -Path $File -Recurse | Where-Object -Property Extension -Match ".psm?1"
         foreach ($f in $Files){
             Remove-Signature $f.FullName
             Set-AuthenticodeSignature $f.FullName $Cert
@@ -89,7 +89,7 @@ Enter the path of the script to remove the signature.
 .\Remove-Signature.ps1 -File .\scriptNmae.ps1
 #>
 function Remove-Signature{
-    [CmdletBinding()] 
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory=$true)]
         [string]$File
@@ -99,7 +99,9 @@ function Remove-Signature{
             $FileContent = Get-Content $File
             $FileContent[0..(((Get-Content $File | Select-String "SIG # Begin signature block").LineNumber)-2)] | Set-Content $File
         }
-        catch{}
+        catch{
+            Write-Information "Signature was not removed from $File"
+        }
     }
 }
 ##########
@@ -107,8 +109,8 @@ function Remove-Signature{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU9hrwCQDxzVHoNyjBqfzWhtjg
-# Nf+gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUDFqhcd13ZXp6cddt1WjONQ6H
+# kSqgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -128,11 +130,11 @@ function Remove-Signature{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUCVmyrChaTkUbDQGQfoh1/rlJiuIwDQYJKoZIhvcNAQEBBQAEggEAC4/0
-# mqa1u/MrKfT9nj6qOtsVogr3KiwHnkVDi31Y1Kn7sE0p0JSPHWzeeYFco/aDB+IT
-# O0d60tRwphPa7uQA0Xag6zPl3wHyB0NpcALQw0M8h+N0z+z5ao0hA8irnCc8Hs2V
-# 3pg6G8QKubvMez4lhHCz/MIsJrmdazbYdOUT1BH1t67IH9pVQDoQYVRPngY4YCBE
-# Vf75Rqrvmm50G8lZvUKMzCFXo4nkgf8LPFr7duoTFaLTA1n18UdmtDIgshmeW8S/
-# au/9KSD8Kcm9MJQ0gJNgnTRp5Xu+UEmImVGBKNz5M4GWpTUV8IWrq/+5nukCiE9F
-# XxRy2tfC+pTWQtBebQ==
+# CQQxFgQUvwCWtPHZMyH1v+DbyHv/eUiCqPowDQYJKoZIhvcNAQEBBQAEggEAITR4
+# ru1Yy74vxJADi7KFMQthAa6Q/Pv83crLUJbfBvnamBoRH2iHE7fUnrJBlraurHQh
+# T3ugWDJNvWVqLXwWkt53xJiNOjYXKDlWvVjiH9zq7IN6yxvP4zYQVcGiuV4a6R7i
+# bO6OU7Zl/Ml92mi+o3DcjSZVH9flk33AQM6w0qqBLnr4cpaIF27DfJrnqqi48msi
+# pAUNj6tWAFs6zJDaWDuCZLGGU88cNjM6JRbwJYPzLQYi8RZv46boKQeMpAJhYwnh
+# BymDUiu53nJMTvMgwIzltCZXt7X1pTW4LnSCKNTCIVfu6Hk71MsSDOG82gGJ7/bO
+# QTA8Zss+wSEkJ1oa3g==
 # SIG # End signature block

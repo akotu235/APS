@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
 Cleans the desktop.
 .DESCRIPTION
@@ -22,7 +22,7 @@ Opens the desktop archive in the file explorer.
 .EXAMPLE
 Clear-Desktop
 .EXAMPLE
-Clear-Desktop -Autorun 
+Clear-Desktop -Autorun
 .EXAMPLE
 Clear-Desktop -Disable
 .EXAMPLE
@@ -35,7 +35,7 @@ Clear-Desktop -AddException "filename"
 Clear-Desktop -SetDefaultExceptionList
 #>
 function Clear-Desktop{
-    [CmdletBinding()] 
+    [CmdletBinding()]
     Param(
     [switch]$Autorun,
     [switch]$Disable,
@@ -43,7 +43,7 @@ function Clear-Desktop{
     [switch]$ExceptionList,
     [switch]$SaveCurrentDesktopState,
     [switch]$SetDefaultExceptionList,
-    [switch]$Archives, 
+    [switch]$Archives,
     [string]$AddException
     )
     $ExceptionsFile = $PSScriptRoot + "\exceptions.txt"
@@ -82,16 +82,16 @@ function Clear-Desktop{
     }
     if($Autorun){
         $Disable=$false
-        $action=New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-NoLogo -NonInteractive -WindowStyle Hidden -command Clear-Desktop" 
+        $action=New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-NoLogo -NonInteractive -WindowStyle Hidden -command Clear-Desktop"
         $options=New-ScheduledTaskSettingsSet -Hidden
         $triger=New-ScheduledTaskTrigger -User $env:UserName -AtLogOn
         $task=Get-ScheduledTaskInfo -TaskName "Clear-Desktop" -ErrorAction Ignore
         if(!($task)){
-            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action �Force >> $null
+            Register-ScheduledTask -TaskName "Clear-Desktop" -Settings $options -Trigger $triger -Action $action –Force >> $null
             Write-Verbose "Created Scheduled Task."
         }
         else{
-            Write-Host "Autostart was already on."
+            Write-Output "Autostart was already on."
         }
     }
     if($Disable){
@@ -102,7 +102,7 @@ function Clear-Desktop{
             Write-Verbose "Removed from autostart."
         }
         else{
-            Write-Host "Autostart was already turned off."
+            Write-Output "Autostart was already turned off."
         }
     }
     if(!$Skip){
@@ -138,7 +138,7 @@ function Clear-Desktop{
                     Write-Verbose "File name changed! $filenameNU"
                 }
                 Move-Item $file.FullName (Join-Path $DestPath $filenameNU)
-                Write-Verbose "Moved the file: $filenameNU." 
+                Write-Verbose "Moved the file: $filenameNU."
             }
         }
         Write-Verbose "Cleaning complete."
@@ -148,8 +148,8 @@ function Clear-Desktop{
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUaq3/JEYlDBTcd3jpSACD74As
-# 2l2gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUFSg0bJ1Yo2DO55U8lPzEunNo
+# EZygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -169,11 +169,11 @@ function Clear-Desktop{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUPmvgRnsOi6hI4+y6sVYTzR76IVIwDQYJKoZIhvcNAQEBBQAEggEAT+CM
-# awJTlkGHWwsEREiLfl5DjYIpQ65naYFJ0DI8vEtzOnguuaRq3+/uikQQ5VH0NpK2
-# rHr/viZ6j6E9gGaQ1UdUxY5vGcocFp6mHj1+yafpkHAQaTR0pvHQzGAlolX/klMY
-# Os2F7hs9/HDDQcx3CMdHkZnpcOehZitjG+KAxWRf3Afn9Fa/LsUYvkQsXWGLt2ec
-# M37IR8qoq/OoerbfzAxaf3OZ1f5x4M932e3n02Izp26M/77jZhuFag0xu5pYNSu9
-# cptLuQ26wfGY53nMoOqWEw2Qw3bRs3MGtGcF7J1fXFlBrhzkY8xGbfdNvh/thetD
-# AvkE39rjBqwHYGqiGw==
+# CQQxFgQUsYqZ3aoItFfaDm9VfpyBKUCoR0QwDQYJKoZIhvcNAQEBBQAEggEAiB02
+# OfqoBSm2fJHuQJAuIFu0dT22PzZloUzBSRtuHJ+EoZS7PQwbkXbmo5fAB2b59MMH
+# cfXKEuHysXmsSVDp3jQcznLLfxh78UDNqwyohMOebvxUyrcbaeh4FcYr7X0bGCRK
+# AWgpiLTNT7Mwgzad7/6dChF3GSwjp1M4HGbDPPAYx0zxF2ESqbNY6t/sjw/iobvB
+# mz7uroEOUoq8On0UGnIMtHtbGQN1iokKplU4NgfPOi3Af22daHMcyUvaCP2GuG9o
+# JYPJQB15eyCVtST2k5aTkZmhAVMZUFICJxmDwupxtHy7sBkUt/cicAIRmkTpIJtF
+# e6SYeh62JxUxmTJq4A==
 # SIG # End signature block

@@ -9,7 +9,7 @@ Enter the name of the certificate.
 New-EncryptionKey "CertificateName"
 #>
 function New-EncryptionKey{
-    [CmdletBinding()] 
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory=$true)]
         [string]$Name
@@ -40,7 +40,7 @@ function New-EncryptionKey{
     catch{
         Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword
     }
-    Get-ChildItem Cert:\CurrentUser\CA | where Subject -Like "CN=APS_$Name" | Remove-Item
+    Get-ChildItem Cert:\CurrentUser\CA | Where-Object Subject -Like "CN=APS_$Name" | Remove-Item
 }
 
 <#
@@ -54,30 +54,31 @@ Enter your message.
 Protect-Message "<secret>"
 #>
 function Protect-Message{
-    [CmdletBinding()] 
+    [OutputType([String])]
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]
         [string]$Message
     )
-    $storageCA = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert | where Subject -Like "CN=APS_*"
+    $storageCA = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert | Where-Object Subject -Like "CN=APS_*"
     if($storageCA){
-        $storageCA | foreach {
+        $storageCA | ForEach-Object {
                 Move-Item -Path Cert:\CurrentUser\CA\$($_.Thumbprint) -Destination Cert:\CurrentUser\My
             }
     }
     $encryptionCerts = Get-ChildItem Cert:\CurrentUser\My -DocumentEncryptionCert
     if($encryptionCerts.Count -eq 0){
-        Write-Host "No encryption certificates"
+        Write-Output "No encryption certificates"
     }
     else{
-        Write-Host "Installed certificates:"
-        $encryptionCerts | foreach {$_.Subject.TrimStart("CN=APS_")}
+        Write-Output "Installed certificates:"
+        $encryptionCerts | ForEach-Object {$_.Subject.TrimStart("CN=APS_")}
         $CN = Read-Host -Prompt "Enter the name of the encryption certificate"
         if($CN -notlike "CN=APS_*"){
             $CN = "CN=APS_$CN"
         }
         $cipher = $Message | Protect-CmsMessage -To $CN
-        Write-Host "Cipher:" -ForegroundColor Green
+        Write-Output "Cipher:" -ForegroundColor Green
         $cipher = "`"$($cipher.Replace("`r`n",";").Replace("`n",";").TrimStart("-----BEGIN CMS-----").TrimEnd("-----END CMS-----"))`""
         $cipher
         Set-Clipboard -Value $cipher
@@ -98,25 +99,26 @@ function Unprotect-Message{
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$Message = $cipher
+        [string]$Message
     )
-    
-    $Message = "-----BEGIN CMS-----$($Message.TrimStart('"').TrimEnd('"'))-----END CMS-----".Replace(";","`r`n")
+    $Message = "-----BEGIN CMS-----$($Message.Trim('"'))-----END CMS-----".Replace(";","`r`n")
     try{
         $decryptedMessage = ($Message | Unprotect-CmsMessage)
-        Write-Host "Decrypted message:" -ForegroundColor Green
+        Write-Output "Decrypted message:" -ForegroundColor Green
         $decryptedMessage
     }
     catch{
-        Write-Host "No proper key to read this message" -ForegroundColor Red
+        Write-Output "No proper key to read this message" -ForegroundColor Red
     }
 }
+
+
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUddLkGY/LYBuTQmhPfNRkl4Dt
-# Kk6gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUGvxdsQhBO5S/xQo1f2r5h5z1
+# h8mgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -136,11 +138,11 @@ function Unprotect-Message{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUgWD5a5hCFf/VKLcXWUJHJ1pyW/4wDQYJKoZIhvcNAQEBBQAEggEAace9
-# G71Kg4wGx2RO5v/dn33kwhvq5wTqh5n3DTUDt0OBlkUGfYivOq8z+VhHsRRgC5Zb
-# wXSE72qSusXIG/BLyGCHfh59EQt+cSf9wHi+6wgi3mM3JUQ4HeZhy4XXQ0CJD9m0
-# ib9J/37RAYC0ai7Tq6Ufdo5OGUbFpL/k7L36pjNNkiCO75urIq5FeMf9LsvtbfWV
-# YYnbAuxE1YcxjXYnKHeBL47aZp3hL6p2iTrNTG/a0ivWkrdM0yU7959kr57VhTAv
-# weW7XSlstORJ5Ol6RP8nd6wq8CaOneR1gGi5jGJJeWMWIq1QvZ469zrNRp+vCK1C
-# 98DrIPVIOkpsOYs8vw==
+# CQQxFgQUpZq21P8mE76VU7H0aKs3Ou/s434wDQYJKoZIhvcNAQEBBQAEggEAabEq
+# UIlwb83Gf+37Bnj9eVZJ8XsbujDHgzyWSqpEDDb5uJt+3h3KcSwRHrbA7bG+MFJ0
+# uBIvf9NUOZqOd1u1sY+2JT+kcFtxZcBOr/Niz21UkT8IJ+TApYABRlQONFjDnKU7
+# /ot3HCRTPHPMmyKFqUtiJ6zo4KrmH69RyLKDS/HSntP2u2FZd8ijzmupB0pjXzrR
+# t4GAvdIPxY5Y9RcP2gBM7kaJReuaPuAwR542P8xLBwjmAh72Rcfsh9erAPzu/vxP
+# MMAhcykGjSkHr2CzuFzl7V0qsKJU0qEX0l8nzthJuSrgyJKfzRmXkMZmpKWA4b+A
+# rKPY+Z34rEEy8g/B2g==
 # SIG # End signature block

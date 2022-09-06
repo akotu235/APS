@@ -19,7 +19,8 @@ Stop-ComputerLater -Minutes 23
 Stop-ComputrLater -Cancel
 #>
 function Stop-ComputerLater{
-    [CmdletBinding()] 
+    [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [string]$Minutes = 120,
         [switch]$Cancel,
@@ -37,7 +38,7 @@ function Stop-ComputerLater{
                 Unregister-ScheduledTask -TaskName "Stop-Computer" -Confirm:$false
         }
         else{
-            Write-Host "Scheduled task does not exist."
+            Write-Output "Scheduled task does not exist."
         }
     }
     else{
@@ -62,8 +63,8 @@ function Stop-ComputerLater{
             [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
             $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
             $RawXml = [xml] $Template.GetXml()
-            ($RawXml.toast.visual.binding.text|where {$_.id -eq "1"}).AppendChild($RawXml.CreateTextNode($ToastTitle)) > $null
-            ($RawXml.toast.visual.binding.text|where {$_.id -eq "2"}).AppendChild($RawXml.CreateTextNode($ToastText)) > $null
+            ($RawXml.toast.visual.binding.text|Where-Object {$_.id -eq "1"}).AppendChild($RawXml.CreateTextNode($ToastTitle)) > $null
+            ($RawXml.toast.visual.binding.text|Where-Object {$_.id -eq "2"}).AppendChild($RawXml.CreateTextNode($ToastText)) > $null
             $SerializedXml = New-Object Windows.Data.Xml.Dom.XmlDocument
             $SerializedXml.LoadXml($RawXml.OuterXml)
             $Toast = [Windows.UI.Notifications.ToastNotification]::new($SerializedXml)
@@ -84,17 +85,19 @@ function Stop-ComputerLater{
             else{
                 Set-ScheduledTask -TaskName "Stop-Computer" -Trigger $triger >> $null
             }
-            Write-Host "Computer will shutdown at $('{0:HH:mm:ss}' -f $t)"
+            Write-Output "Computer will shutdown at $('{0:HH:mm:ss}' -f $t)"
         }
     }
 }
 Set-Alias -Name "spcl" -Value Stop-ComputerLater
 
+
+
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUKCU1S0c5cA6K2U9xz2Jk+6kE
-# pxygggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUs2eMAsrvbfvlw02wrrDmcjGA
+# 5H2gggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -114,11 +117,11 @@ Set-Alias -Name "spcl" -Value Stop-ComputerLater
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQU8kLrnEdWP8Ft37TcOTcq5WFbj4MwDQYJKoZIhvcNAQEBBQAEggEAUGkb
-# Of5xP9ecWcnPJTeiYu0rbN+ONgRA2O1hbA1Db104lS6XrHspPhC+WEvaa4Mlbc24
-# 5RqwEJ/auwtvmxjlmPeX4hmUGQkcYZ2t14/5VVh4ogtnvzx5oAtq2jcHU9VVQh0x
-# 4SPEyBBcYIMfNrW+upiBgL/hWoqIDFc2E7EK1RYgSGoMWYLD27vbfh4A1D7BhQAM
-# F5BQ2IQJZkwDBlr79Hoc4MCfVup9waKqIUPIw7y2b0JB2IelF8ZQG4col2mpzCgB
-# z2buQTWPib/W+YPGQvlVzTOOG4ocbQJHplDvYqFw5g2wZ57TJ0JH7yUOmjh5e6YO
-# 29XiSAb623auD1Crkw==
+# CQQxFgQUOGnIARlGgI2rCrFWAtGt/Xqj8IAwDQYJKoZIhvcNAQEBBQAEggEASkUM
+# CPAAaZfmZk/3JUH1eLkjc4dKspQTi5ix8yE/BcinrbITKNi3MoxAfPmJgZy3zz9k
+# EwAftAycG+60da3n+Ow32W2OgcCoJLAgsPl/cpC144RHd1K1v71OuVDkcbdkbcKa
+# iLjIGyZER4JDqHoD8DgUYYOigWhSncw7UxF2siwwMlnApMCUzGmUE+XqilfLUqjd
+# vJ8tCVTgKs45xHjJquIdn+XG6Z+4ZFBb3ZNWLBnEqg90s5NskG5jGY/BmTBoaOfz
+# jRQKgWUDLCP4CkRmG0qs1E7unNJtpiq6OK9SLIS8GkYkvJjk3O43DMMLcXAoPRAI
+# JsYYzzBUgfneH0uucw==
 # SIG # End signature block

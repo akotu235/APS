@@ -1,5 +1,5 @@
 function Set-Notification{
-    [CmdletBinding()] 
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
         [string]$Text,
@@ -14,7 +14,8 @@ function Set-Notification{
 }
 
 function Show-Notification{
-    [CmdletBinding()] 
+    [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
+    [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
         [string]$Text,
@@ -26,8 +27,8 @@ function Show-Notification{
         [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
         $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
         $RawXml = [xml] $Template.GetXml()
-        ($RawXml.toast.visual.binding.text|where {$_.id -eq "1"}).AppendChild($RawXml.CreateTextNode($Title)) > $null
-        ($RawXml.toast.visual.binding.text|where {$_.id -eq "2"}).AppendChild($RawXml.CreateTextNode($Text)) > $null
+        ($RawXml.toast.visual.binding.text|Where-Object {$_.id -eq "1"}).AppendChild($RawXml.CreateTextNode($Title)) > $null
+        ($RawXml.toast.visual.binding.text|Where-Object {$_.id -eq "2"}).AppendChild($RawXml.CreateTextNode($Text)) > $null
         $SerializedXml = New-Object Windows.Data.Xml.Dom.XmlDocument
         $SerializedXml.LoadXml($RawXml.OuterXml)
         $Toast = [Windows.UI.Notifications.ToastNotification]::new($SerializedXml)
@@ -38,17 +39,19 @@ function Show-Notification{
         $Notifier.Show($Toast)
     }
     if($VoiceNotification){
-        Use-Speech -TextToSay $Text 
+        Use-Speech -TextToSay $Text
     }
 }
+
+
 
 
 
 # SIG # Begin signature block
 # MIIFeQYJKoZIhvcNAQcCoIIFajCCBWYCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUVfkfZLAiw5MPB06f3pLvPOYi
-# MgegggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUqKeGgjXiilkYSCEn91VF9LLi
+# eGCgggMQMIIDDDCCAfSgAwIBAgIQfziWHbCKBoRNGa23h81cKTANBgkqhkiG9w0B
 # AQsFADAeMRwwGgYDVQQDDBNQb3dlclNoZWxsIGFrb3R1IENBMB4XDTIyMDIwMTEz
 # MDExMloXDTI3MDIwMTEzMTExM1owHjEcMBoGA1UEAwwTUG93ZXJTaGVsbCBha290
 # dSBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ5Jah2xqCyY33yT
@@ -68,11 +71,11 @@ function Show-Notification{
 # UG93ZXJTaGVsbCBha290dSBDQQIQfziWHbCKBoRNGa23h81cKTAJBgUrDgMCGgUA
 # oHgwGAYKKwYBBAGCNwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYB
 # BAGCNwIBBDAcBgorBgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAjBgkqhkiG9w0B
-# CQQxFgQUinHocBrVi5opxQwDdxY8Rz/8QzUwDQYJKoZIhvcNAQEBBQAEggEAP9Sg
-# PsiQWN6ZSi8bbdGR44ZMT4i3zq2RknAcvk+0CG/flp7dqUzGHf+62LxBtdQ5D4ri
-# 70Euq+O/Ggu6PXLyjltNMcvzmttUD1jQQyzAB7np5natEvJbIISTk2q6uu6w5a54
-# xgQJBiOYcB638Oug6eGjqexSS/CyVG9VSOhLu63TviOaqAvxhvj6ou3NNS9ihg4K
-# WkQMVTcyD4CUcvl4nkzGeAAr5RFezhUPJSQLrWHC34fUtZR955zNycIOPysgtep/
-# M09D1qU6ojMkvCbDPMjGLapWl5OCEikDIwGLbg5pCQ73qs9tEwJap8D84iA5uLUl
-# w/h36yAq+z0aY3Ycww==
+# CQQxFgQU/UZW+M9dLT56hlQqSP0TCGx212owDQYJKoZIhvcNAQEBBQAEggEAZPUI
+# TpcbfVD7WOTCP2cSsfBA4uPScn6NkayJNfxG0w/BJsnFV9c2lP9/o4+fmhfyNL/7
+# ccMRYrmx6aS6AoWVy2M9/12Naw0TGkSRRedsKLx9iLvXRC1SKwaJWRtjhZUqnhm4
+# oygTZ8dZOZMBwKI0dpPrMLQhY5HAlUgRU/pFZE6jX1ToeDDpqnsSoLiwCUUbbFcp
+# +NR5buq7Gg7LwC3dvB4sRYEDkeChdmRHjElDkR0OunA+yFGS/Zknzy2LHxvJwf+h
+# GNS2oUoylqVZJUI4F/Su8wLcry+DI3AI0oI0NoUHP9gL0N6Qisb/bR7TKk58f9kZ
+# jx/wNEqD3/7qsgYdaw==
 # SIG # End signature block
