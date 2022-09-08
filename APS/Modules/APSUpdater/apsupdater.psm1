@@ -15,7 +15,7 @@ function Update-APS{
     if(($APS_Module.Version) -lt (Get-APSCurrentVersion) -or $Force){
         Import-Module ScriptsSigner
         $APS_Base = $APS_Module.ModuleBase | Split-Path
-        Update-Module APS -Force:$Force -Verbose:$Verbose
+        Update-Module APS -Force:$Force
         Add-Signature $APS_Base >> $null
     }
     else{
