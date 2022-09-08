@@ -5,8 +5,6 @@ Run as administrator.
 Opens a new powershell session as administrator and executes the script block specified in the parameter.
 .PARAMETER ScriptBlock
 Enter the script block to run as administrator.
-.PARAMETER CommandPath
-Sets the variable $PSCommandPath which Contains the full path and file name of the script that invoked the current command. The value of this property is populated only when the caller is a script.
 .PARAMETER NoExit
 If set, do not close powershell window after task execution.
 .EXAMPLE
@@ -17,67 +15,36 @@ function Confirm-Admin{
     param(
         [Parameter(Mandatory=$true)]
         [string]$ScriptBlock,
-        [string]$CommandPath,
         [switch]$NoExit = $true
     )
     #Script block prepare
     $Module = Convert-Path "$PSScriptRoot\..\..\aps.psm1"
-    if($CommandPath){
-        $Command="& {
+    $Command="& {
+                    try{
+                        Import-Module -Name $Module
+                    }
+                    catch{
                         try{
+                            Set-ExecutionPolicy Bypass -Scope Process -Force
                             Import-Module -Name $Module
                         }
                         catch{
-                            try{
-                                Set-ExecutionPolicy Bypass -Scope Process -Force
-                                Import-Module -Name $Module
-                            }
-                            catch{
-                                Write-Error 'Cannot find the APS module'
-                            }
+                            Write-Error 'Cannot find the APS module'
                         }
-                        cd $PWD
-                        Set-Variable PSCommandPath -Value $CommandPath
-                        $ScriptBlock
-                   }"
-    }
-    else{
-        $Command="& {
-                        try{
-                            Import-Module -Name $Module
-                        }
-                        catch{
-                            try{
-                                Set-ExecutionPolicy Bypass -Scope Process -Force
-                                Import-Module -Name $Module
-                            }
-                            catch{
-                                Write-Error 'Cannot find the APS module'
-                            }
-                        }
-                        cd $PWD
-                        $ScriptBlock
-                   }"
-    }
+                    }
+                    cd `'$PWD`'
+                    $(if($PSCommandPath){'Set-Variable PSCommandPath -Value $PSCommandPath'})
+                    $ScriptBlock
+                }"
     if((Test-Admin) -eq $false){
-        if($NoExit){
-            Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -command ' + $Command)
-        }
-        else{
-            Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -command ' + $Command)
-        }
+        Start-Process powershell.exe -Verb RunAs -ArgumentList ("-noprofile $(if($NoExit){"-noexit "})-command " + $Command)
     }
     else{
         try{
             & $ScriptBlock
         }
         catch{
-            if($NoExit){
-                Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -command ' + $Command)
-            }
-            else{
-                Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -command ' + $Command)
-            }
+            Start-Process powershell.exe -Verb RunAs -ArgumentList ("-noprofile $(if($NoExit){"-noexit "})-command " + $Command)
         }
     }
 }
