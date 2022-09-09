@@ -7,78 +7,88 @@ Searches a file line by line without consuming RAM memory.
 Enter a search term.
 .PARAMETER Path
 Enter a file path.
+.PARAMETER Recurse
+Gets the items in the specified locations and in all child items of the locations.
 .PARAMETER RegularExpression
 Search using regular expression.
 .PARAMETER AsSecure
 Set if you want to hide the searched phrase.
 .PARAMETER CaseSensitive
-Change to $false if you want to turn off case sensitivity.
+Be case sensitive.
+.PARAMETER StopWhenFinds
+Stops searching after the first found item.
 .EXAMPLE
 Search-InFile C:\File.txt 'phrase you are looking for'
-.EXAMPLE
-Search-InFile C:\File.txt '^regular?expression$' -RegularExpression
-.EXAMPLE
-Search-InFile C:\File.txt -AsSecure
 #>
 function Search-InFile{
     [OutputType([System.Boolean])]
     [CmdletBinding()]
     param(
         [string]$Phrase,
-        [string]$Path,
+        [string]$Path = ".\",
+        [switch]$Recurse,
         [switch]$RegularExpression,
         [switch]$AsSecure,
-        [switch]$CaseSensitive = $true
+        [switch]$CaseSensitive,
+        [switch]$StopWhenFinds
     )
     $DisplayResult = {
         param (
             [Parameter(Mandatory)]
-            [string]$StartTime,
-            [int]$Occurrence = 0,
-            [string]$Scanned
+            [string]$startTime,
+            [int]$occurrence = 0,
+            [int]$scannedCount
         )
-        $Result = "found: $Occurrence  time: $(&$TimeMeasurement $StartTime)"
-        if($Scanned){
-            $Result = "scanned: $Scanned  $Result"
+        $result = "found: $(if(-not $AsSecure){"$occurrence "}else{[boolean]$occurrence}), time: $(&$TimeMeasurement $startTime)"
+        if($scannedCount){
+            $result = "scanned: $scannedCount, $result"
         }
-        Write-Output "$Result`n"
+        Write-Output "$result`n"
     }
     $TimeMeasurement = {
         param (
             [Parameter(Mandatory)]
-            [System.DateTime]$StartTime
+            [System.DateTime]$startTime
         )
-        $EndTime = Get-Date
-        $TotalTime = $EndTime - $StartTime
-        if($EndTime -lt $StartTime.AddSeconds(5)){
-            return "$($TotalTime.TotalSeconds) sec"
+        $endTime = Get-Date
+        $totalTime = $endTime - $startTime
+        if($endTime -lt $startTime.AddSeconds(5)){
+            return "$($totalTime.TotalSeconds) sec"
         }
-        elseif($EndTime -lt $StartTime.AddMinutes(1)){
-            return "$([int]$TotalTime.Seconds) sec"
+        elseif($endTime -lt $startTime.AddMinutes(1)){
+            return "$([int]$totalTime.Seconds) sec"
         }
-        elseif($EndTime -lt $StartTime.AddHours(1)){
-            return "$($TotalTime.Minutes) min $($TotalTime.ToString('ss')) sec"
+        elseif($endTime -lt $startTime.AddHours(1)){
+            return "$($totalTime.Minutes) min $($totalTime.ToString('ss')) sec"
         }
         else{
-            return "$([int]($TotalTime.TotalHours)) h $($TotalTime.ToString('mm')) min $($TotalTime.ToString('ss')) sec"
+            return "$([int]($totalTime.TotalHours)) h $($totalTime.ToString('mm')) min $($totalTime.ToString('ss')) sec"
         }
     }
-    $FindOperations = {
+    $ActionWhenFound = {
         param (
             [Parameter(Mandatory)]
-            [System.DateTime]$StartTime,
+            [System.DateTime]$startTime,
             [Parameter(Mandatory)]
-            $CurrentLine,
+            [int]$currentLine,
             [Parameter(Mandatory)]
-            [boolean]$StopSearching,
-            $Line
+            [boolean]$stopSearching,
+            [string]$line
         )
-        if($StopSearching){
-            &$DisplayResult $StartTime
+        if($AsSecure){
+            $stopSearching = $true
+        }
+        if($stopSearching){
+            if(-not $AsSecure){
+                Write-Host "[$currentLine] $($line.Trim(" "))"
+            }
+            &$DisplayResult $startTime
             return $true
         }
         else{
-            Write-Output "[$CurrentLine] $Line"
+            if(-not $AsSecure){
+                Write-Host "[$currentLine] $($line.Trim(" "))"
+            }
         }
         return $false
     }
@@ -91,47 +101,50 @@ function Search-InFile{
             $Phrase = Read-Host -Prompt "Enter a search term"
         }
     }
-    if(!$Path){
-        $Path = ".\"
-    }
-    $File = Get-Item $Path
-    if($File.PSIsContainer){
-        $Files = Get-ChildItem $Path -File | Sort-Object Length
+    $Phrase = "*$Phrase*"
+    $file = Get-Item $Path
+    if($file.PSIsContainer){
+        $files = Get-ChildItem $Path -File -Recurse:$Recurse
     }
     else{
-        $Files = @($File)
+        $files = @($file)
     }
-    $Occurrence = 0
-    $StartTime = Get-Date
-    foreach($f in $Files){
-        Write-Output "Scaning $($f.Name)..."
-        $CurrentStartTime = Get-Date
-        $CurrentOccurrence = 0
-        $CurrentLine = 0
-        $CurrentFile = $f.FullName
+    $occurrence = 0
+    $startTime = Get-Date
+    $scannedCount = 0
+    foreach($f in $files){
+        if(0 -lt $occurrence -and $stopWhenFinds){
+            break
+        }
+        Write-Output "Scaning $($f.FullName)..."
+        $scannedCount++
+        $currentStartTime = Get-Date
+        $currentOccurrence = 0
+        $currentLine = 0
+        $currentFile = $f.FullName
         if($RegularExpression){
             if($CaseSensitive){
-                foreach($line in [System.IO.File]::ReadLines($CurrentFile)){
+                foreach($line in [System.IO.File]::ReadLines($currentFile)){
                     if($line -cmatch $Phrase){
-                        $Occurrence++
-                        $CurrentOccurrence++
-                        if(&$FindOperations $StartTime $CurrentLine $AsSecure $line){
-                            return $true
+                        $occurrence++
+                        $currentOccurrence++
+                        if(&$ActionWhenFound $startTime $currentLine $StopWhenFinds $line){
+                            break
                         }
                     }
-                    $CurrentLine++
+                    $currentLine++
                 }
             }
             else{
                 foreach($line in [System.IO.File]::ReadLines($CurrentFile)){
                     if($line -match $Phrase){
-                        $Occurrence++
-                        $CurrentOccurrence++
-                        if(&$FindOperations $StartTime $CurrentLine $AsSecure $line){
-                            return $true
+                        $occurrence++
+                        $currentOccurrence++
+                        if(&$ActionWhenFound $startTime $currentLine $StopWhenFinds $line){
+                            break
                         }
                     }
-                    $CurrentLine++
+                    $currentLine++
                 }
             }
         }
@@ -139,32 +152,32 @@ function Search-InFile{
             if($CaseSensitive){
                 foreach($line in [System.IO.File]::ReadLines($CurrentFile)){
                     if($line -clike $Phrase){
-                        $Occurrence++
-                        $CurrentOccurrence++
-                        if(&$FindOperations $StartTime $CurrentLine $AsSecure $line){
-                            return $true
+                        $occurrence++
+                        $currentOccurrence++
+                        if(&$ActionWhenFound $startTime $currentLine $StopWhenFinds $line){
+                            break
                         }
                     }
-                    $CurrentLine++
+                    $currentLine++
                 }
             }
             else{
                 foreach($line in [System.IO.File]::ReadLines($CurrentFile)){
                     if($line -like $Phrase){
-                        $Occurrence++
-                        $CurrentOccurrence++
-                        if(&$FindOperations $StartTime $CurrentLine $AsSecure $line){
-                            return $true
+                        $occurrence++
+                        $currentOccurrence++
+                        if(&$ActionWhenFound $startTime $currentLine $StopWhenFinds $line){
+                            break
                         }
                     }
-                    $CurrentLine++
+                    $currentLine++
                 }
             }
         }
-        &$DisplayResult $CurrentStartTime $CurrentOccurrence
+        &$DisplayResult $currentStartTime $currentOccurrence
     }
     if($File.PSIsContainer){
-        &$DisplayResult $StartTime $Occurrence $($Files.Count)
+        &$DisplayResult $startTime $occurrence $scannedCount
     }
-    return [boolean]$Occurrence
+    return [boolean]$occurrence
 }
