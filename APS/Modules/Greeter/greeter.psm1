@@ -38,18 +38,22 @@ function Show-APSGreeting{
 
 <#
 .SYNOPSIS
-Saves in the configuration file which information is to be displayed using the Show-APSGreeting function.
+Saves in the configuration file which information is to be displayed using the ``Show-APSGreeting`` function.
+.DESCRIPTION
+The ``Set-APSGreeting`` cmdlet running without parameters will help the user select the items to display.
 .PARAMETER Default
 Restores the default settings.
 .PARAMETER Disable
-Disables Show-APSGreeting functions.
+Disables ``Show-APSGreeting`` functions.
 .EXAMPLE
 Set-APSGreeting
 #>
 function Set-APSGreeting{
     [CmdletBinding(SupportsShouldProcess)]
     param(
+        [Parameter(ParameterSetName='Default')]
         [switch]$Default,
+        [Parameter(ParameterSetName='Disable')]
         [switch]$Disable
     )
     if($Default){

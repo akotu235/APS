@@ -1,47 +1,60 @@
 <#
 .SYNOPSIS
-Shows the weather.
+Shows the current weather.
 .DESCRIPTION
 Gets current weather data from openweathermap.org.
 .PARAMETER City
-Enter the city name.
-.PARAMETER Units
-Display data in given units (standard, metric or imperial).
+Defines for which city the weather data is to be displayed.
 .PARAMETER Detailed
-Show more details.
+Shows detailed data.
 .PARAMETER Data
-Returns a weather object.
-.PARAMETER Geolocalization
-If enabled, it automatically detects city from ip address.
+Returns the original object taken from openweathermap.org.
+.PARAMETER Units
+Determines the units of displayed results. Valid values are standard, metric and imperial.
 .PARAMETER RestoreDefaultSettings
 Restores default settings.
-.PARAMETER SetDefaultUnits
-Sets the default units.
 .PARAMETER SetDefaultCity
-Sets the default city.
+Specifies the default city.
+.PARAMETER SetUnits
+Specifies the default units.
+.PARAMETER Geolocalization
+Defines the settings for retrieving location data based on the network. Valid values are enable and disable.
 .PARAMETER SetAppId
-Setup AppId.
+Specifies the AppId.
 .EXAMPLE
 pogoda Tarnobrzeg
 .EXAMPLE
 Get-Weather Krakow -Detailed -Units standard
 #>
 function Get-Weather{
-    [OutputType([String])]
-    [CmdletBinding()]
+    [OutputType([System.String])]
+    [CmdletBinding(DefaultParameterSetName = 'NoParameter')]
     param(
-        [string]$City,
+        [Parameter(ParameterSetName='Default', Position=0)]
+        [Parameter(ParameterSetName='Detailed', Position=0)]
+        [Parameter(ParameterSetName='Data', Position=0)]
+        [System.String]$City,
+        [Parameter(ParameterSetName='Detailed')]
         [switch]$Detailed,
+        [Parameter(ParameterSetName='Data')]
         [switch]$Data,
-        [ValidateSet(“standard”,”metric”,”imperial”)]
-        [string]$Units,
+        [Parameter(ParameterSetName='Default')]
+        [Parameter(ParameterSetName='Detailed')]
+        [Parameter(ParameterSetName='Data')]
+        [ValidateSet('standard','metric','imperial')]
+        [System.String]$Units,
+        [Parameter(ParameterSetName='DefaultSettings')]
         [switch]$RestoreDefaultConfig,
-        [string]$SetDefaultCity,
-        [string]$SetAppId,
-        [ValidateSet(“standard”,”metric”,”imperial”)]
-        [string]$SetDefaultUnits  ,
-        [ValidateSet(“enable”,”disable”)]
-        [string]$Geolocalization
+        [Parameter(ParameterSetName='Settings')]
+        [System.String]$SetDefaultCity,
+        [Parameter(ParameterSetName='Settings')]
+        [ValidateSet('standard','metric','imperial')]
+        [System.String]$SetUnits,
+        [Parameter(ParameterSetName='Settings')]
+        [ValidateSet('enable','disable')]
+        [System.String]$Geolocalization,
+        [Parameter(ParameterSetName='Settings')]
+        [System.String]$SetAppId
     )
     if($RestoreDefaultConfig){
         Remove-Config $PSScriptRoot
@@ -69,10 +82,10 @@ function Get-Weather{
       Set-ConfigField $PSScriptRoot "AppId" $SetAppId
       $AppId = $SetAppId
     }
-    if($SetDefaultUnits){
+    if($SetUnits){
         Write-Verbose "Setting default units."
-        Set-ConfigField $PSScriptRoot "Units" $SetDefaultUnits
-        $Units = $SetDefaultUnits
+        Set-ConfigField $PSScriptRoot "Units" $SetUnits
+        $Units = $SetUnits
     }
     if($Geolocalization -like "enable"){
         Write-Verbose "Enabling geolocalization."
@@ -148,10 +161,10 @@ function Get-UnitSymbol{
     param(
         [Parameter(Mandatory=$true)]
         [ValidateSet(“standard”,”metric”,”imperial”)]
-        [string]$Units,
+        [System.String]$Units,
         [Parameter(Mandatory=$true)]
         [ValidateSet(“T”,”V”)]
-        [string]$Size
+        [System.String]$Size
     )
     if($Size -like "T"){
         if($Units -like "metric"){

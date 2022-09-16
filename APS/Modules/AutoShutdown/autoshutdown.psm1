@@ -1,16 +1,16 @@
 <#
 .SYNOPSIS
-Shuts down the computer.
+Stops (shuts down) local computer at a specified time.
 .DESCRIPTION
-Shuts down the computer after 2 hours or after the time specified in the parameters.
+The ``Stop-ComputerLater`` cmdlet shuts down the local computer after two hours by default. You can use the parameters of Stop-ComputerLater to specify the shutdown time or cancel a scheduled shutdown. A minute before the computer is stopped, a notification will be displayed.
 .PARAMETER Minutes
-Enter the number of minutes until system shutdown.
+Specifies the time in minutes until the computer stops. Default 120 minutes.
 .PARAMETER Cancel
-Cancel current shutdown.
+Cancels a scheduled computer shutdown.
 .PARAMETER ShutdownNow
 Shuts down the computer now.
 .PARAMETER ShutdownInMinute
-Shuts down the computer in minue.
+Shuts down the computer in a minue.
 .EXAMPLE
 Stop-ComputrLater
 .EXAMPLE
@@ -22,9 +22,13 @@ function Stop-ComputerLater{
     [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
     [CmdletBinding(SupportsShouldProcess)]
     Param(
-        [string]$Minutes = 120,
+        [Parameter(ParameterSetName='Default', Position=0)]
+        [System.String]$Minutes = 120,
+        [Parameter(ParameterSetName='Cancle')]
         [switch]$Cancel,
+        [Parameter(ParameterSetName='ShutdownNow')]
         [switch]$ShutdownNow,
+        [Parameter(ParameterSetName='ShutdownInMinute')]
         [switch]$ShutdownInMinute
     )
     if($Minutes -eq 0){

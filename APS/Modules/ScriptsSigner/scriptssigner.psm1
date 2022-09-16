@@ -1,18 +1,18 @@
 ﻿<#
 .SYNOPSIS
-Signs the script with my certificate
+Adds an Authenticode signature to a PowerShell script or other file.
 .DESCRIPTION
-Signs the script passed by the parameter
+The ``Add-Signature`` cmdlet adds an Authenticode signature to the specified file using the installed local certificate. If no certificate is installed, the user is asked if he wants to create a new local certificate. In a PowerShell script file, the signature takes the form of a block of text that indicates the end of the instructions that are executed in the script. If there is a signature in the file when this cmdlet runs, that signature is removed.
 .PARAMETER File
-Enter the path to the file
+Specifies the file to be signed. If a directory is selected, all scripts in it and in subdirectories will be signed.
 .EXAMPLE
-.\Add-Signature.ps1 -File .\scriptToSign.ps1
+Add-Signature -File ".\scriptToSign.ps1"
 #>
 function Add-Signature{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
-        [string]$File
+        [System.String]$File
     )
     if(@(Get-ChildItem cert:\CurrentUser\My -codesigning).Length -gt 0){
         if((Get-ChildItem cert:\CurrentUser\My -codesigning).Length -eq 1){
@@ -82,9 +82,11 @@ function Add-Signature{
 
 <#
 .SYNOPSIS
-Removes the signature.
+Removes the script signature.
+.DESCRIPTION
+If the indicated file has a signature block it will be removed.
 .PARAMETER File
-Enter the path of the script to remove the signature.
+Specifies the file to remove the signature.
 .EXAMPLE
 .\Remove-Signature.ps1 -File .\scriptNmae.ps1
 #>
@@ -92,7 +94,7 @@ function Remove-Signature{
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory=$true)]
-        [string]$File
+        [System.String]$File
     )
     if((Get-Content $File).Contains("# SIG # Begin signature block")){
         try{

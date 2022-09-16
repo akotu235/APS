@@ -2,9 +2,9 @@
 .SYNOPSIS
 Generates public and private key for encryption.
 .DESCRIPTION
-Generates a pair of RSA keys with a length of 4096 bits.
+Generates a 4096-bit RSA key pair and places them in the appropriate certificate stores. The keys are also saved in the ``$HOME\.keys`` location, and the private key is password protected. The public key is used to encrypt the message using the ``Protect-Message`` cmdlet and the corresponding private key is used to decrypt it using the ``Unprotect-Message`` cemdlet.
 .PARAMETER Name
-Enter the name of the certificate.
+Specifies the name of the certificate. This name will be used by users who encrypt the message with the public key.
 .EXAMPLE
 New-EncryptionKey "CertificateName"
 #>
@@ -12,7 +12,7 @@ function New-EncryptionKey{
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$Name
+        [System.String]$Name
     )
     $store = "cert:\CurrentUser\My"
     $params = @{
@@ -48,17 +48,17 @@ function New-EncryptionKey{
 Encrypts the message.
 .DESCRIPTION
 Encrypts the message with the indicated rsa public key and copies it to the clipboard.
-.PARAMETER Name
-Enter your message.
+.PARAMETER Message
+Specifies the message to encrypt.
 .EXAMPLE
 Protect-Message "<secret>"
 #>
 function Protect-Message{
-    [OutputType([String])]
+    [OutputType([System.String])]
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$Message
+        [System.String]$Message
     )
     $storageCA = Get-ChildItem Cert:\CurrentUser\CA -DocumentEncryptionCert | Where-Object Subject -Like "CN=APS_*"
     if($storageCA){
@@ -91,15 +91,15 @@ Decrypts the message.
 .DESCRIPTION
 Decrypts the message if the appropriate private key is installed.
 .PARAMETER Name
-Enter an decrypted message.
+Specify an encrypted message.
 .EXAMPLE
-Unprotect-Message "<decrypted message>"
+Unprotect-Message "<encrypted message>"
 #>
 function Unprotect-Message{
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$true)]
-        [string]$Message
+        [System.String]$Message
     )
     $Message = "-----BEGIN CMS-----$($Message.Trim('"'))-----END CMS-----".Replace(";","`r`n")
     try{

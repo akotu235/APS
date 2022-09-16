@@ -2,21 +2,19 @@
 .SYNOPSIS
 Cleans the desktop.
 .DESCRIPTION
-Moves files to the desktop archive.
+Moves all files not in the exceptions list to the desktop archive.
 .PARAMETER Autorun
-Always run when user logs on.
+Runs cleanup on system startup.
 .PARAMETER Disable
 Disable autorun.
-.PARAMETER Skip
-Skip cleaning.
 .PARAMETER ExceptionList
-Opens the exception list in a txt file.
+Opens the exception list in the notepad.
 .PARAMETER AddException
-Adds the exception specified in the parameter to the list.
+Specifies the name of the exception to be added.
 .PARAMETER SetDefaultExceptionList
 Restores the default exception list.
 .PARAMETER SaveCurrentDesktopState
-Saves the desktop state to the exceptions list.
+Adds all files currently on the desktop to the exceptions.
 .PARAMETER Archives
 Opens the desktop archive in the file explorer.
 .EXAMPLE
@@ -24,30 +22,27 @@ Clear-Desktop
 .EXAMPLE
 Clear-Desktop -Autorun
 .EXAMPLE
-Clear-Desktop -Disable
-.EXAMPLE
-Clear-Desktop -Autorun -Skip
-.EXAMPLE
-Clear-Desktop -ExceptionList
-.EXAMPLE
-Clear-Desktop -AddException "filename"
-.EXAMPLE
 Clear-Desktop -SetDefaultExceptionList
 #>
 function Clear-Desktop{
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'NoParameter')]
     Param(
-    [switch]$Autorun,
-    [switch]$Disable,
-    [switch]$Skip,
-    [switch]$ExceptionList,
-    [switch]$SaveCurrentDesktopState,
-    [switch]$SetDefaultExceptionList,
-    [switch]$Archives,
-    [string]$AddException
+        [Parameter(ParameterSetName='Settings')]
+        [Parameter(ParameterSetName='Autorun')]
+        [switch]$Autorun,
+        [Parameter(ParameterSetName='Disable')]
+        [switch]$Disable,
+        [switch]$ExceptionList,
+        [Parameter(ParameterSetName='Settings')]
+        [switch]$SaveCurrentDesktopState,
+        [Parameter(ParameterSetName='SetDefaultSettings')]
+        [switch]$SetDefaultExceptionList,
+        [switch]$Archives,
+        [Parameter(ParameterSetName='Settings')]
+        [System.String]$AddException
     )
     $ExceptionsFile = "$HOME\AppData\Local\APS\Configuration\desktopcleaner.exceptions.txt"
-    $ArchivesDir ="$HOME\Archiwum pulpitu\"
+    $ArchivesDir ="$HOME\Desktop archive\"
     if($ExceptionList){
         $Skip=$true
         Write-Verbose "The exception list has been opened with a notepad."

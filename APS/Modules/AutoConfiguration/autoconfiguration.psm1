@@ -4,9 +4,9 @@ Run as administrator.
 .DESCRIPTION
 Opens a new powershell session as administrator and executes the script block specified in the parameter.
 .PARAMETER ScriptBlock
-Enter the script block to run as administrator.
+Specifies the commands to run as administrator. Enclose the commands in braces (``{ }``) to create a script block.
 .PARAMETER NoExit
-If set, do not close powershell window after task execution.
+Does not exit after running commands.
 .EXAMPLE
 Confirm-Admin -ScriptBlock {Start-Service sshd}
 #>
@@ -14,7 +14,7 @@ function Confirm-Admin{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
-        [string]$ScriptBlock,
+        [System.String]$ScriptBlock,
         [switch]$NoExit = $true
     )
     #Script block prepare
@@ -64,7 +64,7 @@ function Test-Admin {
 
 <#
 .SYNOPSIS
-Installs and configures OpenSSH
+Installs and configures OpenSSH.
 .DESCRIPTION
 Installs OpenSSH.Client.
 Installs OpenSSH.Server.
@@ -105,7 +105,9 @@ function Install-SSH {
 
 <#
 .SYNOPSIS
-Secures SSH
+Secures SSH.
+.DESCRIPTION
+Configures pubkey authentication.
 .EXAMPLE
 Protect-SSH
 #>
@@ -131,7 +133,7 @@ function Protect-SSH{
 
 function Get-AutoConfigurationPath{
     param(
-        [string]$Name = ""
+        [System.String]$Name = ""
     )
     return "$PSScriptRoot\$Name"
 }
@@ -139,13 +141,15 @@ function Get-AutoConfigurationPath{
 <#
 .SYNOPSIS
 Creates a new code signing certificate.
+.DESCRIPTION
+Creates and secures a script signing certificate and places it in the appropriate certificate store.
 .EXAMPLE
 New-CodeSigningCert
 #>
 function New-CodeSigningCert{
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [string]$Name = "PowerShell Local CA"
+        [System.String]$Name = "PowerShell Local CA"
     )
     while(Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert | Where-Object Subject -Like "CN=$Name"){
         $Name = Read-Host -Prompt "A certificate with this name already exists, please enter a different name"

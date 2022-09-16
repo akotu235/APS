@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-Find the phrase in the file.
+Searches for a phrase in a file.
 .DESCRIPTION
 Searches a file line by line without consuming RAM memory.
 .PARAMETER Phrase
-Enter a search term.
+Specifies the search term.
 .PARAMETER Path
-Enter a file path.
+Specifies the path to the file or directory to be searched.
 .PARAMETER Recurse
-Gets the items in the specified locations and in all child items of the locations.
+Searches for items in specified locations and in all location children.
 .PARAMETER AsSecure
-Set if you want to hide the searched phrase.
+Hides the searched phrase.
 .PARAMETER CaseSensitive
-Be case sensitive.
+Matches a case-sensitive phrase.
 .PARAMETER StopWhenFinds
 Stops searching after the first found item.
 .EXAMPLE
@@ -22,18 +22,21 @@ function Search-InFile{
     [OutputType([System.Boolean])]
     [CmdletBinding()]
     param(
-        [string]$Phrase,
-        [string]$Path = ".\",
-        [switch]$Recurse,
-        [switch]$RegularExpression,
+        [SupportsWildcards()]
+        [Parameter(ParameterSetName='Default', Position=0)]
+        [System.String]$Phrase,
+        [Parameter(ParameterSetName='AsSecure')]
         [switch]$AsSecure,
+        [System.String]$Path = ".\",
+        [switch]$Recurse,
         [switch]$CaseSensitive,
+        [Parameter(ParameterSetName='Default')]
         [switch]$StopWhenFinds
     )
     $DisplayResult = {
         param (
             [Parameter(Mandatory)]
-            [string]$startTime,
+            [System.String]$startTime,
             [int]$occurrence,
             [int]$scannedCount
         )
@@ -46,9 +49,9 @@ function Search-InFile{
     $DisplayLine = {
         param (
             [Parameter(Mandatory)]
-            [string]$highlighted,
+            [System.String]$highlighted,
             [Parameter(Mandatory)]
-            [string]$row,
+            [System.String]$row,
             [int]$number,
             [switch]$CaseSensitive
         )

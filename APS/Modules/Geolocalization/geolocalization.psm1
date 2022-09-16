@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-Shows the locations based on the network.
+Shows location information based on the network.
 .DESCRIPTION
-Gets data from ip-api.com.
+If given without parameters, the ``Get-Geolocation`` cmdlet will return all data retrieved from ip-api.com such as: country, region, city, zip code, co-ordinates, timezone, isp name and ip addres
 .PARAMETER City
-Returns the city of your location.
+Returns the city name of your location.
 .EXAMPLE
 Get-Geolocation
 .EXAMPLE

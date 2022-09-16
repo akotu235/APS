@@ -1,6 +1,8 @@
 <#
 .SYNOPSIS
-Reads the given text.
+Changes text to speech.
+.DESCRIPTION
+Speaks the text specified in the parameter aloud.
 .EXAMPLE
 Use-Speech "hello"
 #>
@@ -8,7 +10,7 @@ function Use-Speech {
     [CmdletBinding()]
     Param(
     [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
-    [string]$TextToSay
+    [System.String]$TextToSpeech
     )
     Start-Job {
         $sc = New-Object -ComObject MSScriptControl.ScriptControl.1
@@ -20,5 +22,5 @@ function Use-Speech {
             End Function
         ')
         $sc.codeobject.Speech("$args")
-    } -ArgumentList $TextToSay -RunAs32 | Wait-Job | Receive-Job
+    } -ArgumentList $TextToSpeech -RunAs32 | Wait-Job | Receive-Job
 }

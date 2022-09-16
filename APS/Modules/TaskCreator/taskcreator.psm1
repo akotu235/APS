@@ -1,18 +1,18 @@
 <#
 .SYNOPSIS
-Creates a new task.
+Registers a scheduled task definition on a local computer.
 .DESCRIPTION
-Executes the Powershell command at the given time.
+The ``New-APSTask`` cmdlet registers a scheduled task definition on a local computer. This task executes PowerShell commands at the specified time.
 .PARAMETER Command
-Enter powershell command for execution.
+Specifies the commands to be executed.
 .PARAMETER StartTime
-Specify the start time of the task.
+Defines the execution time of the commands given in the ``-Command`` parameter.
 .PARAMETER TaskName
-Enter a name for the task.
+Specifies the name of the task. By default APS Task (<cmdlet>).
 .PARAMETER WindowStyle
-Set the window style for the session. Valid values are Normal, Minimized, Maximized and Hidden. Default value: Hidden.
+Set the window style for the session. Valid values are Normal, Minimized, Maximized and Hidden. Default Hidden.
 .PARAMETER Save
-Keep the task in the task schedule.
+Specifies whether the task after execution is to be kept in the task schedule.
 .EXAMPLE
 New-APSTask -Command '[console]::beep(5000,3500)' -StartTime 6:00:00 -TaskName "Alarm"
 #>
@@ -20,11 +20,11 @@ function New-APSTask {
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
-        [string]$Command,
+        [System.String]$Command,
         [System.DateTime]$StartTime = $((Get-Date).AddSeconds(3)),
-        [string]$TaskName = "APS Task($($Command.TrimStart('"& {').Split(" ")[0]))",
+        [System.String]$TaskName = "APS Task($($Command.TrimStart('"& {').Split(" ")[0]))",
         [ValidateSet(“Normal","Minimized","Maximized","Hidden")]
-        [string]$WindowStyle = "Hidden",
+        [System.String]$WindowStyle = "Hidden",
         [switch]$Save
     )
     $Command = " & { $Command }"

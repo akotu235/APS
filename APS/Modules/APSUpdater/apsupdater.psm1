@@ -3,6 +3,8 @@
 Updates APS.
 .DESCRIPTION
 Downloads and installs the latest APS from the PowerShell Gallery.
+.PARAMETER Force
+Forces the command to run without asking for user confirmation.
 .EXAMPLE
 Update-APS
 #>
@@ -26,8 +28,6 @@ function Update-APS{
 <#
 .SYNOPSIS
 Gets the latest APS version number from the PowerShell Gallery.
-.EXAMPLE
-Get-APSCurrentVersion
 #>
 function Get-APSCurrentVersion{
     $url = "https://www.powershellgallery.com/packages/APS/?dummy=$(Get-Random)"

@@ -1,11 +1,27 @@
+<#
+.SYNOPSIS
+Returns the settings.
+.DESCRIPTION
+Returns configuration of the given module or contained in the indicated xml file.
+.PARAMETER ModuleBase
+Specifies the location of the module.
+.PARAMETER Field
+Returns a single setting field based on the name.
+.PARAMETER ConfigPath
+Specifies a custom settings file path.
+.PARAMETER FileName
+Specifies a custom name for the settings file.
+.EXAMPLE
+Get-Config $ModuleBase
+#>
 function Get-Config{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$ModuleBase,
-        [string]$Field,
-        [string]$ConfigPath,
-        [string]$FileName
+        [System.String]$ModuleBase,
+        [System.String]$Field,
+        [System.String]$ConfigPath,
+        [System.String]$FileName
     )
     if($ConfigPath = (Get-ConfigPath $ModuleBase -FileName $FileName -ConfigPath $ConfigPath)){
         [psobject]$Config = Import-Clixml -Path (Get-ConfigPath $ModuleBase -FileName $FileName -ConfigPath $ConfigPath -SkipTest)
@@ -25,17 +41,35 @@ function Get-Config{
     }
 }
 
+<#
+.SYNOPSIS
+Sets a single field in the settings file.
+.DESCRIPTION
+Creates a new field or overwrites an existing one in the settings file. Returns an updated psobject configuration.
+.PARAMETER ModuleBase
+Specifies the location of the module.
+.PARAMETER Field
+Specifies the name of the setting to save. If it already exists, it overwrites it.
+.PARAMETER Value
+Specifies the setting value for the field.
+.PARAMETER ConfigPath
+Specifies a custom settings file path.
+.PARAMETER FileName
+Specifies a custom name for the settings file.
+.EXAMPLE
+Set-ConfigField $ModuleBase "Field" "Value"
+#>
 function Set-ConfigField{
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$ModuleBase,
+        [System.String]$ModuleBase,
         [Parameter(Mandatory = $true)]
-        [string]$Field,
+        [System.String]$Field,
         [Parameter(Mandatory = $true)]
-        [string]$Value,
-        [string]$ConfigPath,
-        [string]$FileName
+        [System.String]$Value,
+        [System.String]$ConfigPath,
+        [System.String]$FileName
     )
     $Config = Get-Config $ModuleBase -FileName $FileName -ConfigPath $ConfigPath
     Write-Verbose "Setting the $Field configuration field on a module $(@($ModuleBase.Split("\"))[-1])."
@@ -50,14 +84,30 @@ function Set-ConfigField{
     return (Save-Config $ModuleBase -Config $Config -FileName $FileName -ConfigPath $ConfigPath)
 }
 
+<#
+.SYNOPSIS
+Deletes a configuration file or a single configuration field.
+.DESCRIPTION
+Deletes the configuration file, unless a specific field is specified. Returns the current configuration or ``$null``.
+.PARAMETER ModuleBase
+Specifies the location of the module.
+.PARAMETER Field
+Specifies the name of the field to be deleted.
+.PARAMETER ConfigPath
+Specifies a custom settings file path.
+.PARAMETER FileName
+Specifies a custom name for the settings file.
+.EXAMPLE
+Remove-Config $ModuleBase "Field"
+#>
 function Remove-Config{
     [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$ModuleBase,
-        [string]$Field,
-        [string]$ConfigPath,
-        [string]$FileName
+        [System.String]$ModuleBase,
+        [System.String]$Field,
+        [System.String]$ConfigPath,
+        [System.String]$FileName
     )
     if($Config = Get-Config $ModuleBase -FileName $FileName -ConfigPath $ConfigPath){
         if($Field){
@@ -75,15 +125,31 @@ function Remove-Config{
     }
 }
 
+<#
+.SYNOPSIS
+Creates a configuration file.
+.DESCRIPTION
+Creates a configuration file or overwrites an existing one. Returns the current configuration.
+.PARAMETER ModuleBase
+Specifies the location of the module.
+.PARAMETER Config
+Specifies the psobject type configurations to save.
+.PARAMETER ConfigPath
+Specifies a custom settings file path.
+.PARAMETER FileName
+Specifies a custom name for the settings file.
+.EXAMPLE
+Save-Config $ModuleBase $Config
+#>
 function Save-Config{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$ModuleBase,
+        [System.String]$ModuleBase,
         [Parameter(Mandatory = $true)]
         [psobject]$Config,
-        [string]$ConfigPath,
-        [string]$FileName
+        [System.String]$ConfigPath,
+        [System.String]$FileName
     )
     Write-Verbose "Saving $(@($ModuleBase.Split("\"))[-1]) config."
     $DestPath = Get-ConfigPath $ModuleBase -FileName $FileName -ConfigPath $ConfigPath -SkipTest
@@ -95,13 +161,29 @@ function Save-Config{
     return $Config
 }
 
+<#
+.SYNOPSIS
+Returns the path of the configuration file.
+.DESCRIPTION
+Returns the path of the configuration file. If ``-SkipTest`` is not set and the file does not exist returns ``$null``
+.PARAMETER ModuleBase
+Specifies the location of the module.
+.PARAMETER ConfigPath
+Specifies a custom settings file path.
+.PARAMETER FileName
+Specifies a custom name for the settings file.
+.PARAMETER SkipTest
+Skips checking for the existence of a configuration file.
+.EXAMPLE
+Get-ConfigPath $ModuleBase
+#>
 function Get-ConfigPath{
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
-        [string]$ModuleBase,
-        [string]$ConfigPath,
-        [string]$FileName,
+        [System.String]$ModuleBase,
+        [System.String]$ConfigPath,
+        [System.String]$FileName,
         [switch]$SkipTest
     )
     if(!$FileName){
