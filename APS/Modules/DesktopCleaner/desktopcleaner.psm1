@@ -27,19 +27,16 @@ Clear-Desktop -SetDefaultExceptionList
 function Clear-Desktop{
     [CmdletBinding(DefaultParameterSetName = 'NoParameter')]
     Param(
-        [Parameter(ParameterSetName='Settings')]
-        [Parameter(ParameterSetName='Autorun')]
+        [Parameter(Mandatory = $true, ParameterSetName='Autorun')]
         [switch]$Autorun,
-        [Parameter(ParameterSetName='Disable')]
+        [Parameter(Mandatory = $true, ParameterSetName='Disable')]
         [switch]$Disable,
-        [switch]$ExceptionList,
-        [Parameter(ParameterSetName='Settings')]
-        [switch]$SaveCurrentDesktopState,
-        [Parameter(ParameterSetName='SetDefaultSettings')]
         [switch]$SetDefaultExceptionList,
-        [switch]$Archives,
-        [Parameter(ParameterSetName='Settings')]
-        [System.String]$AddException
+        [switch]$ExceptionList,
+        [switch]$SaveCurrentDesktopState,
+        [System.String]$AddException,
+        [switch]$Archives
+        
     )
     $ExceptionsFile = "$HOME\AppData\Local\APS\Configuration\desktopcleaner.exceptions.txt"
     $ArchivesDir ="$HOME\Desktop archive\"
