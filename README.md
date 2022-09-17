@@ -10,109 +10,28 @@ Run the command below in PowerShell.
 ```Powershell
 Install-Script -Name APS.Installer -Scope CurrentUser;Set-ExecutionPolicy Bypass -Scope Process -Force;& "$((Get-InstalledScript -Name APS.Installer).InstalledLocation)\APS.Installer.ps1";exit
 ```
+
 ## Update
 Upgrade to the latest version using the command:
 ```Powershell
 Update-APS
 ```
+
 ## Modules
-<details>
-  <summary>APSUpdater</summary>
-  <ol>
-    <ul>Updates APS to the latest version.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>AutoConfiguration</summary>
-  <ol>
-    <ul>Simplifies setup.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>AutoShutdown</summary>
-  <ol>
-    <ul>Shuts down the computer at a specified time.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>ConfigMenager</summary>
-  <ol>
-    <ul>It facilitates the management of configuration files. Loads, updates and deletes settings.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>DesktopCleaner</summary>
-  <ol>
-    <ul>Keeps your desktop tidy. Moves unnecessary files from the desktop to the archive.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>Geolocalization</summary>
-  <ol>
-    <ul>Provides geolocation information based on the network.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>Greeter</summary>
-  <ol>
-    <ul>Displays useful information when PowerShell starts up.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>MessageEncoder</summary>
-  <ol>
-    <ul>It encrypts and decrypts secret messages.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>Notifier</summary>
-  <ol>
-    <ul>Creates and displays notifications at the specified time.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>ScriptsSigner</summary>
-  <ol>
-    <ul>It is used to sign scripts.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>Speaker</summary>
-  <ol>
-    <ul>Converts text to speech.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>TaskCreator</summary>
-  <ol>
-    <ul>Creates tasks and runs them at the specified time.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>TextFinder</summary>
-  <ol>
-    <ul>Searches text files for the specified phrase.</ul>
-  </ol>
-</details>
-
-<details>
-  <summary>Weather</summary>
-  <ol>
-    <ul>Checks the current weather.</ul>
-  </ol>
-</details>
+### [APSUpdater](https://github.com/akotu235/APS/blob/master/Docs/Modules/APSUpdater/APSUpdater.md)
+### [AutoConfiguration](https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/AutoConfiguration.md)
+### [AutoShutdown](https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoShutdown/AutoShutdown.md)
+### [ConfigMenager](https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigMenager/ConfigMenager.md)
+### [DesktopCleaner](https://github.com/akotu235/APS/blob/master/Docs/Modules/DesktopCleaner/DesktopCleaner.md)
+### [Geolocalization](https://github.com/akotu235/APS/blob/master/Docs/Modules/Geolocalization/Geolocalization.md)
+### [Greeter](https://github.com/akotu235/APS/blob/master/Docs/Modules/Greeter/Greeter.md)
+### [MessageEncoder](https://github.com/akotu235/APS/blob/master/Docs/Modules/MessageEncoder/MessageEncoder.md)
+### [Notifier](https://github.com/akotu235/APS/blob/master/Docs/Modules/Notifier/Notifier.md)
+### [ScriptsSigner](https://github.com/akotu235/APS/blob/master/Docs/Modules/ScriptsSigner/ScriptsSigner.md)
+### [Speaker](https://github.com/akotu235/APS/blob/master/Docs/Modules/Speaker/Speaker.md)
+### [TaskCreator](https://github.com/akotu235/APS/blob/master/Docs/Modules/TaskCreator/TaskCreator.md)
+### [TextFinder](https://github.com/akotu235/APS/blob/master/Docs/Modules/TextFinder/TextFinder.md)
+### [Weather](https://github.com/akotu235/APS/blob/master/Docs/Modules/Weather/Weather.md)
 
 ## License
 Distributed under the MIT License. See [LICENSE.md](https://github.com/akotu235/APS/blob/master/LICENSE.md) for more information.
