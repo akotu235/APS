@@ -28,10 +28,9 @@ function New-EncryptionKey{
     $keysDir = "$HOME\.keys"
     $privateKey = "$keysDir\My\$Name.pfx"
     $publicKey = "$keysDir\My\$Name.pub.cer"
-    mkdir "$keysDir\My" -Force >> $null
-    $keyPassword = (Read-Host -AsSecureString -Prompt "Create a key password")
-    Export-PfxCertificate -FilePath $privateKey -Cert $cert -Password $keyPassword
-    Export-Certificate -FilePath $publicKey -Cert $cert
+    $keyPassword = Read-Password
+    Export-PfxCertificate -FilePath $privateKey -Cert $cert -Password $keyPassword -Force
+    Export-Certificate -FilePath $publicKey -Cert $cert -Force
     explorer.exe "$keysDir\My"
     $cert | Remove-Item
     try{
@@ -41,6 +40,9 @@ function New-EncryptionKey{
         Import-PfxCertificate -FilePath $privateKey -CertStoreLocation $store -Password $keyPassword
     }
     Get-ChildItem Cert:\CurrentUser\CA | Where-Object Subject -Like "CN=APS_$Name" | Remove-Item
+}
+function Read-Password{
+    return Read-Host -AsSecureString -Prompt "Create a key password"
 }
 
 <#
@@ -68,21 +70,24 @@ function Protect-Message{
     }
     $encryptionCerts = Get-ChildItem Cert:\CurrentUser\My -DocumentEncryptionCert
     if($encryptionCerts.Count -eq 0){
-        Write-Output "No encryption certificates"
+        Write-Host "No encryption certificates!" -ForegroundColor Red
     }
     else{
         Write-Output "Installed certificates:"
         $encryptionCerts | ForEach-Object {$_.Subject.TrimStart("CN=APS_")}
-        $CN = Read-Host -Prompt "Enter the name of the encryption certificate"
-        if($CN -notlike "CN=APS_*"){
-            $CN = "CN=APS_$CN"
-        }
-        $cipher = $Message | Protect-CmsMessage -To $CN
-        Write-Output "Cipher:" -ForegroundColor Green
+        $cipher = $Message | Protect-CmsMessage -To $(Read-Key)
+        Write-Host "Cipher:" -ForegroundColor Green
         $cipher = "`"$($cipher.Replace("`r`n",";").Replace("`n",";").TrimStart("-----BEGIN CMS-----").TrimEnd("-----END CMS-----"))`""
-        $cipher
         Set-Clipboard -Value $cipher
+        return $cipher
     }
+}
+function Read-Key{
+    $CN = Read-Host -Prompt "Enter the name of the encryption certificate"
+    if($CN -notlike "CN=APS_*"){
+        $CN = "CN=APS_$CN"
+    }
+    return $CN
 }
 
 <#
