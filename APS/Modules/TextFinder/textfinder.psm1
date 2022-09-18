@@ -135,7 +135,7 @@ function Search-InFile{
         $scannedCount++
         $currentStartTime = Get-Date
         $currentOccurrence = 0
-        $currentLine = 0
+        $currentLine = 1
         $currentFile = $f.FullName
         if($CaseSensitive){
             foreach($line in [System.IO.File]::ReadLines($currentFile)){
