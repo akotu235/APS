@@ -33,84 +33,8 @@ function Search-InFile{
         [Parameter(ParameterSetName='Default')]
         [switch]$StopWhenFinds
     )
-    $DisplayResult = {
-        param (
-            [Parameter(Mandatory)]
-            [System.String]$startTime,
-            [int]$occurrence,
-            [int]$scannedCount
-        )
-        $result = "found: $(if(-not $AsSecure){"$occurrence "}else{[boolean]$occurrence}), time: $(&$TimeMeasurement $startTime)"
-        if($scannedCount){
-            $result = "scanned: $scannedCount, $result"
-        }
-        Write-Output "$result`n"
-    }
-    $DisplayLine = {
-        param (
-            [Parameter(Mandatory)]
-            [System.String]$highlighted,
-            [Parameter(Mandatory)]
-            [System.String]$row,
-            [int]$number,
-            [switch]$CaseSensitive
-        )
-        if($number){
-            Write-Host "[$number] " -NoNewline
-        }
-        $itab = @()
-        $c=0
-        if($CaseSensitive){
-            $tline = $row
-            while($tline.Contains($highlighted)){
-                $itab += $tline.IndexOf("$highlighted")
-                $tline = $tline.Remove($itab[-1], $highlighted.Length)
-                $itab[-1] = $itab[-1] + ($highlighted.Length)*$c
-                $c++
-            }
-        }
-        else{
-            $tline = $row.ToLower()
-            $thighlighted = $highlighted.ToLower()
-            while($tline.Contains($thighlighted)){
-                $itab += $tline.IndexOf("$thighlighted")
-                $tline = $tline.Remove($itab[-1], $highlighted.Length)
-                $itab[-1] = $itab[-1] + ($highlighted.Length)*$c
-                $c++
-            }
-        }
-        $c = 0
-        foreach($i in $itab){
-            $j=$i-$c
-            Write-Host $row.Substring($c, $j) -NoNewline
-            Write-Host $row.Substring($c+$j, $highlighted.Length) -NoNewline -BackgroundColor Yellow -ForegroundColor Black
-            $c+=($highlighted.Length)+$j
-        }
-        Write-Host $row.Substring($c) -ErrorAction Continue
-    }
-    $TimeMeasurement = {
-        param (
-            [Parameter(Mandatory)]
-            [System.DateTime]$startTime
-        )
-        $endTime = Get-Date
-        $totalTime = $endTime - $startTime
-        if($endTime -lt $startTime.AddSeconds(5)){
-            return "$($totalTime.TotalSeconds) sec"
-        }
-        elseif($endTime -lt $startTime.AddMinutes(1)){
-            return "$([int]$totalTime.Seconds) sec"
-        }
-        elseif($endTime -lt $startTime.AddHours(1)){
-            return "$($totalTime.Minutes) min $($totalTime.ToString('ss')) sec"
-        }
-        else{
-            return "$([int]($totalTime.TotalHours)) h $($totalTime.ToString('mm')) min $($totalTime.ToString('ss')) sec"
-        }
-    }
     if($AsSecure){
-        $SecurePhrase = Read-Host "Enter a search term" -AsSecureString
-        $Phrase = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($SecurePhrase))
+        $Phrase = Read-Secure
     }
     else{
         if(!$Phrase){
@@ -143,7 +67,7 @@ function Search-InFile{
                     $occurrence++
                     $currentOccurrence++
                     if(-not $AsSecure){
-                        &$DisplayLine $Phrase $line.Trim() $currentLine
+                        Write-Line -highlighted $Phrase -row $line.Trim() -number $currentLine -caseSensitive:$CaseSensitive
                     }
                     if($StopWhenFinds){
                         break
@@ -166,7 +90,7 @@ function Search-InFile{
                     $occurrence++
                     $currentOccurrence++
                     if(-not $AsSecure){
-                        &$DisplayLine $Phrase $line.Trim() $currentLine
+                        Write-Line -highlighted $Phrase -row $line.Trim() -number $currentLine -caseSensitive:$CaseSensitive
                     }
                     if($StopWhenFinds){
                         break
@@ -185,10 +109,93 @@ function Search-InFile{
                 $currentLine++
             }
         }
-        &$DisplayResult $currentStartTime $currentOccurrence
+        Write-Result $currentStartTime $currentOccurrence
     }
     if($File.PSIsContainer){
-        &$DisplayResult $startTime $occurrence $scannedCount
+        Write-Result $startTime $occurrence $scannedCount
     }
     return [boolean]$occurrence
+}
+
+function Read-Secure{
+    return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($(Read-Host "Enter a search term" -AsSecureString)))
+}
+
+function Write-Result{
+    param (
+        [Parameter(Mandatory)]
+        [System.String]$startTime,
+        [int]$occurrence,
+        [int]$scannedCount
+    )
+    $result = "found: $(if(-not $AsSecure){"$occurrence "}else{[boolean]$occurrence}), time: $(Measure-Time $startTime)"
+    if($scannedCount){
+        $result = "scanned: $scannedCount, $result"
+    }
+    Write-Output "$result`n"
+}
+
+function Write-Line{
+    param (
+        [Parameter(Mandatory)]
+        [System.String]$highlighted,
+        [Parameter(Mandatory)]
+        [System.String]$row,
+        [int]$number,
+        [switch]$caseSensitive
+    )
+    if($number){
+        Write-Host "[$number] " -NoNewline
+    }
+    $itab = @()
+    $c=0
+    if($caseSensitive){
+        $tline = $row
+        while($tline.Contains($highlighted)){
+            $itab += $tline.IndexOf("$highlighted")
+            $tline = $tline.Remove($itab[-1], $highlighted.Length)
+            $itab[-1] = $itab[-1] + ($highlighted.Length)*$c
+            $c++
+        }
+    }
+    else{
+        $tline = $row.ToLower()
+        $thighlighted = $highlighted.ToLower()
+        while($tline.Contains($thighlighted)){
+            $itab += $tline.IndexOf("$thighlighted")
+            $tline = $tline.Remove($itab[-1], $highlighted.Length)
+            $itab[-1] = $itab[-1] + ($highlighted.Length)*$c
+            $c++
+        }
+    }
+    $c = 0
+    foreach($i in $itab){
+        $j=$i-$c
+        Write-Host $row.Substring($c, $j) -NoNewline
+        Write-Host $row.Substring($c+$j, $highlighted.Length) -NoNewline -BackgroundColor Yellow -ForegroundColor Black
+        $c+=($highlighted.Length)+$j
+    }
+    Write-Host $row.Substring($c) -ErrorAction Continue
+}
+
+
+function Measure-Time{
+    param (
+        [Parameter(Mandatory)]
+        [System.DateTime]$startTime
+    )
+    $endTime = Get-Date
+    $totalTime = $endTime - $startTime
+    if($endTime -lt $startTime.AddSeconds(5)){
+        return "$($totalTime.TotalSeconds) sec"
+    }
+    elseif($endTime -lt $startTime.AddMinutes(1)){
+        return "$([int]$totalTime.Seconds) sec"
+    }
+    elseif($endTime -lt $startTime.AddHours(1)){
+        return "$($totalTime.Minutes) min $($totalTime.ToString('ss')) sec"
+    }
+    else{
+        return "$([int]($totalTime.TotalHours)) h $($totalTime.ToString('mm')) min $($totalTime.ToString('ss')) sec"
+    }
 }
