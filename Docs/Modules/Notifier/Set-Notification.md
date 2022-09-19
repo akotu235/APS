@@ -5,9 +5,9 @@ Sets a notification.
 
 ## SYNTAX
 ```
-Set-Notification [-Text] <String> [-Time <DateTime>] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
-Set-Notification [-Text] <String> [-Time <DateTime>] [-OnlyVoiceNotification] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
-Set-Notification [-Text] <String> [-Time <DateTime>] [-VoiceNotification] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-Notification [-Text] <String> [[-Time] <DateTime>] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-Notification [-Text] <String> [[-Time] <DateTime>] [-OnlyVoiceNotification] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-Notification [-Text] <String> [[-Time] <DateTime>] [-VoiceNotification] [-Title <String>] [-Save] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +30,7 @@ Defines the time the message appears. If not set, the notification will show aft
 ```yaml
 Type: DateTime
 Required: false
-Position: named
+Position: 2
 Default value: $((Get-Date).AddSeconds(3))
 Accept pipeline input: false
 Accept wildcard characters: false

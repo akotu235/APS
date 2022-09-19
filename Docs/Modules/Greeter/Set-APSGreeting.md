@@ -5,6 +5,7 @@ Saves in the configuration file which information is to be displayed using the `
 
 ## SYNTAX
 ```
+Set-APSGreeting [-WhatIf] [-Confirm] [<CommonParameters>]
 Set-APSGreeting [-Default] [-WhatIf] [-Confirm] [<CommonParameters>]
 Set-APSGreeting [-Disable] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
