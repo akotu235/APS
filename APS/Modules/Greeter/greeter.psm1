@@ -49,7 +49,7 @@ Disables ``Show-APSGreeting`` functions.
 Set-APSGreeting
 #>
 function Set-APSGreeting{
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName="NoParameter")]
     param(
         [Parameter(ParameterSetName='Default')]
         [switch]$Default,
