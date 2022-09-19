@@ -5,7 +5,8 @@ Deletes a configuration file or a single configuration field.
 
 ## SYNTAX
 ```
-Remove-Config [-ModuleBase] <String> [[-Field] <String>] [[-ConfigPath] <String>] [[-FileName] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-Config [-ModuleBase] <String> [[-Field] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-Config [-CustomPath] <String> [[-Field] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,34 +24,23 @@ Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
+### -CustomPath
+
+```yaml
+Type: String
+Required: true
+Position: 1
+Default value: none
+Accept pipeline input: false
+Accept wildcard characters: false
+```
+
 ### -Field
 Specifies the name of the field to be deleted.
 ```yaml
 Type: String
 Required: false
 Position: 2
-Default value: none
-Accept pipeline input: false
-Accept wildcard characters: false
-```
-
-### -ConfigPath
-Specifies a custom settings file path.
-```yaml
-Type: String
-Required: false
-Position: 3
-Default value: none
-Accept pipeline input: false
-Accept wildcard characters: false
-```
-
-### -FileName
-Specifies a custom name for the settings file.
-```yaml
-Type: String
-Required: false
-Position: 4
 Default value: none
 Accept pipeline input: false
 Accept wildcard characters: false

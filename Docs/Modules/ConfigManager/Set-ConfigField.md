@@ -5,7 +5,8 @@ Sets a single field in the settings file.
 
 ## SYNTAX
 ```
-Set-ConfigField [-ModuleBase] <String> [-Field] <String> [-Value] <String> [[-ConfigPath] <String>] [[-FileName] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-ConfigField [-ModuleBase] <String> [-Field] <String> [-Value] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-ConfigField [-CustomPath] <String> [-Field] <String> [-Value] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -14,6 +15,17 @@ Creates a new field or overwrites an existing one in the settings file. Returns 
 
 ### -ModuleBase
 Specifies the location of the module.
+```yaml
+Type: String
+Required: true
+Position: 1
+Default value: none
+Accept pipeline input: false
+Accept wildcard characters: false
+```
+
+### -CustomPath
+Specifies a custom settings file path.
 ```yaml
 Type: String
 Required: true
@@ -40,28 +52,6 @@ Specifies the setting value for the field.
 Type: String
 Required: true
 Position: 3
-Default value: none
-Accept pipeline input: false
-Accept wildcard characters: false
-```
-
-### -ConfigPath
-Specifies a custom settings file path.
-```yaml
-Type: String
-Required: false
-Position: 4
-Default value: none
-Accept pipeline input: false
-Accept wildcard characters: false
-```
-
-### -FileName
-Specifies a custom name for the settings file.
-```yaml
-Type: String
-Required: false
-Position: 5
 Default value: none
 Accept pipeline input: false
 Accept wildcard characters: false

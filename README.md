@@ -21,7 +21,7 @@ Update-APS
 ### [APSUpdater](https://github.com/akotu235/APS/blob/master/Docs/Modules/APSUpdater/APSUpdater.md)
 ### [AutoConfiguration](https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/AutoConfiguration.md)
 ### [AutoShutdown](https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoShutdown/AutoShutdown.md)
-### [ConfigMenager](https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigMenager/ConfigMenager.md)
+### [ConfigManager](https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigManager/ConfigManager.md)
 ### [DesktopCleaner](https://github.com/akotu235/APS/blob/master/Docs/Modules/DesktopCleaner/DesktopCleaner.md)
 ### [Geolocalization](https://github.com/akotu235/APS/blob/master/Docs/Modules/Geolocalization/Geolocalization.md)
 ### [Greeter](https://github.com/akotu235/APS/blob/master/Docs/Modules/Greeter/Greeter.md)

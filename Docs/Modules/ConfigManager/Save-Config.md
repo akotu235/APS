@@ -1,15 +1,16 @@
-# Get-Config
+# Save-Config
 
 ## SYNOPSIS
-Returns the settings.
+Creates a configuration file.
 
 ## SYNTAX
 ```
-Get-Config [-ModuleBase] <String> [[-Field] <String>] [[-ConfigPath] <String>] [[-FileName] <String>] [<CommonParameters>]
+Save-Config [-ModuleBase] <String> [-Config] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+Save-Config [-CustomPath] <String> [-Config] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Returns configuration of the given module or contained in the indicated xml file.
+Creates a configuration file or overwrites an existing one. Returns the current configuration.
 ## PARAMETERS
 
 ### -ModuleBase
@@ -23,34 +24,45 @@ Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
-### -Field
-Returns a single setting field based on the name.
+### -CustomPath
+Specifies a custom settings file path.
 ```yaml
 Type: String
-Required: false
+Required: true
+Position: 1
+Default value: none
+Accept pipeline input: false
+Accept wildcard characters: false
+```
+
+### -Config
+Specifies the psobject type configurations to save.
+```yaml
+Type: PSObject
+Required: true
 Position: 2
 Default value: none
 Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
-### -ConfigPath
-Specifies a custom settings file path.
+### -WhatIf
+Prompts you for confirmation before running the `Save-Config`.
 ```yaml
-Type: String
+Type: SwitchParameter
 Required: false
-Position: 3
+Position: named
 Default value: none
 Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
-### -FileName
-Specifies a custom name for the settings file.
+### -Confirm
+Shows what would happen if the `Save-Config` runs. The cmdlet is not run.
 ```yaml
-Type: String
+Type: SwitchParameter
 Required: false
-Position: 4
+Position: named
 Default value: none
 Accept pipeline input: false
 Accept wildcard characters: false
@@ -59,9 +71,9 @@ Accept wildcard characters: false
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, [see about_CommonParameters](https://docs.microsoft.com/pl-pl/powershell/module/microsoft.powershell.core/about/about_commonparameters).
 
 ## RELATED LINKS
-[Remove-Config](Remove-Config.md)
+[Get-Config](Get-Config.md)
 
-[Save-Config](Save-Config.md)
+[Remove-Config](Remove-Config.md)
 
 [Set-ConfigField](Set-ConfigField.md)
 

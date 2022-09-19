@@ -1,10 +1,10 @@
-# ConfigMenager Module
+# ConfigManager Module
 
 ## Description
 
 It facilitates the management of configuration files. Creates, loads, updates and deletes settings.
 
-## ConfigMenager Cmdlets
+## ConfigManager Cmdlets
 
 ### [Get-Config](Get-Config.md)
 
