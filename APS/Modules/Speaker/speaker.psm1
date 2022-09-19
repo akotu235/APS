@@ -22,5 +22,5 @@ function Use-Speech {
             End Function
         ')
         $sc.codeobject.Speech("$args")
-    } -ArgumentList $TextToSpeech -RunAs32 | Wait-Job | Receive-Job
+    } -ArgumentList $TextToSpeech -RunAs32 >> $null
 }
