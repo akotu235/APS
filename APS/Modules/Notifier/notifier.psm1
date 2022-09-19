@@ -23,6 +23,7 @@ function Set-Notification{
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true, Position=0)]
         [System.String]$Text,
+        [Parameter(Position=1)]
         [System.DateTime]$Time = $((Get-Date).AddSeconds(3)),
         [Parameter(ParameterSetName='OnlyVoiceNotification')]
         [switch]$OnlyVoiceNotification,
@@ -71,6 +72,9 @@ function Show-Notification{
         [Parameter(ParameterSetName='VoiceNotification')]
         [switch]$VoiceNotification
     )
+    if($VoiceNotification -or $OnlyVoiceNotification){
+        Use-Speech $Text
+    }
     if(-not $OnlyVoiceNotification){
         [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
         $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
@@ -85,8 +89,5 @@ function Show-Notification{
         $Toast.ExpirationTime = [DateTimeOffset]::Now.AddHours(12)
         $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("APS Notifier")
         $Notifier.Show($Toast)
-    }
-    if($VoiceNotification -or $OnlyVoiceNotification){
-        Use-Speech $Text
     }
 }
