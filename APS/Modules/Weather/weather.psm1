@@ -28,9 +28,9 @@ Get-Weather Krakow -Detailed -Units standard
 #>
 function Get-Weather{
     [OutputType([System.String])]
-    [CmdletBinding(DefaultParameterSetName = 'NoParameter')]
+    [CmdletBinding(DefaultParameterSetName = 'Temperature')]
     param(
-        [Parameter(ParameterSetName='Default', Position=0)]
+        [Parameter(ParameterSetName='Temperature', Position=0)]
         [Parameter(ParameterSetName='Detailed', Position=0)]
         [Parameter(ParameterSetName='Data', Position=0)]
         [System.String]$City,
@@ -38,7 +38,7 @@ function Get-Weather{
         [switch]$Detailed,
         [Parameter(ParameterSetName='Data')]
         [switch]$Data,
-        [Parameter(ParameterSetName='Default')]
+        [Parameter(ParameterSetName='Temperature')]
         [Parameter(ParameterSetName='Detailed')]
         [Parameter(ParameterSetName='Data')]
         [ValidateSet('standard','metric','imperial')]
