@@ -11,13 +11,17 @@ Update-APS
 function Update-APS{
     [CmdletBinding(SupportsShouldProcess)]
     param(
-        [switch]$Force
+        [switch]$Force,
+        [switch]$KeepPreviousVersion
     )
     $APS_Module = Get-Module APS
     if(($APS_Module.Version) -lt (Get-APSCurrentVersion) -or $Force){
         Import-Module ScriptsSigner
         $APS_Base = $APS_Module.ModuleBase | Split-Path
-        Update-Module APS -Force:$Force
+        Update-Module APS -Force:$Force -Confirm:$false
+        if(-not $KeepPreviousVersion){
+            Uninstall-Module APS -Force -RequiredVersion $APS_Module.Version -Confirm:$false -ErrorAction SilentlyContinue
+        }
         Add-Signature $APS_Base >> $null
     }
     else{
