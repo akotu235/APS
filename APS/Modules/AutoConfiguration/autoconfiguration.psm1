@@ -13,20 +13,18 @@ Confirm-Admin -ScriptBlock {Start-Service sshd}
 function Confirm-Admin{
     [CmdletBinding()]
     param(
-        [Parameter(Mandatory=$true)]
         [System.String]$ScriptBlock,
         [switch]$NoExit = $true
     )
-    #Script block prepare
-    $Module = Convert-Path "$PSScriptRoot\..\..\aps.psm1"
+    $Module = Convert-Path "$PSScriptRoot\..\.."
     $Command="& {
                     try{
-                        Import-Module -Name $Module
+                        Import-Module $Module
                     }
                     catch{
                         try{
                             Set-ExecutionPolicy Bypass -Scope Process -Force
-                            Import-Module -Name $Module
+                            Import-Module $Module
                         }
                         catch{
                             Write-Error 'Cannot find the APS module'
@@ -93,7 +91,6 @@ function Install-SSH {
     }
     Start-Service sshd
     Set-Service -Name sshd -StartupType 'Automatic'
-    #Confirm the Firewall rule is configured.
     if(!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue | Select-Object Name, Enabled)) {
         Write-Output "Firewall Rule 'OpenSSH-Server-In-TCP' does not exist, creating it..."
         New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
@@ -114,28 +111,17 @@ Protect-SSH
 function Protect-SSH{
     ssh-keygen -t ed25519
     Confirm-Admin -NoExit {
-        #Allow ssh-agent to be automatic started.
         Get-Service ssh-agent | Set-Service -StartupType Automatic
-        # Start the service
         Start-Service ssh-agent
         if(Test-Path C:\ProgramData\ssh\sshd_config){
             Move-Item -Force C:\ProgramData\ssh\sshd_config C:\ProgramData\ssh\sshd_config.bak
         }
-        #configuration settings
-        Get-Content (Get-AutoConfigurationPath "sshd_config") | Set-Content C:\ProgramData\ssh\sshd_config
+        Get-Content "$PSScriptRoot\sshd_config" | Set-Content C:\ProgramData\ssh\sshd_config
         exit
     }
     Get-Content ~\.ssh\id_ed25519.pub | Set-Content ~\.ssh\authorized_keys
-    #Load key file into ssh-agent
     ssh-add "$HOME\.ssh\id_ed25519"
     Invoke-Item $HOME"\.ssh"
-}
-
-function Get-AutoConfigurationPath{
-    param(
-        [System.String]$Name = ""
-    )
-    return "$PSScriptRoot\$Name"
 }
 
 <#
@@ -159,41 +145,85 @@ function New-CodeSigningCert{
         Type = "CodeSigningCert"
         KeySpec = "Signature"
         KeyUsage = "DigitalSignature"
+        KeyLength = 4096
+        KeyAlgorithm = "RSA"
         FriendlyName = "Code signing"
-        NotAfter = (Get-Date).AddYears(5)
+        NotAfter = (Get-Date).AddYears(10)
         CertStoreLocation = 'Cert:\CurrentUser\My'
         HashAlgorithm = 'sha256'
     }
-    $Cert = New-SelfSignedCertificate @Params
-    #Add to trusted certification root
-    $exported = Get-AutoConfigurationPath "exported_cert.cer"
-    Export-Certificate -Cert $Cert -FilePath $exported
-    Confirm-Admin -NoExit {
-        $exported = Get-AutoConfigurationPath "exported_cert.cer"
-        if(Import-Certificate -FilePath $exported -CertStoreLocation Cert:\LocalMachine\Root){
-            exit
+    $cert = New-SelfSignedCertificate @Params
+    if(-not (Test-Path "$Home\.certs\")){
+        New-Item -ItemType Directory -Path "$Home\.certs" >> $null
+    }
+    $certsPath = ("$Home\.certs" | Resolve-Path).Path
+    $pubCertPath = "`'$certsPath\$Name.cer`'"
+    Export-Certificate -Cert $cert -FilePath "$certsPath\$Name.cer" >> $null
+    $pubCertPath = "`'$certsPath\$Name.cer`'"
+    $command = "if(Import-Certificate -FilePath $pubCertPath -CertStoreLocation Cert:\LocalMachine\Root){exit}"
+    Confirm-Admin -NoExit $command
+    $certPath = "$certsPath\$Name.pfx"
+    $certPassword = Read-Password -Prompt "Create a certificate password"
+    Export-PfxCertificate -Cert $cert -FilePath $certPath -Password $certPassword >> $null
+    &$certPath
+}
+function Read-Password{
+    [CmdletBinding()]
+    param(
+        [System.String]$Prompt = "Create a password",
+        [ValidateRange(0,32)]
+        [int]$MinimumLength = 0,
+        [switch]$UppercaseAndLowercaseRequired,
+        [switch]$NumberRequired,
+        [switch]$SpecialCharacterRequired
+    )
+    while(-not $passwordAccepted){
+        $password = (Read-Host -AsSecureString -Prompt $Prompt)
+        $confirm = (Read-Host -AsSecureString -Prompt "Confirm the password")
+        $passwordAsPlainText = [System.Net.NetworkCredential]::new("", $password).Password
+        $confirmAsPlainText = [System.Net.NetworkCredential]::new("", $confirm).Password
+        $passwordAccepted = Test-Password -Password $passwordAsPlainText -MinimumLength $MinimumLength -UppercaseAndLowercaseRequired:$UppercaseAndLowercaseRequired -NumberRequired:$NumberRequired -SpecialCharacterRequired:$SpecialCharacterRequired
+        if($passwordAsPlainText -notlike $confirmAsPlainText){
+            Write-Warning "passwords must be the same"
+            $passwordAccepted = $false
         }
     }
-    #Securing a personal certificate
-    $CertPath = Get-AutoConfigurationPath "$Name.pfx"
-    $CertPassword = (Read-Host -AsSecureString -Prompt "Create a certificate password")
-    $ConfirmedPassword = (Read-Host -AsSecureString -Prompt "Confirm the certificate password")
-    $CertPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $CertPassword).Password
-    $ConfirmedPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $ConfirmedPassword).Password
-    while($CertPasswordAsPlainText -notlike $ConfirmedPasswordAsPlainText){
-        Write-Warning "Passwords are not the same"
-        $CertPassword = (Read-Host -AsSecureString -Prompt "Create a certificate password")
-        $ConfirmedPassword = (Read-Host -AsSecureString -Prompt "Confirm the certificate password")
-        $CertPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $CertPassword).Password
-        $ConfirmedPasswordAsPlainText = [System.Net.NetworkCredential]::new("", $ConfirmedPassword).Password
+    return $password
+}
+function Test-Password{
+    [CmdletBinding()]
+    param(
+        [System.String]$Password,
+        [ValidateRange(0,32)]
+        [int]$MinimumLength = 0,
+        [switch]$UppercaseAndLowercaseRequired,
+        [switch]$NumberRequired,
+        [switch]$SpecialCharacterRequired
+    )
+    [boolean]$isCorrect = $true
+    if($Password.Length -lt $MinimumLength){
+        Write-Warning "minimum password length: $MinimumLength"
+        $isCorrect = $false
     }
-    Export-PfxCertificate -Cert $Cert -FilePath $CertPath -Password $CertPassword
-    &$CertPath
-    #cleaning after completion
-    Write-Warning "After completing the wizard, press enter to continue.."
-    Read-Host >> $null
-    Remove-Item -Force $exported
-    Remove-Item -Force $CertPath
-    Write-Output "Done."
+    if($UppercaseAndLowercaseRequired){
+        if($Password -cnotmatch "[a-z]" -or $Password -cnotmatch "[A-Z]"){
+            Write-Warning "uppercase and lowercase required"
+            $isCorrect = $false
+        }
+    }
+    if($NumberRequired){
+        if($Password -cnotmatch "[0-9]"){
+            Write-Warning "number required"
+            $isCorrect = $false
+        }
+    }
+    if($SpecialCharacterRequired){
+        $sch = $Password -replace "[a-z1-9]"
+        if(-not $sch){
+            Write-Warning "special character required"
+            $isCorrect = $false
+        }
+    }
+    return $isCorrect
 }
 Set-Alias -Name "sudo" -Value Confirm-Admin
