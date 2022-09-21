@@ -20,4 +20,6 @@ If the current user is an administrator it returns true else returns false.
 
 [Protect-SSH](Protect-SSH.md)
 
+[Read-Password](Read-Password.md)
+
 

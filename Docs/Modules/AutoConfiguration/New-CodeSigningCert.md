@@ -54,6 +54,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 [Protect-SSH](Protect-SSH.md)
 
+[Read-Password](Read-Password.md)
+
 [Test-Admin](Test-Admin.md)
 
 

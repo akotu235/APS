@@ -5,10 +5,9 @@ Shows the current weather.
 
 ## SYNTAX
 ```
-Get-Weather [<CommonParameters>]
+Get-Weather [[-City] <String>] [-Units <String>] [<CommonParameters>]
 Get-Weather [[-City] <String>] [-Data] [-Units <String>] [<CommonParameters>]
 Get-Weather [[-City] <String>] [-Detailed] [-Units <String>] [<CommonParameters>]
-Get-Weather [[-City] <String>] [-Units <String>] [<CommonParameters>]
 Get-Weather [-RestoreDefaultConfig] [<CommonParameters>]
 Get-Weather [-SetDefaultCity <String>] [-SetUnits <String>] [-Geolocalization <String>] [-SetAppId <String>] [<CommonParameters>]
 ```

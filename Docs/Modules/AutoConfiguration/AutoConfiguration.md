@@ -18,6 +18,9 @@ Creates a new code signing certificate.
 ### [Protect-SSH](Protect-SSH.md)
 
 Secures SSH.
+### [Read-Password](Read-Password.md)
+
+Reads the password from the user.
 ### [Test-Admin](Test-Admin.md)
 
 Checks if the user is an administrator.

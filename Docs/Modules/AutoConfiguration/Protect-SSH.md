@@ -18,6 +18,8 @@ Configures pubkey authentication.
 
 [New-CodeSigningCert](New-CodeSigningCert.md)
 
+[Read-Password](Read-Password.md)
+
 [Test-Admin](Test-Admin.md)
 
 

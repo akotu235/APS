@@ -5,7 +5,7 @@ Updates APS.
 
 ## SYNTAX
 ```
-Update-APS [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Update-APS [-Force] [-KeepPreviousVersion] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -14,6 +14,17 @@ Downloads and installs the latest APS from the PowerShell Gallery.
 
 ### -Force
 Forces the command to run without asking for user confirmation.
+```yaml
+Type: SwitchParameter
+Required: false
+Position: named
+Default value: False
+Accept pipeline input: false
+Accept wildcard characters: false
+```
+
+### -KeepPreviousVersion
+
 ```yaml
 Type: SwitchParameter
 Required: false

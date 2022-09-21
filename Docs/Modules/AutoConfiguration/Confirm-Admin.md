@@ -5,7 +5,7 @@ Run as administrator.
 
 ## SYNTAX
 ```
-Confirm-Admin [-ScriptBlock] <String> [-NoExit] [<CommonParameters>]
+Confirm-Admin [[-ScriptBlock] <String>] [-NoExit] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -16,7 +16,7 @@ Opens a new powershell session as administrator and executes the script block sp
 Specifies the commands to run as administrator. Enclose the commands in braces (``{ }``) to create a script block.
 ```yaml
 Type: String
-Required: true
+Required: false
 Position: 1
 Default value: none
 Accept pipeline input: false
@@ -42,6 +42,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [New-CodeSigningCert](New-CodeSigningCert.md)
 
 [Protect-SSH](Protect-SSH.md)
+
+[Read-Password](Read-Password.md)
 
 [Test-Admin](Test-Admin.md)
 
