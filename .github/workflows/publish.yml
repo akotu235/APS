@@ -10,5 +10,5 @@ jobs:
         - name: Publish
           env:
             APIKEY: ${{ secrets.APIKEY }}
-          run: .\publish.ps1
+          run: .\Tools\publish.ps1
           shell: pwsh
