@@ -8,7 +8,7 @@ A set of useful tools in the form of a PowerShell module.
 Run the command below in PowerShell.
 
 ```Powershell
-Install-Script -Name APS.Installer -Scope CurrentUser;Set-ExecutionPolicy Bypass -Scope Process -Force;& "$((Get-InstalledScript -Name APS.Installer).InstalledLocation)\APS.Installer.ps1";exit
+Install-Script -Name APS.Installer -Scope CurrentUser;Set-ExecutionPolicy Bypass -Scope Process -Force;& "$((Get-InstalledScript -Name APS.Installer).InstalledLocation)\APS.Installer.ps1"
 ```
 
 ## Update
