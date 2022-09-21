@@ -167,7 +167,27 @@ function New-CodeSigningCert{
     Export-PfxCertificate -Cert $cert -FilePath $certPath -Password $certPassword >> $null
     &$certPath
 }
+
+<#
+.SYNOPSIS
+Reads the password from the user.
+.DESCRIPTION
+Reads a password of input from the console. Cmdlet displays asterisks (``*``) in place of the characters that the user types as input. The output of the ``Read-Password`` cmdlet is a SecureString object (System.Security.SecureString). The password is read until the password requirements are met.
+.PARAMETER Prompt
+Specifies the text of the prompt. Type a string. If the string includes spaces, enclose it in quotation marks. PowerShell appends a colon (``:``) to the text that you enter.
+.PARAMETER MinimumLength
+Specifies the minimum length of a password.
+.PARAMETER UppercaseAndLowercaseRequired
+Specifies whether uppercase or lowercase letters are required.
+.PARAMETER NumberRequired
+Specifies whether a digit is required.
+.PARAMETER SpecialCharacterRequired
+Specifies whether special characters are required.
+.EXAMPLE
+Read-Password -MinimumLength -UppercaseAndLowercaseRequired -NumberRequired -SpecialCharacterRequired
+#>
 function Read-Password{
+    [OutputType([System.Security.SecureString])]
     [CmdletBinding()]
     param(
         [System.String]$Prompt = "Create a password",
@@ -191,6 +211,7 @@ function Read-Password{
     return $password
 }
 function Test-Password{
+    [OutputType([System.Boolean])]
     [CmdletBinding()]
     param(
         [System.String]$Password,
