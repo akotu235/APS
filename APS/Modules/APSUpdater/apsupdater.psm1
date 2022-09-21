@@ -5,6 +5,8 @@ Updates APS.
 Downloads and installs the latest APS from the PowerShell Gallery.
 .PARAMETER Force
 Forces the command to run without asking for user confirmation.
+.PARAMETER KeepPreviousVersion
+Determines whether to keep the previous version. By default, it is removed.
 .EXAMPLE
 Update-APS
 #>
@@ -16,13 +18,10 @@ function Update-APS{
     )
     $APS_Module = Get-Module APS
     if(($APS_Module.Version) -lt (Get-APSCurrentVersion) -or $Force){
-        Import-Module ScriptsSigner
-        $APS_Base = $APS_Module.ModuleBase | Split-Path
         Update-Module APS -Force:$Force -Confirm:$false
         if(-not $KeepPreviousVersion){
             Uninstall-Module APS -Force -RequiredVersion $APS_Module.Version -Confirm:$false -ErrorAction SilentlyContinue
         }
-        Add-Signature $APS_Base >> $null
     }
     else{
         Write-Host "APS is up to date" -ForegroundColor DarkGreen
