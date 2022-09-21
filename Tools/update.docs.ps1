@@ -1,0 +1,57 @@
+try{
+    Import-Module PSDocsGenerator -ErrorAction Stop
+    $ProjectBase = Convert-Path "$PSScriptRoot\.."
+    Remove-Item -Path "$ProjectBase\Docs" -Recurse -Force -ErrorAction Continue
+    Get-ChildItem "$ProjectBase\APS\Modules" | ForEach-Object {Convert-HelpToMarkdown -ModulePath $_.FullName -Destination $ProjectBase}
+}
+catch{
+    Write-Host "unable to read the PSDocsGenerator module" -ForegroundColor Red
+}
+
+# SIG # Begin signature block
+# MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
+# gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUco4LfIeouHu7yOBcbHqJuGPp
+# Q1KgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
+# MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
+# AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
+# /Mf5wfBTJ3aCvyjFvHfcsDH4NdHZubHO531tc1NHCDh+Ztkr5hbOdl3x46nEXm6u
+# e4Fiw23SB02dU3dAnFvNSGEE5jhQDOApGX/u7xEW4ZXrvMC5yLCBa3Kva1abPx5b
+# owvQlHhiSsn039/K2xSNhR+x4QcgEIo9JYdcob0f7ZY3AhXT+f1PNyYe075SY+t2
+# y1YMlPlq4THolVUB4yB5MknAOG7IoxFt0U9vXhMSjbb06LZ/I/2RpAJd/qcaC/aX
+# CBvKYQbbmEqMqKutic/Q23cQU2jcuRxyy+Y5QphALwdkQGIuvOOIQCak/ZKa6k5S
+# 5U3zcMSbGOFF1BHdLSmcUnicsuvMM4uOT0zF/yzuSv5fSo3t6W5VHa+1Ct8ygt3/
+# Byq2dLPskUPn0khR3/PaC8Px0k6TpcL1auKeb/uObvckBH/NVvQebtFuXMFXCayw
+# ZFQx2dGfqb20Q5ZDNw5u8PtrSAeTaqZ7shrcsHbi59ztASvNjapdnhosQ26ir5bD
+# Urzn7Fm/R/tZ9wpCuZ6i2LErckKGMW0Lk1ku0HJv83q/rr0vkrbEXUWx6eaaXwQj
+# IacKX8IvED/HN1gQ9WfkvLmQurF9ZUfJQDC/WNrIwYw4advSARKs/4WE+HmN1g0C
+# AwEAAaNGMEQwDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsGAQUFBwMDMB0G
+# A1UdDgQWBBSUHb/MW3YJQEoACPnV20ZgngOGCDANBgkqhkiG9w0BAQsFAAOCAgEA
+# C6pw+UgUjitD9crDEpEPIcmC/Eiif7DnMI2xG1aS8drSFkTvJdmG1yI4gUigjncb
+# LfDSLbUIwAUfaM6V1zPb/ec0dg0Nkn+Za1fpuIXxuPKtvrqr9FLfc70D3AphNrDD
+# rFEd3c1ykLed7lllMYaLXkfWDRlxhhpP+LR9qbgvTxFbWk/7yA7kJrwEaDgfqqME
+# QEE9xZDEIN/f1ycTnh0qmUwYoHDEKbOet/OgiILjzqIjplnaaKJIzFjmfDDK8JY+
+# 0tl3hnyFHkPVe9sKTIEVhjc8XlaaCDDTEPTiWvB3TPMLZCqcwqQ4WdcWpS0Dp1Ms
+# XvRVv8NkcDMPzFpgqFpkkrkqt94IESUycaAQe+czlurf/KiQjzAjVvhZFspqbBi8
+# 83AZ9+mBQhtQqgzcZYSF2LAPbfTXCPw8daT/hOrUaU72YrA4ON64ZRYvcaj9u1AN
+# +pxo8TY+YNak+tVByU3sfLfFwbJMJi63be1yo1yLc3b/d3DrJz3AIY82LrtdQcT3
+# tj3QnyvVHpFvtzKZxO5hSgaTksmRBYJZ6cYcBgW69l8UpppiyAtzKo4AvD1XXlc6
+# ehYjdBVms5F9spAWjwzXg9lWQSsul7V6WB7/PIaTF4hsZ9IylRl4FnBwcJbTdjXi
+# E8oA77fIHMj6jOyxEeP6WGzjDYxBnLKyV/lVqk7WkqkxggLIMIICxAIBATAnMBMx
+# ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
+# eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
+# AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
+# BDEWBBQDhMTjyqd5APP6NZeq1QRGiCFxwjANBgkqhkiG9w0BAQEFAASCAgBmd+pT
+# t+v7puMl64kZnWyEm3EOKGd6RAsGpfZqEWwNZdZSYg2LWn6v7MogtnMFqw0mBG9b
+# uo7/H51M6JXwbp4uncunX1rhfU54U1MU8g5w2ngKIaoTS3b47JqVDJAjzBWpH8g9
+# D/OTCR0Low6ZONtOfQI9g/njUIBffgwUAHCJv2zM0jO13qofHncpTAcrUfTEymAK
+# z7PZrpXEBLwgXP6xSsEPApw9WosSH2eadE7h5n3syL45W6aNXXusLR6/q5mRlEKR
+# tUSYrF8nZa+XWy6CUlGXpWDzGe1x6g9Ll6LLEKAMr5KBvzK3NEZHgoTQ4JV1HeP0
+# kLX7VkCCEX6uYqjvmbkfiOBjXVWyVmdU9Sb5LsigPXywIoiMzZlGdI8459SBsZEh
+# R31qqHmtaKlf9i/W7kvuzyyB+/X6r9+PgHmOHQZXu2+iJUsBDKxzhdjBFJYngsFQ
+# p+kVUO5npLrNzEd9Ll7s7KhKEPWrhE5FyCSHiiidlvYXOc8naq8nW6jpZYWnSMBU
+# YeQhClOusc/0orOVqh8jiA9NVNq1avNO6iMwBCbrmpthIHewtSRBumYQ3aqCTAc7
+# P7A84Z1NmV6PccDE7XLJktgaVe0Y9CuwvbmXH//DADEC0mWp7gqnMX/71tlqKEQR
+# kL5N6eqfOCNUItoSr6/UjXio1trBxObUmL8VGg==
+# SIG # End signature block
