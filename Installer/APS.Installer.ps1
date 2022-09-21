@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.1.2
+.VERSION 1.1.3
 
 .GUID dcfea47c-45a6-4a40-96ab-759c222da486
 
@@ -38,7 +38,7 @@
 #>
 
 Install-Module APS -Scope CurrentUser -Confirm:$false -Force -SkipPublisherCheck
-Set-ExecutionPolicy Bypass -Scope Process -Force
+Set-ExecutionPolicy Bypass -Scope Process -Force -Confirm:$false
 Import-Module APS
 $APS_Base = (Get-Module APS).ModuleBase
 mkdir -Path "$APS_Base\installer" -Force >> $null
@@ -70,15 +70,22 @@ if(Test-Path $profilePath){
 else{
     Move-Item -Path "$APS_Base\installer\profile.ps1" -Destination $PROFILE.CurrentUserAllHosts -Force
 }
+Get-ChildItem -Path $APS_Base -Recurse | Where-Object -Property Extension -Match ".psm?1" | ForEach-Object {
+    $content = Get-Content -Path $_.FullName
+    $content | ForEach-Object {$_.replace('`n','`r`n')}
+    Set-Content -Path $_.FullName -Value $content
+}
 while(-not ([boolean](Get-ChildItem "Cert:\LocalMachine\Root" | Where-Object {$_.Subject -like "CN=akotu CA"}) -and ($profileContent -contains 'Import-Module APS'))){
     $profileContent = Get-Content $profilePath -ErrorAction SilentlyContinue
 }
 Remove-Item -Path "$APS_Base\installer" -Recurse -Force
+Set-ExecutionPolicy $(Get-ExecutionPolicy -Scope LocalMachine) -Scope Process -Confirm:$false
 Get-Module APS | Remove-Module
-try{
-    Import-Module APS -ErrorAction Stop
+Import-Module APS -ErrorAction SilentlyContinue
+if([boolean](Get-Module APS)){
     Write-Host "APS successfully installed." -ForegroundColor Green
 }
-catch{
-    Write-Host "Something went wrong.." -ForegroundColor Red
+else{
+    Write-Host "cannot import APS module." -ForegroundColor Red
+    Write-Host "please report a problem: https://github.com/akotu235/APS#Contact"
 }
