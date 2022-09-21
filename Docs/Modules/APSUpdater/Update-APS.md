@@ -24,7 +24,7 @@ Accept wildcard characters: false
 ```
 
 ### -KeepPreviousVersion
-
+Determines whether to keep the previous version. By default, it is removed.
 ```yaml
 Type: SwitchParameter
 Required: false
