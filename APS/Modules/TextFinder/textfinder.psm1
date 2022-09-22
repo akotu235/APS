@@ -33,8 +33,13 @@ function Search-InFile{
         [switch]$Recurse,
         [switch]$CaseSensitive,
         [Parameter(ParameterSetName='Default')]
-        [switch]$StopWhenFinds
+        [switch]$StopWhenFinds,
+        [Parameter(ParameterSetName='Default')]
+        [switch]$OnlyBooleanReturn
     )
+    if($OnlyBooleanReturn){
+        $StopWhenFinds = $true
+    }
     if($AsSecure){
         $Phrase = Read-Secure
     }
@@ -57,7 +62,9 @@ function Search-InFile{
         if(0 -lt $occurrence -and $StopWhenFinds){
             break
         }
-        Write-Output "Scaning $($f.FullName)..."
+        if(-not $OnlyBooleanReturn){
+            Write-Output "Scaning $($f.FullName)..."
+        }
         $scannedCount++
         $currentStartTime = Get-Date
         $currentOccurrence = 0
@@ -68,7 +75,7 @@ function Search-InFile{
                 if($line -clike "*$Phrase*"){
                     $occurrence++
                     $currentOccurrence++
-                    if(-not $AsSecure){
+                    if(-not ($AsSecure -or $OnlyBooleanReturn)){
                         Write-Line -highlighted $Phrase -row $line.Trim() -number $currentLine -caseSensitive:$CaseSensitive
                     }
                     if($StopWhenFinds){
@@ -91,7 +98,7 @@ function Search-InFile{
                 if($line -like "*$Phrase*"){
                     $occurrence++
                     $currentOccurrence++
-                    if(-not $AsSecure){
+                    if(-not ($AsSecure -or $OnlyBooleanReturn)){
                         Write-Line -highlighted $Phrase -row $line.Trim() -number $currentLine -caseSensitive:$CaseSensitive
                     }
                     if($StopWhenFinds){
@@ -111,10 +118,14 @@ function Search-InFile{
                 $currentLine++
             }
         }
-        Write-Result $currentStartTime $currentOccurrence
+        if(-not $OnlyBooleanReturn){
+            Write-Result $currentStartTime $currentOccurrence
+        }
     }
     if($File.PSIsContainer){
-        Write-Result $startTime $occurrence $scannedCount
+        if(-not $OnlyBooleanReturn){
+            Write-Result $startTime $occurrence $scannedCount
+        }
     }
     return [boolean]$occurrence
 }
@@ -204,11 +215,12 @@ function Measure-Time{
 
 
 
+
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUialPH4npbpcBSii921QSA55V
-# 5TmgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUIfay4sZ6U3WHCqQ1v3j5a2LJ
+# 5I+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -238,16 +250,16 @@ function Measure-Time{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQL//gmRSnTOHLiGJyEbkBIwXgQMDANBgkqhkiG9w0BAQEFAASCAgBWXlZd
-# 5f8QEpVUEd+CKV7mzdsO7vb04a1Ylb7t/SLT7FT49R79MjXwYyDhXcF+H4A7u1N5
-# WpbBkqbjgj5jS7nwe8wzstt24NFiqZ0Mje7de/BpUqAvUdotXt71k9owfifvbqmd
-# FpJ8wWCEnSoqyPslRjy8jFbCGFYDPv9ZbxtPf972lfeXhncjJdQ28d8F2R3hPcMb
-# gozPC7sVjBHwu0WMumtow3nwU5i/H8kwNq9eN3SaO5Wrp98b7tMg384LuNIGrALy
-# idkBD9Z6ZmhSbwH6BoTIwjSYbXxo3POjFqJGccGq+JNLgOfPU46PYi2jKMwNPWJ7
-# oyI9Qs5L3nDSGKEKYTSRy6Tp3Bu/fj0Qwdz78MweRimI0M3zExV396gUmdaw4XFe
-# aYMlJ2mpDljZWmtNJQUFniBBssrWYghUogerXtSj0p+Bz781WU4fLSSsuG2mGfsT
-# x9HgNAEWVV9XW+TxV4zKXoX6GxjH/+iYrdH5eZ0HY5l1L872Q/MRnMwPmFRF0p1P
-# n8yco4bKg29B9Zi967ADW8r9nxQT7p3ZR5+EZ5rzbwZPuyxB/fYLXVnCAlJn5uVA
-# r5jMP7+2zQJf+fnKKlZomzXLDhMe3hfOKjK7bXYtCpBfen1osZKx82vi51mZvMqi
-# jMJQp4Kcqt5N9HEbcpTFDmCDQ5KToqkWsVwoNA==
+# BDEWBBSyrCD+P/kTZMyfIPRImj4t9ybl2jANBgkqhkiG9w0BAQEFAASCAgB5XMjI
+# hhWq1Tgf175VWzFoL20Ia592n4CgRCRRxpUyiMZzcjxt88FMP7qPfRwQuBkiqlbK
+# hoJj9yUlIBAgzQC00CJb7AWQVuzLXaiF3ggbnbz708MWS2VuqNJIaHxEydkdY3h6
+# vojKemcnXYvB1eFHuwFtjM/1J22mpXV0IC9zbmGxeF6wMfVvqpM6LytdFfxYHJBr
+# RlqyvaV7N6XymiuORHwjGzsXoWByI4sZxNibj3Dy1Gm6EbsWrZ2V1DffvoCAK6l9
+# XCB0nebzVb1wg8WL46hcv98a9OsTQxqxjltraaHf3GlluoCquR7J6f4do9IvyYKe
+# Z+Nx05SKttzxUCc2pZBrg6io6CmnkXo8R43txqASfJAG/gxlPR881GztDT2Zlpyw
+# 6Dnmy7IA5hryisqGM9TzGf+B9Cb4rTZa6d9ZbIH3y/xg+lB0ioNMDeTzZBwHMsLM
+# v5Ad7GQT1YYE+ym7jKr1HSvfBIo/SgpEbjRXcFVxLDLmNrzNGCa0p5oh1uiyeUP5
+# CtR23bMcQQ6mXOZv9yTUnvdm0T7r3fD0ePVbOczmxG++SlGqSdy6zdDGKRg1lRZ3
+# 10JK7FtIAnAYwVkJV1iSaOTRQRxGzD/cYmkPfr7ppLp2aJCvR9pg9aTvhypGj4QH
+# sHtQfF1OKJQZtvOe60Od2w+resGuOPAbenAHeQ==
 # SIG # End signature block

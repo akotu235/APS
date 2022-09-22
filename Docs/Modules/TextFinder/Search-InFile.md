@@ -5,7 +5,7 @@ Searches for a phrase in a file.
 
 ## SYNTAX
 ```
-Search-InFile [[-Phrase] <String>] [[-Path] <String>] [-Recurse] [-CaseSensitive] [-StopWhenFinds] [<CommonParameters>]
+Search-InFile [[-Phrase] <String>] [[-Path] <String>] [-Recurse] [-CaseSensitive] [-StopWhenFinds] [-OnlyBooleanReturn] [<CommonParameters>]
 Search-InFile -AsSecure [[-Path] <String>] [-Recurse] [-CaseSensitive] [<CommonParameters>]
 ```
 
@@ -70,6 +70,17 @@ Accept wildcard characters: false
 
 ### -StopWhenFinds
 Stops searching after the first found item.
+```yaml
+Type: SwitchParameter
+Required: false
+Position: named
+Default value: False
+Accept pipeline input: false
+Accept wildcard characters: false
+```
+
+### -OnlyBooleanReturn
+
 ```yaml
 Type: SwitchParameter
 Required: false
