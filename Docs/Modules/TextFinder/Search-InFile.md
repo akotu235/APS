@@ -5,8 +5,8 @@ Searches for a phrase in a file.
 
 ## SYNTAX
 ```
-Search-InFile [[-Phrase] <String>] [-Path <String>] [-Recurse] [-CaseSensitive] [-StopWhenFinds] [<CommonParameters>]
-Search-InFile [-AsSecure] [-Path <String>] [-Recurse] [-CaseSensitive] [<CommonParameters>]
+Search-InFile [[-Phrase] <String>] [[-Path] <String>] [-Recurse] [-CaseSensitive] [-StopWhenFinds] [<CommonParameters>]
+Search-InFile -AsSecure [[-Path] <String>] [-Recurse] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ Accept wildcard characters: true
 Hides the searched phrase.
 ```yaml
 Type: SwitchParameter
-Required: false
+Required: true
 Position: named
 Default value: False
 Accept pipeline input: false
@@ -40,7 +40,7 @@ Specifies the path to the file or directory to be searched.
 ```yaml
 Type: String
 Required: false
-Position: named
+Position: 2
 Default value: .\
 Accept pipeline input: false
 Accept wildcard characters: false

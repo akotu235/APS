@@ -20,13 +20,15 @@ Search-InFile C:\File.txt 'phrase you are looking for'
 #>
 function Search-InFile{
     [OutputType([System.Boolean])]
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName = 'Default')]
     param(
         [SupportsWildcards()]
         [Parameter(ParameterSetName='Default', Position=0)]
         [System.String]$Phrase,
-        [Parameter(ParameterSetName='AsSecure')]
+        [Parameter(Mandatory = $true, ParameterSetName='AsSecure')]
         [switch]$AsSecure,
+        [Parameter(ParameterSetName='Default', Position=1)]
+        [Parameter(ParameterSetName='AsSecure', Position=0)]
         [System.String]$Path = ".\",
         [switch]$Recurse,
         [switch]$CaseSensitive,
@@ -200,11 +202,13 @@ function Measure-Time{
     }
 }
 
+
+
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQURZXViFJTH88rBM8mPVRvDFFx
-# OSqgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUialPH4npbpcBSii921QSA55V
+# 5TmgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -234,16 +238,16 @@ function Measure-Time{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBS/stSCPvve7NRBp10Auz5XYKe6RTANBgkqhkiG9w0BAQEFAASCAgAmiuye
-# T6DbNvX/r/OWm3ScPs7GbsOucAStXfBJjnCLgFh7MjqpMxYoUEsOwk2M6x9OwR9E
-# uZzd+ygQNZR0pA7P10RYP1615FRrNmRBC3uNY/Adyla899NWEXUyC5uTzhSJ4K+U
-# QzdW0IUpPmclyyUwQQUj0vSiCfsLH4pQNn71VdvwiPOh6WEwQ5jDkv1Vj1EbCjW2
-# r5Gsx+uBJ+cXVO8cMHknHgWiPSML5ld1NvYEe+IBduVcBp1JE+uzUXZSmJY15cRJ
-# 2NmS4L7vMI26SbuJQS7178JxXoEj456pHeVsNbZ4fcxy5WkAI2/D6GTIveaWR7Vc
-# ckpd72YLU6CvIxNCyGDd+gmfT6l+AYDoEDEC4Zz1g4ETxjPrB8lPFCaXk3F/W2Zo
-# 0oDbl5oEcohHMIW+zF2vqo/ceq1qLWozmI515Kv4b3nqhl4VzH4gB//ijxFJKHYB
-# CePbLzd0yPgUIaA5LAfU1nVd58MLkpikgUYFTAeM0u7oxaWVfImDhfLk9APhSFvV
-# nRHHYUVMQmTx7EMOfh/T+nFYUUq5yrUzQvDEVyadZrS5tfDwvh1kZh14AKzI2Aig
-# GeWEwxHbaG7KvncXl3yxeo7C1A8QZf+4gDna23LM32riiQiUHad4w/xy7VKy0Hxz
-# OKOQKwxYYuxXLo05ki/qGz1W0VNVL/maLeokLw==
+# BDEWBBQL//gmRSnTOHLiGJyEbkBIwXgQMDANBgkqhkiG9w0BAQEFAASCAgBWXlZd
+# 5f8QEpVUEd+CKV7mzdsO7vb04a1Ylb7t/SLT7FT49R79MjXwYyDhXcF+H4A7u1N5
+# WpbBkqbjgj5jS7nwe8wzstt24NFiqZ0Mje7de/BpUqAvUdotXt71k9owfifvbqmd
+# FpJ8wWCEnSoqyPslRjy8jFbCGFYDPv9ZbxtPf972lfeXhncjJdQ28d8F2R3hPcMb
+# gozPC7sVjBHwu0WMumtow3nwU5i/H8kwNq9eN3SaO5Wrp98b7tMg384LuNIGrALy
+# idkBD9Z6ZmhSbwH6BoTIwjSYbXxo3POjFqJGccGq+JNLgOfPU46PYi2jKMwNPWJ7
+# oyI9Qs5L3nDSGKEKYTSRy6Tp3Bu/fj0Qwdz78MweRimI0M3zExV396gUmdaw4XFe
+# aYMlJ2mpDljZWmtNJQUFniBBssrWYghUogerXtSj0p+Bz781WU4fLSSsuG2mGfsT
+# x9HgNAEWVV9XW+TxV4zKXoX6GxjH/+iYrdH5eZ0HY5l1L872Q/MRnMwPmFRF0p1P
+# n8yco4bKg29B9Zi967ADW8r9nxQT7p3ZR5+EZ5rzbwZPuyxB/fYLXVnCAlJn5uVA
+# r5jMP7+2zQJf+fnKKlZomzXLDhMe3hfOKjK7bXYtCpBfen1osZKx82vi51mZvMqi
+# jMJQp4Kcqt5N9HEbcpTFDmCDQ5KToqkWsVwoNA==
 # SIG # End signature block
