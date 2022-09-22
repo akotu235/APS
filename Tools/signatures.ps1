@@ -1,33 +1,50 @@
 param(
-    [switch]$Installed
+    [switch]$Installed,
+    [switch]$UpdateSignatures
 )
 $PSModulePath = $Env:PSModulePath
 Set-ExecutionPolicy AllSigned -Scope Process -Force -Confirm:$false
-if(-not $installed){
-    Import-Module APS
-    $APSBase = (Get-Module APS).ModuleBase
-    $Env:PSModulePath = ($Env:PSModulePath.Split(';') | ForEach-Object {if($_ -notlike "$APSBase*"){$_}}) -join ";"
-    $APSProjectBase = Convert-Path "$PSScriptRoot\..\APS"
-    $Env:PSModulePath = "$Env:PSModulePath;$APSProjectBase;$APSProjectBase\Modules"
+if([boolean](Get-Module APS)){
+    $modules = 'APS '
+    $modules += (Get-ChildItem "$((Get-Module APS).ModuleBase)\Modules").Name
+    $modules = $modules.Split()
+    $modules | ForEach-Object {
+        Get-Module $_ | Remove-Module
+    }
 }
-Get-Module APS | Remove-Module
-Import-Module APS
-$moduleBase = (Get-Module APS).ModuleBase
+if(-not $installed){
+    $APSBase = Convert-Path "$PSScriptRoot\.."
+    $modulesPath = "$APSBase\APS\Modules"
+    $Env:PSModulePath = "$APSBase;$modulesPath"
+}
+else{
+    $modulesPath = ($Env:PSModulePath.Split(';') | ForEach-Object {if($_ -like "*\APS\*"){$_}}) -join ";"
+    $APSBase = $modulesPath.TrimEnd('\Modules')
+}
 $modules = 'APS '
-$modules += (Get-ChildItem "$moduleBase\Modules").Name
+$modules += (Get-ChildItem $modulesPath).Name
 $modules = $modules.Split()
 $modules | ForEach-Object {
-    Get-Module $_ | Remove-Module
-    try{
-        Import-Module $_ -ErrorAction SilentlyContinue
-    }
-    catch{}
+    try{Import-Module $_ -ErrorAction SilentlyContinue}catch{}
     if([boolean](Get-Module $_)){
         Write-Host "$_ " -ForegroundColor Green
         Get-Module $_ | Remove-Module
     }
     else{
-        Write-Host "$_ " -ForegroundColor Red
+        if($UpdateSignatures){
+            Add-Signature -File "$APSBase\APS$(if($_ -like "APS"){"\aps.psm1"}else{"\Modules\$_"})" >> $null
+            try{Import-Module $_ -ErrorAction SilentlyContinue}catch{}
+            if([boolean](Get-Module $_)){
+                Write-Host "$_ " -ForegroundColor Cyan
+                Get-Module $_ | Remove-Module
+            }
+            else{
+                Write-Host "$_ " -ForegroundColor Magenta
+            }
+        }
+        else{
+            Write-Host "$_ " -ForegroundColor Red
+        }
     }
 }
 $Env:PSModulePath = $PSModulePath
@@ -35,8 +52,8 @@ $Env:PSModulePath = $PSModulePath
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUdZAF3bIPpHUcSf615rPs7jIo
-# YG+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU1J0dunVXTIqQ5w+9SDSs68uE
+# ABKgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -66,16 +83,16 @@ $Env:PSModulePath = $PSModulePath
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBT7865cxyjSIU3cPHu6v+AQXPVWuzANBgkqhkiG9w0BAQEFAASCAgBoLnYw
-# qh5FB23azNkYGRYSDDaJ8o4Q+T3hjMEEnoy37EsJP+0oDCnoo/AMX5mnDVotMC6g
-# jLgqGNz2oF9+Y2Xm4pNtC+Rc2Mc4dopFWbNFlktJCHKTL/Aj+PVQQBCAe9BW8c9/
-# ieBTSMqpsbDI64P/CHqkv7Kr0ulY4KdM7X8zCNv4zpS1ulQmrjt709eWcUbHoD+H
-# dr3Kdx4KVHAO0r6Tj6SSJryBlZVntMHpOMIaUMtdY92EJPXRkZyyby0ihJmhS+Pi
-# EF8za25QlemzW8SKqFGAqbmKnD+wThGcsULCFkHU6ym6Z5uvOsVwcA9jwe6Exl+d
-# qJy+gwMiG4vN7Nb1DQoZi3G80xCCR22hoLTo2vB1Y9Dbv4J6d3wHYPjaM8rw17GN
-# qM+FpNsulgEmge4m0B4NZAUjKw5TGt/x4pZhfX7HDDAp7M/2z4uUg1kk916WZs1g
-# reTgQQ+h+ur36EuoFYyKvjG3fUxzvtd6PhxBdxIhP4D1m7dFiSJMUrXd/ZwPZ2C3
-# IOStVMu5AoRE3IQxHEJljp210elT0CVtvY7p5i+k0k+TuaL/+PufVl8LEqKUouVJ
-# zUyNP1iMXP5/+PkjNkNxVOqYySIs1Op53crO+PSkI+prsp+XWGmUc6ByuwTjhdUj
-# MPk3TXnjBn7+uPgvWPvIDN08osebvJ+LI4+yng==
+# BDEWBBRvI6qRNbzVR9v8knNxXvb+SjqcnDANBgkqhkiG9w0BAQEFAASCAgCAsjzb
+# nwt1bU+8TdoAaBxrCVTCsfpwuVkXS1FsHdWEPzdAY8sXK+pqVU15IMCdIEqR8LZt
+# J7iBYRWVRyJwArm/wFyBC4Fr5PKCn49S8iwQDnLZBkPqgdJVbIiNrcp/nt2of1rS
+# S60eU+2SFF4j4Onh+dUnVidkEwTP0kmzVMmPmZ31WkhkrNh+MrDyzJPbY+8yAwAR
+# 6S/mcreNY98mbMeoxXg0xmvkClCgfbASjgSUJgVSH3iApxn0rFtK7gUUMpxmvHoq
+# cD+rdEN8XFgV6KgUYBqc1/kucHH1YPyJDmr9nQxPCS7jD1lWyszEcgxUk/Q45R8+
+# X0aLt9gR8tRW3lZ741XWnn5YR1EgOl/dMfs1qwbk7AXhFTkWHo/pAfaZ1YoV83pB
+# 0l56Qg3+C35aovU1oB7zVo16vHDLTGmEnezjX29uI19ZsLod4NoKfklyozPJ2S42
+# WYjLEe5yffiGP7ltNzdMlN3GEHFnrz6kUXdcx6C0sYZAgKKBvYiOQWpgQJIjXLni
+# SPYjn2uJdNXHUpAwP12CYJSyD1SXaXkpmwUK8Ipo2WJvH1CGmqZdENSHO3GiH/Mr
+# scgrux72O5urBA2tht563TTq0QyBGqQufSFZyz7QuLML33r2kYLir1IbjKRXfmNr
+# jckoSMsDgVn7tXKB5UXRkK0AWzG0/aIC9zY5OQ==
 # SIG # End signature block
