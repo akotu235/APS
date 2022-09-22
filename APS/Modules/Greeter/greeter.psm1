@@ -15,7 +15,9 @@ function Show-APSGreeting{
             Clear-Host
         }
         if($Config.APSLogo){
-            Write-Host "    _     ___   ___ `n   /_\   | _ \ / __|`n  / _ \  |  _/ \__ \`n /_/ \_\ |_|   |___/v.$((Import-Clixml "$PSScriptRoot\..\..\PSGetModuleInfo.xml").Version)`n"
+            try{$version = "v.$((Import-Clixml "$PSScriptRoot\..\..\PSGetModuleInfo.xml").Version)"}catch{}
+            Write-Host "    _     ___   ___ `n   /_\   | _ \ / __|`n  / _ \  |  _/ \__ \`n /_/ \_\ |_|   |___/" -NoNewline
+            Write-Host $version -ForegroundColor DarkGray
         }
         if($Config.Date){
             Write-Host "Hi! It is $(Get-Date -Format g)"
@@ -88,11 +90,16 @@ function Set-APSGreeting{
     }
 }
 
+
+
+
+
+
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUH3pym6j2zTWWa5+nMyV13H+/
-# z0ygggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUghBUtKkXpbP+dbOLMIdQ+0qT
+# 1RegggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -122,16 +129,16 @@ function Set-APSGreeting{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRwl2GOr+PQZ03bFvnfUfgCjOD2ZTANBgkqhkiG9w0BAQEFAASCAgBBzywQ
-# zjJfFiFGuAOwOd/PetG6Ywv2s4rZgFWaufaiRtz4JIGQhgx5rLekEpVLmCYZ+YfI
-# gH6cQVT5zx/Vl7Ye6unDozMvYDjceLCPNh9ABkj6PFJ8ElS7RgHzUHerl5oiFeqg
-# /arcctOxDtHPQR4dU8hoHr6ehaE/wJ95cQoXCJksZG26rVdTwPRFqCv2t3dGic7i
-# wqN2+zjBNd/1atwoch1MX3eKKrQWwzaZh8yXg3LSiHOPnBrMU+FQ83xab46K9SFF
-# Tk3nun0hWZ5e9BvyAMCKOeliVY9p8Nkn+J0LNWbD6ySwYtvwYmhdLLqEYPexIm4H
-# mckewlkpmAmhom8av8zqASok9ijIhFwNdsKUQr7kHu7NEHPgq1ESZ/XHU0Xx6+es
-# go+21X+2+UNq2FwqQT6vSONjWamGGPAjIGD1f28oew0/tHXWxoR9c21GcI2zA+gC
-# lDs5TF/RZVk0nCnxMra2CjeHbKEIptNAqiWXVSg7LeX6ZSSKLBfjqv2wkw8//EG0
-# HTOeql8qqcJ0zbebPD8ChL7KswK6569CZookRpHHsts2rCEOqs7p/f52U1Q2Y/pu
-# V8p7MyL+3iNVr2teDt8NxNmqFuQ1aQYXe04NSr+PKBnUW4wWCuhoW63nDG0I+66o
-# rupm2W6Azkheoz+4mGzPc6HeAjLludUeQScQ0A==
+# BDEWBBRzid3g5qxWg66Pur/XPAIHvPre6zANBgkqhkiG9w0BAQEFAASCAgCq0mdp
+# YHaDcu5gXQeyFMH1wNR0aXWMS+VpLY6Il1RBfi8igZVIOkXQfTqM91cioFRPh7OQ
+# nfLzOgA+NfO/Osc2aJaZH02y8MtWb6T65EjSIYC5HxBw15MSZonNarnXvBfSZzVC
+# tJjbtBdNwVGoD5f/Ndk3ng9ErN3b7YF94+Df5xe7czkrwSXgwoa7Z5p8W1wmQqYT
+# UsRXeEVJl2qgRASXpZjqLbPU+9LjwLr2YcTpKSuV1DOw2hgP8+7esgmRGhQ1ncZT
+# ZK6pfc+qZHjU2t75aXmRh0K+S2QTgC49MqUig/R2Qx/hPiCi1FfPqQ7d3uanRGfR
+# 0X3+PTGr5SpdWawHaj/t01HGYC7i129S5YJKDAhhGo79yQ4HPQ9RuUq+Kq2P8OZy
+# 1LMU1bYdDhAA8+R4FkO/CUSP4gsdWCB97tjWgJIfKKUwmyf4NVgnmmmSJXasYgRE
+# Sq2ILomcZyr+XXWWupg0td9xnbRDkYcJSciibNlTDKmDtQHXvG1R2PGSfcYMP52T
+# 3+GE7Ym/sTfimbehFKf4VpQS5Ky2dnYv1+gQVIztKMy88z9wnh8bS8wco3K38QKV
+# suyj/IosIBSdGKNJCI2QoCMRxqqVYnAVL+B/7SXXXKWjydGh18sB9g/aMGi2yE9H
+# ptMnJgjiJVM8TSwsjqOqsUq7Ipegavl82r46zA==
 # SIG # End signature block
