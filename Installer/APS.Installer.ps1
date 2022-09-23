@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.1.3
+.VERSION 1.1.4
 
 .GUID dcfea47c-45a6-4a40-96ab-759c222da486
 
@@ -75,6 +75,7 @@ Get-ChildItem -Path $APS_Base -Recurse | Where-Object -Property Extension -Match
     $content | ForEach-Object {$_.replace('`n','`r`n')}
     Set-Content -Path $_.FullName -Value $content
 }
+Uninstall-Script APS.Installer
 while(-not ([boolean](Get-ChildItem "Cert:\LocalMachine\Root" | Where-Object {$_.Subject -like "CN=akotu CA"}) -and ($profileContent -contains 'Import-Module APS'))){
     $profileContent = Get-Content $profilePath -ErrorAction SilentlyContinue
 }
