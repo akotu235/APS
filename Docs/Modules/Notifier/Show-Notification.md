@@ -7,7 +7,7 @@ Shows the notification.
 ```
 Show-Notification [-Text] <String> [-Title <String>] [<CommonParameters>]
 Show-Notification [-Text] <String> [-Title <String>] [-OnlyVoiceNotification] [<CommonParameters>]
-Show-Notification [-Text] <String> [-Title <String>] [-VoiceNotification] [<CommonParameters>]
+Show-Notification [-Text] <String> [-Title <String>] [-DisableVoiceNotification] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,8 +47,8 @@ Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
-### -VoiceNotification
-Determines whether the voice prompts are to be enabled. Disabled by default.
+### -DisableVoiceNotification
+Determines whether the voice prompts are to be disabled. Enabled by default.
 ```yaml
 Type: SwitchParameter
 Required: false

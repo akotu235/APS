@@ -9,34 +9,37 @@ Specifies the content of the notification. This content will be spoken when the 
 Defines the time the message appears. If not set, the notification will show after 3 seconds.
 .PARAMETER OnlyVoiceNotification
 It turns off the toast pop-up, leaving voice prompts.
-.PARAMETER VoiceNotification
-Determines whether the voice prompts are to be enabled. Enabled by default.
+.PARAMETER DisableVoiceNotification
+Determines whether the voice prompts are to be disabled. Enabled by default.
 .PARAMETER Title
 Specifies the title of the notification. It is not spoken but visible on the pop-up toste.
 .PARAMETER Save
 Saves the task in the task schedule. By default they are removed after execution.
 .EXAMPLE
-Set-Notification "Go to sleep!" -Time 23:30
+Set-Notification 23:30 "Go to sleep!"
 #>
 function Set-Notification{
     [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName='Default')]
     Param(
-        [Parameter(Mandatory=$true, ValuefromPipeline=$true, Position=0)]
-        [System.String]$Text,
-        [Parameter(Position=1)]
+        [Parameter(Position=0)]
         [System.DateTime]$Time = $((Get-Date).AddSeconds(3)),
+        [Parameter(Mandatory=$true, ValuefromPipeline=$true, Position=1)]
+        [System.String]$Text,
+        [System.String]$Title,
         [Parameter(ParameterSetName='OnlyVoiceNotification')]
         [switch]$OnlyVoiceNotification,
-        [Parameter(ParameterSetName='VoiceNotification')]
-        [switch]$VoiceNotification=$true,
-        [System.String]$Title,
+        [Parameter(ParameterSetName='DisableVoiceNotification')]
+        [switch]$DisableVoiceNotification,
         [switch]$Save
     )
     if($OnlyVoiceNotification){
-         $Command = "Show-Notification -Text `'$Text`' -OnlyVoiceNotification:`$$true"
+         $Command = "Show-Notification -Text `'$Text`' -OnlyVoiceNotification"
+    }
+    elseif($DisableVoiceNotification){
+        $Command = "Show-Notification -Text `'$Text`' -DisableVoiceNotification"
     }
     else{
-        $Command = "Show-Notification -Text `'$Text`' -VoiceNotification:`$$VoiceNotification"
+        $Command = "Show-Notification -Text `'$Text`'"
     }
     if($Title){
         $Command += " -Title $Title"
@@ -53,8 +56,8 @@ Immediately shows the notification without saving to the schedule of tasks. It c
 Specifies the content of the notification. This content will be spoken when the voice prompts are not disabled.
 .PARAMETER OnlyVoiceNotification
 It turns off the toast pop-up, leaving voice prompts.
-.PARAMETER VoiceNotification
-Determines whether the voice prompts are to be enabled. Disabled by default.
+.PARAMETER DisableVoiceNotification
+Determines whether the voice prompts are to be disabled. Enabled by default.
 .PARAMETER Title
 Specifies the title of the notification. It is not spoken but visible on the pop-up toste.
 .EXAMPLE
@@ -69,12 +72,9 @@ function Show-Notification{
         [System.String]$Title,
         [Parameter(ParameterSetName='OnlyVoiceNotification')]
         [switch]$OnlyVoiceNotification,
-        [Parameter(ParameterSetName='VoiceNotification')]
-        [switch]$VoiceNotification
+        [Parameter(ParameterSetName='DisableVoiceNotification')]
+        [switch]$DisableVoiceNotification
     )
-    if($VoiceNotification -or $OnlyVoiceNotification){
-        Use-Speech $Text
-    }
     if(-not $OnlyVoiceNotification){
         [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] > $null
         $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
@@ -90,13 +90,19 @@ function Show-Notification{
         $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("APS Notifier")
         $Notifier.Show($Toast)
     }
+    if((-not $DisableVoiceNotification) -or $OnlyVoiceNotification){
+        Use-Speech $Text
+    }
 }
+
+
+
 
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUPpWvOpcLm3C40/kQD4RWZoHt
-# A7qgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUrWasNmN8Y9ShJcce19lVu5Mm
+# dxWgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -126,16 +132,16 @@ function Show-Notification{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBSMhWbrLbfRB+56lbMLmXAvVgSFJzANBgkqhkiG9w0BAQEFAASCAgAjNg5h
-# CChQ9csePl/bahpgRTSHlpBDmNuXZyXrGROV+FNPDglOVb6tuCdqGOZF05nBRZ2k
-# bhLdZYXCod6nWcaFrb9NWfEBb4rfpnmR5kfwuCqSwd6sTb/4hwXcuAjS0sQvYr3B
-# PTE680eQEFEuP5rfHkOUdxLWyBgp/0beds3Uq9sDM1mMHhIIO+zzaoEXfqZaANOx
-# nIfFhFxDZwxZ/kdJI20PXc4yCAjV1sTQAdQ4tZC93zB/IZuw8+EKWNS1zN4V7ezX
-# IlvHHldWPOXBA6J6/u9DW2DoozuIlqY3jvjfubxgrx173QMH1l95VrXYKgnytka2
-# 74sbcVBYV/qis3GRqB+jiLq2IXpV4YAKZ6+56B+ivSzT94dcZBOhgsLbLWpJaMlw
-# 3boFH4PcTmD/qvY6bkAxWz871YL9JQE4ScgM0R7a4z3DUQRfG7b46i4HgfIbnSwY
-# 9ENyMyn20dn5GFAXZV/gUDXAziUPwQWBpmhrLdaRUrFbFo8ACYIM1h4LP0WLqzkr
-# 0lGmulicAVzcfBGNIT9E+02CvWN8t9OVVjKxOxO00AvDK3qWd5wTUZcsY9OGl0O6
-# lp7EHeKQV0qxTRAAuXkXLT6Sp/i4mziXVbGud23MsJSnNpqnAkfnlYt2LR9Pcts2
-# gB5w6AE/i3Q5KkTkLf+RG/7KrWzFmCw6eJdL8g==
+# BDEWBBTyjav/bpdY9zmilnuakRtEXKATTjANBgkqhkiG9w0BAQEFAASCAgCtdYEv
+# qDTZ2NhJeDmkYOnrONtVjeWHUB7i7WsNTytb1nv1GZoG4kU7d5lnzKgWAhuQAE5m
+# Ao0OneN2iNTdck1qj5TNELLzw4G+x2vBI0BWNocnSk7iHhYiqb76nV054T0+maWi
+# kPXThAT66eJr149SOnv0jnc+sPR8AYq3g3Fn23g9Ww2+JDvjxSsfquS+fC8AdOf3
+# c4Sv3BcuIm697voO/sQpGKqvUzG9M/Fy/aVSz2z9a8OPFD61IlkVLVS0BC/Qm5M+
+# 2wphV/sn6/97aY8fMLr5EbEmi839WfqWOaVj34OvId52s18jRPC3frMRh7Aq0uCf
+# 77WGdXucC91OnFONt5zX1Fok45Tk3PNN49X5+YE4JdbYu2R+/Ia1qIIfruIKgT4M
+# kTkoREIZ9hjFEwynj0JUWL7r+DuWCSKbqfTfYlLxN3xobHPIMbXksO0pj1ZUWuZ6
+# ARxF3gCuT704ZfTrolabbjZoUAtqY42TdfkiH5Y1SiKuQH7hpgE4ufOZjLepIvXF
+# vDGpveiaELmquRzPQeh1r4t76b6EtZwfYaDtDocm7dd0aPlkilCx31QBb+1eAIKV
+# SBaQcyV3fD4JlZKQulaHXcAzh4C1YPGo4RjZjjWm3FusUtqlIgzylwB6VOWzjZ6G
+# GPzvO85SISrZLxCzSDH5rPq4Cpm9d4te6sBnqg==
 # SIG # End signature block
