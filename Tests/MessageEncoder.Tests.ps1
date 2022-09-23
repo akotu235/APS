@@ -1,6 +1,6 @@
 BeforeAll{
     $ModuleName = "MessageEncoder"
-    Get-Module $ModuleName | Remove-Module
+    Get-Module $ModuleName | Remove-Module -Force
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
 
     Mock Read-Password -ModuleName $ModuleName {("pass" | ConvertTo-SecureString -AsPlainText -Force)}

@@ -1,6 +1,6 @@
 BeforeAll{
     $ModuleName = "ConfigManager"
-    Get-Module $ModuleName | Remove-Module
+    Get-Module $ModuleName | Remove-Module -Force
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
     $samples = "$env:TEMP\APSTests"
     $sampleConfig = "$env:TEMP\APSTests\test.config.xml"
