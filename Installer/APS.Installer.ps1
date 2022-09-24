@@ -1,7 +1,7 @@
 
 <#PSScriptInfo
 
-.VERSION 1.1.4
+.VERSION 1.1.5
 
 .GUID dcfea47c-45a6-4a40-96ab-759c222da486
 
@@ -81,12 +81,4 @@ while(-not ([boolean](Get-ChildItem "Cert:\LocalMachine\Root" | Where-Object {$_
 }
 Remove-Item -Path "$APS_Base\installer" -Recurse -Force
 Set-ExecutionPolicy $(Get-ExecutionPolicy -Scope LocalMachine) -Scope Process -Confirm:$false
-Get-Module APS | Remove-Module
-Import-Module APS -ErrorAction SilentlyContinue
-if([boolean](Get-Module APS)){
-    Write-Host "APS successfully installed." -ForegroundColor Green
-}
-else{
-    Write-Host "cannot import APS module." -ForegroundColor Red
-    Write-Host "please report a problem: https://github.com/akotu235/APS#Contact"
-}
+Get-Process -Id $PID | Select-Object -ExpandProperty Path | ForEach-Object {Invoke-Command {& "$_"} -NoNewScope}
