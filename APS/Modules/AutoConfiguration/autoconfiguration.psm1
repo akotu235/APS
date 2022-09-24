@@ -14,7 +14,7 @@ function Confirm-Admin{
     [CmdletBinding()]
     param(
         [System.String]$ScriptBlock,
-        [switch]$NoExit = $true
+        [switch]$NoExit
     )
     $Module = Convert-Path "$PSScriptRoot\..\.."
     $Command="& {
@@ -214,7 +214,7 @@ function Test-Password{
     [OutputType([System.Boolean])]
     [CmdletBinding()]
     param(
-        [System.String]$Password,
+        [System.String]$Pass,
         [ValidateRange(0,32)]
         [int]$MinimumLength = 0,
         [switch]$UppercaseAndLowercaseRequired,
@@ -222,24 +222,24 @@ function Test-Password{
         [switch]$SpecialCharacterRequired
     )
     [boolean]$isCorrect = $true
-    if($Password.Length -lt $MinimumLength){
+    if($Pass.Length -lt $MinimumLength){
         Write-Warning "minimum password length: $MinimumLength"
         $isCorrect = $false
     }
     if($UppercaseAndLowercaseRequired){
-        if($Password -cnotmatch "[a-z]" -or $Password -cnotmatch "[A-Z]"){
+        if($Pass -cnotmatch "[a-z]" -or $Pass -cnotmatch "[A-Z]"){
             Write-Warning "uppercase and lowercase required"
             $isCorrect = $false
         }
     }
     if($NumberRequired){
-        if($Password -cnotmatch "[0-9]"){
+        if($Pass -cnotmatch "[0-9]"){
             Write-Warning "number required"
             $isCorrect = $false
         }
     }
     if($SpecialCharacterRequired){
-        $sch = $Password -replace "[a-z1-9]"
+        $sch = $Pass -replace "[a-z1-9]"
         if(-not $sch){
             Write-Warning "special character required"
             $isCorrect = $false
@@ -252,8 +252,8 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUSZJebxmBttHYiFMVPh0mPWHW
-# ZRGgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUh70QVJP+AsiSUxD4emr1KD7O
+# TAmgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -283,16 +283,16 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBTQxbBzi6uThZFzbkICGMgNLKQfqzANBgkqhkiG9w0BAQEFAASCAgAVFNih
-# y+7L7YIOFzgVS3DZvrTIxoPMyo4SMfBCd5U3WFzNG41a50oNQpMPMVf8DA2SZKRB
-# qRZ/EZS9QBzM+F2NFxNjBRXNaUBpN6HBeXccXYHo5ZE9Hla8glHK0G0jVXPkd2MI
-# HOI0hyIeSNbayefzG83jzfxTnIsXO7R6tVq03r5WuX+mwKVityOfqhxDMlR7LFqA
-# pplPGcDTnbDgz/1d6o/MMSpFrVsD8y3AJdV6xCYm68BPkgavAMDoWQ3+ZY0N+sE0
-# a+tNj3pMMBKLLsLSdQqyZq2kdrlaEXtCZpEdPe6ocLAdCWHAD6lhsCyarRfXvuqX
-# PwujsXOBBVF61WS26ObGqoI8p9RmkshWj/aKw/tjWdfW6iNQ+9DrU6Rxn1X/mQ61
-# czG3AOdWxerSo3Mz3qjY53DV7WNC8P3aUOzd0GTY9UcjYJH1yDCv0LFwNHTvO6sE
-# Lkp0AjpnWbXHOsX7NjvqsXp8wb4WUrTFEwbguZr8QfZIAtabSDpgp8UQPKoA4EGc
-# 3UreJ2s/o6JrnZEqTNxTHS3c2lB7r4juSaRNHGhDxZLSi3FBLEAbJl2WbTp17By6
-# 0cwcDx9sTPqmxMeMXTIlLFN6aVlxy8b2UTMeV+5YfP9TmPvYapwrn0CB18+br+7T
-# uR/dKDAP86tsooH+b6NUK88Pu2S9kkuvioZODA==
+# BDEWBBQyMq7bZXIluaptHAg+uUIcR/cLWTANBgkqhkiG9w0BAQEFAASCAgBwDCd5
+# HeA8117Y563hXVw99IvJbbdmD5IPFrw7hISEW6OEf7Q45IAdmcpPIdzkjsQIST+i
+# aR60/DTiXTOIbSp/EVjQp/TlIpfVoL6L8vcFx3hcXjLhWw48+N27yTpP/xFitVjG
+# CkH/+kmK2wClPL/Y9+0rY6QI5BJPb1ZkHvtUtAl0k2m8jSwVXovcyEestbH3D+yM
+# zcOiWuRAW5msRXGO1SjlsmAQXSvgeUH36dwkQ825mmODOF2b+pEGWJa9rta4j72D
+# ALzUM7V1+DB54ND47R0/6PXKmDLUQYBoTPjnbV46F/oMNH3FrN8TZSImGtDOSzyT
+# t9uGOq81icR+Gmcy/fuLT8K91YY5Ux/TzhKQNClDnaNfqc/A7k4EVMU5aS19MrTl
+# nJkZ3/AoChEpDLEnzLZsiDeNTu/LBQuITBgRqyACKKWENY+LQ2s5BJxseS21pVoA
+# WjC6HqOZraQAA+LMtkvkSE2N8nHndFxxzWClXbifMMiC1jjUC7Q3b7TcIDY0EtEo
+# bztyxSFWKb0ThIkdywoU41pBkPpjU56qLeIee/YnpI80r8NFR9t1pEvILD2JnQbd
+# HNDMP0pF/THXiNFZtseBzjiSI4TJFbp7GX10MhnvFOEIX0wsVQPCcar69Tk6vZ9j
+# ymwiqk6vMSEfkN0s4k1hViMAho5q4r7S6WzvAg==
 # SIG # End signature block

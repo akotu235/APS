@@ -29,7 +29,7 @@ Does not exit after running commands.
 Type: SwitchParameter
 Required: false
 Position: named
-Default value: True
+Default value: False
 Accept pipeline input: false
 Accept wildcard characters: false
 ```
