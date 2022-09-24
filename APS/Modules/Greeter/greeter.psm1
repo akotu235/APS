@@ -15,9 +15,16 @@ function Show-APSGreeting{
             Clear-Host
         }
         if($Config.APSLogo){
-            try{$version = "v.$((Import-Clixml "$PSScriptRoot\..\..\PSGetModuleInfo.xml").Version)"}catch{}
+            try{
+                $version = (Import-Clixml "$PSScriptRoot\..\..\PSGetModuleInfo.xml").Version
+            }
+            catch{
+                $version = (Get-Content "$PSScriptRoot\..\..\APS.psd1" | Select-String "ModuleVersion = ").ToString().Trim().TrimStart("ModuleVersion = ").Trim("'")
+            }
             Write-Host "    _     ___   ___ `n   /_\   | _ \ / __|`n  / _ \  |  _/ \__ \`n /_/ \_\ |_|   |___/" -NoNewline
-            Write-Host $version -ForegroundColor DarkGray
+            if($version){
+                Write-Host "v.$version" -ForegroundColor DarkGray
+            }
         }
         if($Config.Date){
             Write-Host "Hi! It is $(Get-Date -Format g)"
@@ -90,16 +97,11 @@ function Set-APSGreeting{
     }
 }
 
-
-
-
-
-
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUghBUtKkXpbP+dbOLMIdQ+0qT
-# 1RegggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUvjc2EBHp8/R9kYVDCvxUaEg1
+# amugggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -129,16 +131,16 @@ function Set-APSGreeting{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRzid3g5qxWg66Pur/XPAIHvPre6zANBgkqhkiG9w0BAQEFAASCAgCq0mdp
-# YHaDcu5gXQeyFMH1wNR0aXWMS+VpLY6Il1RBfi8igZVIOkXQfTqM91cioFRPh7OQ
-# nfLzOgA+NfO/Osc2aJaZH02y8MtWb6T65EjSIYC5HxBw15MSZonNarnXvBfSZzVC
-# tJjbtBdNwVGoD5f/Ndk3ng9ErN3b7YF94+Df5xe7czkrwSXgwoa7Z5p8W1wmQqYT
-# UsRXeEVJl2qgRASXpZjqLbPU+9LjwLr2YcTpKSuV1DOw2hgP8+7esgmRGhQ1ncZT
-# ZK6pfc+qZHjU2t75aXmRh0K+S2QTgC49MqUig/R2Qx/hPiCi1FfPqQ7d3uanRGfR
-# 0X3+PTGr5SpdWawHaj/t01HGYC7i129S5YJKDAhhGo79yQ4HPQ9RuUq+Kq2P8OZy
-# 1LMU1bYdDhAA8+R4FkO/CUSP4gsdWCB97tjWgJIfKKUwmyf4NVgnmmmSJXasYgRE
-# Sq2ILomcZyr+XXWWupg0td9xnbRDkYcJSciibNlTDKmDtQHXvG1R2PGSfcYMP52T
-# 3+GE7Ym/sTfimbehFKf4VpQS5Ky2dnYv1+gQVIztKMy88z9wnh8bS8wco3K38QKV
-# suyj/IosIBSdGKNJCI2QoCMRxqqVYnAVL+B/7SXXXKWjydGh18sB9g/aMGi2yE9H
-# ptMnJgjiJVM8TSwsjqOqsUq7Ipegavl82r46zA==
+# BDEWBBSVzELYoxxf/lIpRgxUG2rc9+JqjTANBgkqhkiG9w0BAQEFAASCAgCzx+Jj
+# AygCKl9+mRn8Y/ctWAhhcMooGGipbnoGU2C5ELMVEzwLWGVsdArZA3flOJS1qyzd
+# JD0E9KTwNMXOpKUaG/GSAj+rb7N3oWZ9TL9Owiw0ELq8coSFONjl471Cc7UpHWRr
+# QtIdvbdqkoap0SVKXbEGzRKZgBxvEkX8lmV2vOeNMtRBjQs91GghQ/oI1kkRYDs1
+# /nKG8XTZxvZw8zFGsxPEZ3rSkEpFaCXYWK0Aj4MGK5qgmGK49VGBLN6fT8BEGAEW
+# nxrWfWhi0UPLWzRxOIBpeau3LI7dv7IHSg5GjnobZ13ehJwMc2uvWxdDyGPRuFWD
+# pERo8cVDidvMBOMHHx6A0DjBlsc+/Z+oRLFPnrrSIFqJlhNDLyKcbP0FBb9jN6cP
+# mXAqDwTPDG+P+ngdHdjJgeih0AesO7dKqF1mtVg/pjB53fpXYzjWws9SodcvWy71
+# Iwu7N5/OoYOC6P0haZVtjCCVY97/+OkuITl2kBUF25EyH2iL46DDHgBRclWYQt2U
+# KMR76WC0IwTInyyRxmRNZKAOpOE+mDkrxFz3fdhniMZTaEab2xsVhmxW0/GitZob
+# ydyECSu6e7Kia8LVt7uNwJ7Gj6VnCQ2MiHJtmSiVMDBiRdL3gQPKVMGT91WHdgtj
+# KnHb73/27yZFiMON4fBNGOYPd1jlfH6EUGz1Xg==
 # SIG # End signature block
