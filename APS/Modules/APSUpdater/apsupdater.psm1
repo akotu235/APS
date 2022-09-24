@@ -33,8 +33,8 @@ function Update-APS{
             $content | ForEach-Object {$_.replace('`n','`r`n')}
             Set-Content -Path $_.FullName -Value $content
         }
-        Get-Module APS | Remove-Module
-        (Get-ChildItem "$moduleBase\Modules").Name | ForEach-Object {Remove-Module -Name $_ -ErrorAction SilentlyContinue }
+        Remove-Module -Name APS -Force -ErrorAction SilentlyContinue
+        (Get-ChildItem "$moduleBase\Modules").Name | ForEach-Object {Remove-Module -Name $_ -Force -ErrorAction SilentlyContinue }
         Import-Module APS
     }
     else{
@@ -62,19 +62,11 @@ function Get-APSCurrentVersion{
     }
 }
 
-
-
-
-
-
-
-
-
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUP9CNjDBYRGjSnv/bWUOlP5lL
-# JQSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUoDnASzBLLFHE8njABSTY7yrq
+# VZagggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -104,16 +96,16 @@ function Get-APSCurrentVersion{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQ16onyMVg3NnNs3LZhoyMiittXUTANBgkqhkiG9w0BAQEFAASCAgCsPmO0
-# rMCkw5CCVAkJDHp7KMZLEeNCh53PvUPFP9H+MPRuwrtYFj+sqPscurkomtUIUPmj
-# XwQNhH9X5qKW8J5YuiAtZnVrItEIFgKSQ+M+6NR+Wo9EtRDapuKVmESO4GrVl/Rl
-# T1pvDj8gZvm6zTT08Ju6E20/S3waYFxf+5gzMxZk6XXePByu8+QCk9f2ctMw5PyJ
-# rnHeAK11H37p0LsdkMNfBABkyWnvwagcLPbcLVU2g6b3VSU1+0620Y2GtVIo9RZJ
-# vX+yvSuqfR5Zov+DAWqkmJpWCnfgYR7Dd1b6ye8z0ynmJnOT2+DtJcBHTE16WTti
-# oAb+qN2hTGkPLCPxmy8cM5lrotYZPJuDiHuwr15a/ZSFIYcABetdXVNwYtC6+Yj8
-# BtPy/z3pfFEpuj1nUrB/1QeE/sD4+8mzJbm6+fjENhfTvQuYyGXwWhcXYcpeiEuA
-# DbLjrtylicfH73sj8Zn4BBj8UiKLgaivxn6PZ58eacNpueeHam3jy8i94P9shBhM
-# aE43aqv9wx/PAgmRI8DbYb1cgS/zA+d3r8anYAa3CNzEwyZSgdBvJnpwIaoy3L62
-# 7rJmIlIIPF8ukVVtDCY1chPMF7B63FDXab64Qs/8/u5AN/j/5HpCM3QlXhkp1PqK
-# Wb0zKUeim9BfLF5FX7FntHBHZL//nApr/aTLTw==
+# BDEWBBTlblez05KcnG/waNP9141DHkX/FDANBgkqhkiG9w0BAQEFAASCAgBlTPd8
+# N+55IH3iX2/WzbQHLDwTGdFiVW336I2kAAf1E5/p0EYDMckIR+HP74dk/qZ+gr2J
+# PxCfaJaEzIUMVso4ooZZdH2aRBQb/9vL94JHGjy7pqt6ghVlHZOdg29hgpTOfsJS
+# 9g6MkHm6v4xjvo4261BnMdZqPnotWJQCRpici6DTM/DPyMCwfULHOjoLnv3w9SAo
+# MP2Sm91z5AJ/vQq+LRN3Jzu31fgiHxObdWQqc1Lojm2SmNejEp0zjgnEuzFdVoJZ
+# mOQp2xYuUyxEBZ+i0LicDBHJFjrxA3bMhL4wiRab5ZyTaredQQV4t0lHxq5PH2Fg
+# 71UW1qlyig6a61A6C2cMObGzYN0rkbYYbSlt1X023jiHZn91g/F66pNZ4RLuBzwP
+# tqe6Hek1NpRpINmsupmxR8vbBe/IA5qR81hOdx8bV3DeZwxZqiKD2BSMbIe+IU8H
+# Mrnflc55x6ua8lr2R6ZGCqcr1WDWAtGfgNzc50XLQhc5rDdH8ZkjU7/XYLFT+8wW
+# KszsgGNEkQMW2sb0UFURUiDswSC4VaWhcoxtTJT3ym9nO/gLYfWFdaUeRc6CaaY5
+# uYcidnMFoQDFZh0s6GtNnoZAY4e1XZl3Cu93HexOQYpCwHVEm6Ewr431EiTzDgYR
+# 6QH0xjZ+6KL7BWqkHBLAnC4LNmnftBPbRX8tOw==
 # SIG # End signature block
