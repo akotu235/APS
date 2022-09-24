@@ -1,61 +1,71 @@
-param(
-    [switch]$Installed,
-    [switch]$UpdateSignatures
+Param(
+    [switch]$UpdateSignatures,
+    [switch]$Installed
 )
-$PSModulePath = $Env:PSModulePath
 Set-ExecutionPolicy AllSigned -Scope Process -Force -Confirm:$false
-if([boolean](Get-Module APS)){
-    $modules = 'APS '
-    $modules += (Get-ChildItem "$((Get-Module APS).ModuleBase)\Modules").Name
-    $modules = $modules.Split()
-    $modules | ForEach-Object {
-        Get-Module $_ | Remove-Module
-    }
-}
 if(-not $installed){
-    $APSBase = Convert-Path "$PSScriptRoot\.."
-    $modulesPath = "$APSBase\APS\Modules"
-    $Env:PSModulePath = "$APSBase;$modulesPath"
+    $APSBase = Convert-Path "$PSScriptRoot\..\APS"
+    $modulesPath = "$APSBase\Modules"
+    $APSBase
+    $modulesPath
 }
 else{
-    $modulesPath = ($Env:PSModulePath.Split(';') | ForEach-Object {if($_ -like "*\APS\*"){$_}}) -join ";"
-    $APSBase = $modulesPath.TrimEnd('\Modules')
+    $APSBase = (Get-Module APS).ModuleBase
+    $modulesPath = "$APSBase\Modules"
 }
-$modules = 'APS '
-$modules += (Get-ChildItem $modulesPath).Name
-$modules = $modules.Split()
+$modules = "$((Get-Item $APSBase).FullName);"
+$modules += (Get-ChildItem $modulesPath).FullName -join ";"
+$modules = $modules.Split(';')
 $modules | ForEach-Object {
-    Get-Module $_ | Remove-Module
-    try{Import-Module $_ -ErrorAction SilentlyContinue}catch{}
-    if([boolean](Get-Module $_)){
-        Write-Host "$_ " -ForegroundColor Green
-        Get-Module $_ | Remove-Module
+    if($_.Split("\")[-1] -notmatch "\d+\.\d+\.\d+"){
+        $moduleName = $_.Split("\")[-1]
+    }
+    else{
+        $moduleName = $_.Split("\")[-2]
+    }
+    $invalidFiles = @()
+    $authenticodeSignature = Get-ChildItem $_ | Where-Object Extension -Match ".psm?1" | Get-AuthenticodeSignature
+    $authenticodeSignature | ForEach-Object {
+        if($_.Status -notlike "Valid"){
+            $invalidFiles += $_.Path
+        }
+    }
+    if(-not [boolean]$invalidFiles.Count){
+        Write-Host $moduleName -ForegroundColor Green
     }
     else{
         if($UpdateSignatures){
-            Add-Signature -File "$APSBase\APS$(if($_ -like "APS"){"\aps.psm1"}else{"\Modules\$_"})" >> $null
-            try{Import-Module $_ -ErrorAction SilentlyContinue}catch{}
-            if([boolean](Get-Module $_)){
-                Write-Host "$_ " -ForegroundColor Cyan
-                Get-Module $_ | Remove-Module
+            $signingErrors = @()
+            $invalidFiles | ForEach-Object {Add-Signature -File $_ >> $null}
+            $invalidFiles | Get-AuthenticodeSignature | ForEach-Object {
+                if($_.Status -notlike "Valid"){
+                    $signingErrors += $_.Path
+                }
+            }
+            if([boolean]$signingErrors){
+                Write-Host $moduleName -ForegroundColor Magenta
+                $signingErrors | ForEach-Object {
+                    Write-Host " -$($_.Split('\')[-1])" -ForegroundColor DarkMagenta
+                }
             }
             else{
-                Write-Host "$_ " -ForegroundColor Magenta
+                Write-Host $moduleName -ForegroundColor Cyan
             }
         }
         else{
-            Write-Host "$_ " -ForegroundColor Red
+            Write-Host $moduleName -ForegroundColor Red
+            $invalidFiles | ForEach-Object {
+                    Write-Host " -$($_.Split('\')[-1])" -ForegroundColor DarkRed
+                }
         }
     }
 }
-$Env:PSModulePath = $PSModulePath
-
 
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUL8tnhbQ7val7mJk17c07kT8w
-# AI6gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUaLByxRGGPjRJhWtWY9esm4f0
+# NvWgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -85,16 +95,16 @@ $Env:PSModulePath = $PSModulePath
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBT95HbjO+7PhB9aZXmOZsSXqiDDPDANBgkqhkiG9w0BAQEFAASCAgBkMw0G
-# NJfUIec45pvZTjYN4cGxjppbtaSgEY+QAP1z9IWLhDteZSkkH6lLw7vyyqRleklx
-# HkfFag333sP/pp1+2IxNINRkGOAhAhwQWacDDg43ApgApB1piiLaVsO2tQWoi4pU
-# NU7RFqafglA06DhSEreukQOvnFdui0K/VmnO7NpmB2XtBYD5n0QW55lWg0FPwvom
-# qo7Jhpg7Zwyu08gPW5xh5qEYrR0DdkU3E4m1mG5eM62S+fUQAFvL4Fkp57LhSqk8
-# eu6P8j71pFEBKNdX/d640UW52agQC7TnnTrA1l83hEGgx05meTc6pmL5gWcC1TW5
-# o7K+jaTjAipfbkUqg4/ZF4+ykXGKf3IywqoxXPBi7YpZPAITSKlAWspsDGkxUqv4
-# okv2T4kjUx3m5/HK9bdBMyGXbGhHYWAittmpA88WLwKKffyOO38nhs/SuesqnTuX
-# zFMl//XkjjPgCCQExwRymYi2hC405e5rM85n+npdewoQwK1kgcoQ/CQCZKrE5oeZ
-# vQ2IKR5n3TIPtSnp6INRzpuCfm2YF+l7hBP3F69I11lcKEUl8obkq4btqHbQ3rHo
-# 1z7au6DAyVM5pWhM03FiWLHWh4/OPzRxx79qCzlmPjN4IA/92knI2TXIIinTudBl
-# Psb7jb2m+m+jBHItdW61Y7mAiuuJ9uTf4aT6sw==
+# BDEWBBQcUJUO/6SflYDtgQzbsnI8LG/w7jANBgkqhkiG9w0BAQEFAASCAgBknX7x
+# xl6tRXKEVHAzEDOCRronOJArSv2J+pc4EhjYUMwTFZVpD6oThbVOaDgy43iv8Hfc
+# vYQM3smYF04vG9ShZ3Iwxl1POnEjMwFEbajzKZ/M1TS59hb0LDLXf+fG16DsCGso
+# KN6ChkBCTh4QHUQZB2aeWKnCD4A8BHZJx2d1SgumHpipNwBMjJjUgPyJMegzHJWj
+# ZAfq8ygyc6VebllScsove+/gTtgC3EWyWSej3v/RcP/i+IhutElsQn9YwdCfujzR
+# +NM+2lgMPImy667CfefePaBXH+le010izFjvh//FLghdiiWVFBpwVK4u7Xr2yrcA
+# jcX67XaML03aGLzBZmRLIrQ1SlxxwOMRujE44yOkrDWlRbxEbdFMVJy1YMC3ywyk
+# 9QX+GDTXffjxhjX3FyigoaQws34LdTGlAs3XVr2yUKN1NDnk8nxx1oCSq/hrHmjv
+# dNaMBuwOwZtfcx/ytiNd2+vYShE6THtlfgktuRMlwDJ4CZZ7rxZ96B7xsE17F+vO
+# 6F1Ob7VQ0XWA+uIGlQFmD/zhVRaablCb5/CYXY1YYrsChhTyGJz5NRFkYkLzAfCA
+# JPDHWv0D8xu5YGdcDGtOcCNUUCh9rl/QdNX5CkMn4BH5aHBdnYzMFqSm7OSYahFZ
+# yiNY0xiYu1f8Au5vMwqCfp1ewnbNlx7sf5N1FA==
 # SIG # End signature block

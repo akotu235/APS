@@ -2,7 +2,7 @@ $modules = (Get-ChildItem  "$PSScriptRoot\..\APS\Modules").Name
 $functionsList = @()
 $modules | ForEach-Object{
     $functionsList += "#$_`n"
-    $functions = ((Get-Module "$PSScriptRoot\..\APS\Modules\$_" -ListAvailable).ExportedFunctions).Keys | ForEach-Object {$functionsList += "$_`n"}
+    ((Get-Module "$PSScriptRoot\..\APS\Modules\$_" -ListAvailable).ExportedFunctions).Keys | ForEach-Object {$functionsList += "$_`n"}
 }
 $functionsList = $functionsList.Split()
 Get-ChildItem ".\..\APS\Modules" -Recurse | Where-Object Extension -Like ".psm1" | ForEach-Object {
@@ -30,12 +30,11 @@ Get-ChildItem ".\..\APS\Modules" -Recurse | Where-Object Extension -Like ".psm1"
     }
 }
 
-
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUau9rzhAEiV7ooriF0/LDA8NS
-# OX+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU2qOgAiKye207VglutOqVMyk9
+# X5SgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -65,16 +64,16 @@ Get-ChildItem ".\..\APS\Modules" -Recurse | Where-Object Extension -Like ".psm1"
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRyxRqW+1JiRr1GKCJR87oPuOLqaDANBgkqhkiG9w0BAQEFAASCAgC7rBad
-# xkBCe8ufiMjanPFOKaSu1nXaUBxRsMkRpDxrPcgahBicDPCp9nkyPaeTYqCt8oPC
-# OIIniKms9xPY8Mysqy0Yo5nQ55J70v931dChXOdzxaPbVxtOL0j2PGoYHk7m4Jfl
-# 1ULtgo3ozqQ1jjg0Hent1iNjfW1clRDeP1c8L5uP55qb8zLEzi7g/JisCe3KhERt
-# DyIFXXA/HHmcZYSUMRbq+5nJeCDS92cptYBAtJ+aC47L/9Z0BSaPi5GerHeLfSi0
-# JmH+iKTNheDonPiwPWtAgWiq+DbwbJ0HrO7ncFQIpCM+UNLFjOu2gesa986+7Qru
-# YK5BWfCV48JxdC8zz5YobqWaUAGL1fdSWqNPsIMbjokpbieJP2aV8y5Dw92IyQbK
-# rG9KubEtm8TPytJ5J96JaDG9kmcWtw0PFrHF6Sqi+huAYtyM96nx3GlTkMfy4vje
-# 7tXrmffrDz8qbCBqbLKVVquj41lgsJLofjKI88cm8ZrIMQrX2FO3fo7uJt5xTWqy
-# CeNCIZfbguDtxBm/IaGeBb6+Rv3JQAqg3kbIiF4l6t1LYvjwBjiu9uNDPDEF6ItI
-# HLkRBdDrFZYO030Ldy8fpcx2PuYSQPcL3ddVkZkz7B2HNmz9moH7vHBqCmSB2XcD
-# 7z7DmAoTAltOriO0ZHfgu+fcXit+b/6Yf82qiQ==
+# BDEWBBQsNrN39oObaUkcVbPK9/Jswcj4EzANBgkqhkiG9w0BAQEFAASCAgCjYNQd
+# MNcBFQ6ppNy8tQQF337iRme4xNz7taJYOobJ7H/OS8KKAsPe/GFiMlUmIHh8jonQ
+# DHgh/NOrlYyHaurwcgMHubTKgJHBasNF86yK3YsWtjEYYxTBePkX4WCBoAMd3ELe
+# 9qNX8ZIN3DvJJbZtKRNvuZTyPPwEQC2L9PbzEtC/wg+6i8lkofWsYbcrFEg3snph
+# w4GtKg7kDCwWPO5DnXA21pcijdi7JZZTFyCwIqn1kYz0xz4t9pRsXmRZmZ2OK/Ot
+# 1Vf1yBzZKjN0mlOnuK7zf7HFIko5Vx2w4kAfncjlodMWYoWDA/+Jn5Yl28dv6t+5
+# XJfdvy7UJbmPCUTIeT0/nTQddiyqxKZtHayZYyblj/ZNoDparxwcWTo5fje6bxgV
+# scBf5wIzveDivvhTFySANd0i2T7NRqraW5tl9O/Xn22XeBPw29MdL9T/XHuqxKNg
+# N8eS3AWc6VJZoypYG3lW0KtoDiGJhD0o0SLfFn8fRtI6X2gDYdIA9XIuYNO9NLG4
+# np+BP6jugZvW3YVNmCRpybkku9WXoMUIZptY94y5XV6U9ld7kij5lty3vN6XqKLX
+# J4l5QNQIzPbFZuVu2JRXB7yyJoBx5hNKe4bq1+j1WTsDXWU02GdO9pP7MBjUHoLF
+# koX3X6p0muTZv+S7coGuow0dTJJyfden3ZICIA==
 # SIG # End signature block
