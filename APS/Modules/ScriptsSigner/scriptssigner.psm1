@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Adds an Authenticode signature to a PowerShell script or other file.
 .DESCRIPTION
@@ -105,15 +105,26 @@ function Remove-Signature{
             Write-Information "Signature was not removed from $File"
         }
     }
+    $content = Get-Content $File
+    for($line = $content.Length; $line -ge 0; $line--){
+        if($content[$line] -eq "" -or $null -eq $content[$line]){
+            if($content[$line] -eq ""){
+                $content[$line] = $null
+            }
+        }
+        else{
+            break
+        }
+    }
+    Set-Content -Value $content -Path $File
 }
-##########
-
+############
 
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUjrHR0EZZCUpq7GBu5CtkGlsP
-# os+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU4zv9b7DW0XtjX/OwilJgEkTa
+# d+KgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -143,16 +154,16 @@ function Remove-Signature{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBR9/yUQkd7qsj+w3DkdwYnNIXo6fzANBgkqhkiG9w0BAQEFAASCAgAdehiK
-# YfDLqsDXQADTR6C7DXEgq9Ehh/bKmtIvGV1jpB61bGqOf+S1GaT1tITy55X2enLm
-# t6arv0iwFYkY2k9wb5u9VBpTJLR55JmX2Lb+IgiliOuwIVvrxht7JX61LvS+kFdm
-# VNvkBeTJVpBhvtwiz5Aq2eUzNS3wOm+sOgo9hLbrtYd4NA7bj7bDH+hHzBvZjeES
-# MKTm973kAtZzMwvxGnlC4aTv5jE0OxxxAUndQsAHkNfmijd0GFuktu++4s66+cv0
-# coeXAqUoBLa6fkWRAjZmITip4234n1eIuGEX1WrL0uHikhwK2Kdz0SkPwDyNEvM2
-# pdYtvvnOD/mMmXarp7VbEaFETG+EVOCq9aSlwFkhux7FrGhYj089DqDj8xMdN4t3
-# inLu7s5eLOhCDx3ttWERMLjdNGZwQhs/cSZtVItQJJrJ7/X09uy0WtKcPaW+xfaP
-# BkQNRl7Fd272crqtA9hmMSE5xr9qcZAg0iqfT+uzV7nkkyc7SGGTDmSM2vtsxMmX
-# OqhUTll7ipfwz+VlVdHRe3RnPnmTBmSDp4pihYPZ8x4EfbqdQuZS+cJAcIhDBBL/
-# St2CXvpyuOG+6isyzV1STw+bZjwum41uDOLrlY7KYshlkROxOC6GeSl7w+NgN8uI
-# YkGWAKVEqXHt1G74TrR/2j0Y+yiIpoOruoDnvA==
+# BDEWBBTIDmp1DzWE1+XIVrgM49KeuCEKMzANBgkqhkiG9w0BAQEFAASCAgCTik8u
+# N7Vt7K05HultAUxu3ztFDUHW+G0ghAch5EcsLAZiDib0tvB7HYuX82dPkPH5J4u5
+# KP7IsZ5rhnuC+4tKJ2PVBD5RJ0rpTl7zjcXvXVSImnHO87pWR8WW8wL8pBl2QsbC
+# KwIVjBrT+9zMEsXTOMV8TChrhrwDa90kvgDeOZi9WLhtmJaFdBWk8DKKn6988H1k
+# ze3Uw8/KVCeJTpHPoCiV3pwbZNGNMemI9pwMB8wYzMXfN2aDgJS+448BIdNy1pnA
+# zunitq7o7am50c333oxaWRrclvxyNA5aVH3AFXj+bBXrCMwlxh4fS7xNA52LsrBF
+# HMUdeQbwrXGmVPmUNBFqxPExWwBkb+1mIOsRtAV+PPBMahGi4XTXERbzi8p+pfsG
+# H0SZwrf5mJXMr3B/C0HcRkoNG7rQtzpkYI03pHOXsfSD6rW6Nqt3ZNblbzpdmwLG
+# 7n5ZGSsWkeUG6arDOROKF+xE88oXpESt33dO5lrNfq3F32NVI5yl9/H18lZQRUXa
+# t8dzjpNH1mZPYzNlZJHDMX66WSXoRIdIkKCv/CdwaOxciO5BA4zWPAqKIN8uyPJZ
+# W+ufqqdvNS026nhUlSGNjH6lVG9wV0af5CtK0k9bAtbNA/1+9A3XR1mhDT6/b31k
+# Y11nY55Lu/ediSAh6FNUHTglH9yAVP8bS23wPg==
 # SIG # End signature block
