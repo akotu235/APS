@@ -139,7 +139,7 @@ function Get-Weather{
                 Pressure="$($WeatherData.main.pressure) hPa";
                 "Cloud cover"="$($WeatherData.clouds.all) %";
                 Wind="$($WeatherData.wind.speed) $(Get-UnitSymbol $Units "V")";
-                Direction="$($WeatherData.wind.deg) °";
+                Direction="$($WeatherData.wind.deg) $([char]176)";
                 Visibility="$($WeatherData.visibility) m";
             }
             return $WeatherObj
@@ -160,25 +160,25 @@ function Get-Weather{
 function Get-UnitSymbol{
     param(
         [Parameter(Mandatory=$true)]
-        [ValidateSet(“standard”,”metric”,”imperial”)]
+        [ValidateSet("standard","metric","imperial")]
         [System.String]$Units,
         [Parameter(Mandatory=$true)]
-        [ValidateSet(“T”,”V”)]
+        [ValidateSet("T","V")]
         [System.String]$Size
     )
     if($Size -like "T"){
         if($Units -like "metric"){
-            return "°C"
+            return "$([char]176)C"
         }
-        elseif($Units -like ”imperial”){
-            return "°F"
+        elseif($Units -like "imperial"){
+            return "$([char]176)F"
         }
-        elseif($Units -like ”standard”){
+        elseif($Units -like "standard"){
             return "K"
         }
     }
     elseif($Size -like "V"){
-        if($Units -like ”imperial”){
+        if($Units -like "imperial"){
             return "mph"
         }
         else{
@@ -187,11 +187,12 @@ function Get-UnitSymbol{
     }
 }
 Set-Alias "pogoda" Get-Weather
+
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUROVceRQub2SKM4QGDrwE46It
-# mjSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUR9dk2EdR1VAN7E3rQ4B07AJ1
+# Fw2gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -221,16 +222,16 @@ Set-Alias "pogoda" Get-Weather
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRzG6koP/nOAPjibH3VO42d6lYfDDANBgkqhkiG9w0BAQEFAASCAgCf3tzp
-# 7kn/ksOIeSiyWvOfZKB/iNDhNt9YDNDMZUtPterWNFkbm6xuwKvTJg5i0cccx8G/
-# q9LOPt1mbi7SkF0EX/kYYuMye0bZPP2o3GkXInIQwlItna/UTP/PGjA7v7yRjCQx
-# Uc7MFiRHwY4oeXrnYB/dMMHKseGzREKiRyctKZugWKf0/NJx8vyY8zbaDHEyzR0m
-# ckJije9pCxMzxWvG35DdOgXjhHBaguUSOq7PC9lraDgIYOCbf+kd6I1F/P7gnXGX
-# ojthFSCooHFc/yK0N0slwmKE/dN27jgn83RroVRxU2C/rcxH2vE1NJTcTdazspka
-# jYNBWNisuCH9b1p830NjvXNttdxm1GXU2jXLkYS21sxlEMMmIQ9ynaLP+RXdb3jt
-# 7C97qL4OxOds5kr/Jlj6uL5wpyWr1uU8OiHAl+ApcTnp/GWQsFixMKUgla1LF//q
-# 38GsFIAm6qKNASZAex+lFxbxzbQRuoF/2+N9wVyBWKhwndxcFuXuvGZo7VPl7rCW
-# MxiB6nylMVkjwNVNcGjfazpYjXbxY8eiPzuGzFDocZaNR23ZW5z6zupjlL9Yw6PA
-# 9UtHrgz3Msm1wdoZ/dzcDQzdAyJXPbv8uFxwcpTnkovCXO0I1SUnCNeHXOoE5yBH
-# B3t1DeMxNC2Zqw1ibS474OFyH0OHOgoFQ529jQ==
+# BDEWBBRJ9EijfwlLCBMEsJ9LTxYAf9Xt2TANBgkqhkiG9w0BAQEFAASCAgCRqq0v
+# tGfzii9GoMost08vipwjbDzNwXDZzV377VIVZUvwGy/9gyJludkj89LhdcwBwjIV
+# uUi+hs2ND6GI82NIhidZ3nlgDR1Y8Bp+yI0UAtVcSFnehD+x3XrV1OzxR58JDy/p
+# W07eJABkwtpXc8EwHdBcZic28BGa2wsTX4vuoXhnlKhqesOqnyn2hjYnVes44t3V
+# 3SHkW+WB5afsTpQ4mGhdVOl3d1O4LFn0IEviAqNPvl8UhjNlxR35bxkGkU/2W4rU
+# 8qz8rW2nBorHSyUxbb6bed2hNAN7ntDQWiQVArkJy2TUSsFlQ1WNsApEC7TQYeWY
+# T/mWYewwXWl+ym1Fu/cPFjGygPo0SgvtaDVYCDgqPIqqANu5RFhyk4n2d3KgRKmS
+# dyPfDtiT6O1QinAt2XS3aobdQjiA92rV5L9ceHLSSUlAopliDaOxT782jSSv/M/T
+# 3h7ZYBEoB5CGQNFa1j8nyXsq/Cbj4Q0voZtgp6mq8VLDmcOd74Qdwt+Y8/TeYPwo
+# KsG4WiWsdg9rDdZelmF2CePXsg4q90UIkbiFeMriek/SUD69XHhyaT3u+XMXsQ0S
+# sM/x0TXkPvX0wVOFbQ5zMA+ZtOuCjXD9ik+8p79uCwVR+8Y1yE/pc5tOKnXYkENd
+# f4MbPsoC04a0POaaGhD6Q+caiK7ACLxGwOncPg==
 # SIG # End signature block

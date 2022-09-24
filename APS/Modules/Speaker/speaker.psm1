@@ -9,8 +9,8 @@ Use-Speech "hello"
 function Use-Speech {
     [CmdletBinding()]
     Param(
-    [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
-    [System.String]$TextToSpeech
+        [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
+        [System.String]$TextToSpeech
     )
     Start-Job {
         $sc = New-Object -ComObject MSScriptControl.ScriptControl.1
@@ -25,12 +25,11 @@ function Use-Speech {
     } -ArgumentList $TextToSpeech -RunAs32 | Wait-Job | Receive-Job
 }
 
-
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU6l+x2GvzsE2kkw4dooBxUexU
-# XKKgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUqYO/vNf5EW/qIRLHItoQHN9u
+# gBmgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -60,16 +59,16 @@ function Use-Speech {
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRbwo1fkejLj9PqtWBZ5Lg1LdGLKjANBgkqhkiG9w0BAQEFAASCAgA5Gp4w
-# WOpPxX9fcTZ/QEBLxCGES7ppXrkI86qfedSlfGik0YvmvLwwrKHEOoM2fRkzUU/B
-# RCSnLqgXcy/E1GR3Onajhjp3Nd1CJN9/DXm7G6EEMVuc3pyGQUK9mH9uuG4/bVJ3
-# GihNt/pNkNR5qOMgn086QdN/eVGg4sd0CytsbWb/8dDPwnRwb4AJIWvPtkxH/OMW
-# Y6ZBP1kGbby6Jg3Vvk8YduE7ODhpmWT5I/fA+g6HvE9zlLCDOqlF9btP6KRqxI2D
-# RY3IVE6iOzL39Spa/ogRtdr4jVS+47ADItuoCSf7p986TntaxhrRbpBMrqcf2bmJ
-# FdmBerfy/WaykkV7PLa4O+lPx7swfzGFF6Xgg+q6LNkS2mjDBn4UF32O6IeU1YBe
-# PTyJA1fRk2TTaOiJ1Wsz9u/16inGehPqj4HoMFgNiesbZxdSEkcvCiOfkqbJm4Qm
-# cTXT6djhE0vnFO2sAYSD1iF25ug2ZIUvAAhQCeDoCMfU4YbveZSllDXOHYwanQJ/
-# Zcx+zORucLnaeoCic2+NSLvY73INfWvbjAAb2Muh2ivjifGLHavneqi6I8KFd4jS
-# unIMXJt1UuxIE5/euPyFsQBtH/NgjRXAfA7l++hy6AsbB9RFmS2Ydx6gdQFboheR
-# oXPm55Hp1aw91RXCnzFR3Cg/sVvqHgOVTQSGTQ==
+# BDEWBBRL9QjxgMagVmz0EsiRx0I/XOGNdzANBgkqhkiG9w0BAQEFAASCAgBpjFd8
+# TsU1TPL6ypnw7kKa6JK5ci5hfp08362idvbCnTIDbmUTclvP854wFRUxpg/jeVPH
+# f6HRMp6+qnm33cBc+2rKOcvQ28Y11AruJGmSJxwRFnv4+HzNPz3BNq5ESIcH5Jdp
+# 31IWxTx0rB+aMVoyP/z+vlc+LN7rrsQV/8SpIJL2qHX5oN2LXiJylnAxyKgjEIys
+# HCYLN4scb+RWBW0Pq3T3U0hIc6GKRK2YX4Sl1m7diYnUI7Nc0WrOoXswC+CWnOxj
+# S+/O/nPB/lh03qxSW49dxkCod28+avfZe1thLlUd91KX+14nfI8t24SQtuufSrpu
+# qEU5YjTOBTEYpnOlPaVpaVVqH3gQg/PwimonwlzhLzuKHpI6bu4mPWJtZo7MGxjx
+# msJsSdUMQAKNeeSovZXH2HqGTsOgKrpBIEBTl+rbGcNxNI8lrRLcGybwpgxHAvUP
+# bVGqVv+XynVDRFn/Ze0t3jtTe+Gsz9VIb0WfanGo91v9wfqRPtoFNFJT7IIYX0vj
+# kD8prdyIyG4DtHtxEMhGLaaYUUI1AOGDdWelHYpCl7lp6rxZfheV8yDe6Ifoniq+
+# lZBfh18yuAXafFsbY5V8rCw5i0boeMOFQ5bR0kjKsky/eAXeMTwOQ26T7G4YgncA
+# yMrfJdJ+/QOwZ0I0OGVeqfXWQf1mlo2J2sXpXA==
 # SIG # End signature block
