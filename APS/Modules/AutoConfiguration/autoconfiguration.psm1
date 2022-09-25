@@ -202,7 +202,7 @@ function Read-Password{
         $confirm = (Read-Host -AsSecureString -Prompt "Confirm the password")
         $passwordAsPlainText = [System.Net.NetworkCredential]::new("", $password).Password
         $confirmAsPlainText = [System.Net.NetworkCredential]::new("", $confirm).Password
-        $passwordAccepted = Test-Password -Password $passwordAsPlainText -MinimumLength $MinimumLength -UppercaseAndLowercaseRequired:$UppercaseAndLowercaseRequired -NumberRequired:$NumberRequired -SpecialCharacterRequired:$SpecialCharacterRequired
+        $passwordAccepted = Test-Password -Pass $passwordAsPlainText -MinimumLength $MinimumLength -UppercaseAndLowercaseRequired:$UppercaseAndLowercaseRequired -NumberRequired:$NumberRequired -SpecialCharacterRequired:$SpecialCharacterRequired
         if($passwordAsPlainText -notlike $confirmAsPlainText){
             Write-Warning "passwords must be the same"
             $passwordAccepted = $false
@@ -252,8 +252,8 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUh70QVJP+AsiSUxD4emr1KD7O
-# TAmgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0rQbvTv/JPYG7/OW5J6HDPYI
+# Eh+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -283,16 +283,16 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQyMq7bZXIluaptHAg+uUIcR/cLWTANBgkqhkiG9w0BAQEFAASCAgBwDCd5
-# HeA8117Y563hXVw99IvJbbdmD5IPFrw7hISEW6OEf7Q45IAdmcpPIdzkjsQIST+i
-# aR60/DTiXTOIbSp/EVjQp/TlIpfVoL6L8vcFx3hcXjLhWw48+N27yTpP/xFitVjG
-# CkH/+kmK2wClPL/Y9+0rY6QI5BJPb1ZkHvtUtAl0k2m8jSwVXovcyEestbH3D+yM
-# zcOiWuRAW5msRXGO1SjlsmAQXSvgeUH36dwkQ825mmODOF2b+pEGWJa9rta4j72D
-# ALzUM7V1+DB54ND47R0/6PXKmDLUQYBoTPjnbV46F/oMNH3FrN8TZSImGtDOSzyT
-# t9uGOq81icR+Gmcy/fuLT8K91YY5Ux/TzhKQNClDnaNfqc/A7k4EVMU5aS19MrTl
-# nJkZ3/AoChEpDLEnzLZsiDeNTu/LBQuITBgRqyACKKWENY+LQ2s5BJxseS21pVoA
-# WjC6HqOZraQAA+LMtkvkSE2N8nHndFxxzWClXbifMMiC1jjUC7Q3b7TcIDY0EtEo
-# bztyxSFWKb0ThIkdywoU41pBkPpjU56qLeIee/YnpI80r8NFR9t1pEvILD2JnQbd
-# HNDMP0pF/THXiNFZtseBzjiSI4TJFbp7GX10MhnvFOEIX0wsVQPCcar69Tk6vZ9j
-# ymwiqk6vMSEfkN0s4k1hViMAho5q4r7S6WzvAg==
+# BDEWBBQf2VLm8PL5yhalumQfp0iM7eKhdDANBgkqhkiG9w0BAQEFAASCAgB+lZlj
+# oNNIKNfGnG1lc/I5/h4TInbYNrQpAaGUC/AqbgOF9rMs+booL2P60Lh7BOStSQ8d
+# obcxTSprrUfYG2lwJikOphVv1281YKmoL/+iL+Vx+fTxVnOiGSJo670rPPeFvYvV
+# 0dGOdqLeAvrumr3Fl7rlVleHqHd71CEOH8PoRVVpg0yLi/A9IFCCRZuvP09uIbZZ
+# +U99sWGdAWXJPTCVbPBcSuCShzyGpmS9Rt9U3gZ0iGxmxFiDcv5RRYGi4RDhr8CO
+# XhiRrx3FmAm6XcazO2JUZ9KjADw0KsZrwsBPt0YAewDG1I3ToxmjRzTrOWECbzh2
+# gebNS3RLsAzKA/F/2//DD0soCpCxcX7regGoKAdbBwH1NBWnwZzRh1qAM+IjxlWv
+# dgpMgghxtCE++uVyo8NoWtVdXH6wOUZblaIKz97xqm57qnk0lszYdmGlwDPu2Sw0
+# o9uk1guRklRN4/DvATTbJIhR5vSgmt7MS7QmE75NMnTPozBbzBXjtM5G1YLK5AWM
+# DC+Fq2W8BQvYjuKH8/oCNu8T0mCaFbAaYG5ArVDiXqYItQ+NJg1dSuw+YUldeVQt
+# ubspG6tuJEHgLaOaiyV8H1cimg/Z1nJqQjGymuRXFZPdW47Ko5lJ3dbLkoisUO1A
+# dW0w8f6whBNbdowRHqYLdkQuS8AZUFoshzrKPw==
 # SIG # End signature block
