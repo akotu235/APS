@@ -1,8 +1,8 @@
 BeforeAll{
     $ModuleName = "MessageEncoder"
     Get-Module $ModuleName | Remove-Module -Force
+    Import-Module "$PSScriptRoot\..\APS\Modules\AutoConfiguration" 
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
-
     Mock Read-Password -ModuleName $ModuleName {("pass" | ConvertTo-SecureString -AsPlainText -Force)}
     Mock explorer.exe -ModuleName $ModuleName {}
     Mock Read-Key -ModuleName $ModuleName {return "CN=APS_$keyName"}
@@ -11,7 +11,7 @@ BeforeAll{
     New-EncryptionKey -Name $keyName
 }
 AfterAll{
-    Remove-Item -Force "$HOME\.keys\My\$keyName*"
+    Remove-Item -Force -Recurse "$HOME\.keys\My\$keyName*"
     Get-ChildItem Cert:\CurrentUser\My | Where-Object -Property Subject -Like *$keyName  | Remove-Item -Force 
 }
 Describe 'New-EncryptionKey'{
