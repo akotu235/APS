@@ -1,10 +1,10 @@
 BeforeAll{
     $ModuleName = "ConfigManager"
-    Get-Module $ModuleName | Remove-Module -Force
+    Remove-Module $ModuleName -Force -ErrorAction SilentlyContinue
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
-    $samples = "$env:TEMP\APSTests"
-    $sampleConfig = "$env:TEMP\APSTests\test.config.xml"
-    $sampleModuleBase = "$env:TEMP\APSTests\Test"
+    $samples = "$([System.IO.Path]::GetTempPath())\APSTests"
+    $sampleConfig = "$([System.IO.Path]::GetTempPath())\APSTests\test.config.xml"
+    $sampleModuleBase = "$([System.IO.Path]::GetTempPath())\APSTests\Test"
     Mock Get-ConfigPath -ModuleName $ModuleName {return "$sampleConfig"}
 }
 Context 'config exists'{

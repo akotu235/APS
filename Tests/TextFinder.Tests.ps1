@@ -1,8 +1,8 @@
 BeforeAll{
     $ModuleName = "TextFinder"
-    Get-Module $ModuleName | Remove-Module -Force
+    Remove-Module $ModuleName -Force -ErrorAction SilentlyContinue
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
-    $samples = "$env:TEMP\APSTests"
+    $samples = "$([System.IO.Path]::GetTempPath())\APSTests"
     $file1 = New-Item "$samples\file1.txt" -Force
     $file2 = New-Item "$samples\file2.txt" -Force
     $file3 = New-Item "$samples\directory\file3.txt" -Force

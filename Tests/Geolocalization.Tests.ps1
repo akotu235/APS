@@ -1,6 +1,6 @@
 BeforeAll{
     $ModuleName = "Geolocalization"
-    Get-Module $ModuleName | Remove-Module -Force
+    Remove-Module $ModuleName -Force -ErrorAction SilentlyContinue
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
 }
 Describe 'Get-Geolocation'{
