@@ -1,0 +1,20 @@
+name: PSScriptAnalyzer
+on: [workflow_dispatch]
+
+permissions:
+  contents: read
+
+jobs:
+  Script-Analyzer:
+    permissions:
+      contents: read
+    name: PSScriptAnalyzer
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v3
+    - name: Run PSScriptAnalyzer
+      run: |
+        Set-PSRepository psgallery -InstallationPolicy trusted
+        Install-Module -Name PSScriptAnalyzer -Force
+        Invoke-ScriptAnalyzer -Path .\ -Recurse -ExcludeRule PSAvoidUsingWriteHost 
+      shell: pwsh
