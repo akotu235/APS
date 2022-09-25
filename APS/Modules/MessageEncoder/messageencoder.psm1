@@ -26,6 +26,9 @@ function New-EncryptionKey{
     }
     $cert = New-SelfSignedCertificate @params
     $keysDir = "$HOME\.keys"
+    if(-not (Test-Path "$keysDir\My")){
+        New-Item -ItemType Directory -Path "$keysDir\My" -Force >> $null
+    }
     $privateKey = "$keysDir\My\$Name.pfx"
     $publicKey = "$keysDir\My\$Name.pub.cer"
     $keyPassword = Read-Password -Prompt "Create a key password"
@@ -114,12 +117,11 @@ function Unprotect-Message{
     }
 }
 
-
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUgh7/oV9liFxbF2YgNqUsq9Rx
-# +8mgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQURDUZuMnEAJlnSQ7O7T++oSUO
+# vyWgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -149,16 +151,16 @@ function Unprotect-Message{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBTATdQ4XzmfH6Lp7MNBfKNo2c5l5TANBgkqhkiG9w0BAQEFAASCAgB2WGho
-# IyM+hBMXTnsX32KdWSk2AMvllnX4mg9YwaN0bfO2y/h6ul9YTkB/paxQEJExHj+r
-# DdiBlwj//SvlOjZjq2R/Y/DuI9GULl6gL1Dp+5ADC91JQTmTk7UwQiZFYvDEpAIZ
-# HK8yuQfNR+61/YfQUB0hABQJyucFQecZC/oUjQUKgVHNclo41tbSP71oSsiyiOGR
-# zepkm0kp0nivretBA8MnP/EDNRdRghzVZ88UusuICHRevxo84kVQONwWBOj20uC3
-# nLjAwKSg9gZxi7ris877xYpHxRYrDNJQP32QRDaPM72/Pa006nwa53g/p8PI4QwO
-# XFqDJczgXOZoItUq6vPB/R8WnHd1/paJ7zZUbhiH1nLfeVqHZRc2a04tO0V21mtK
-# qurQpaRIA7oJfsGGGArQ/oZqXkX/6xFSZuwH093Culs0jhlmWpxnQk8GPWt75yeW
-# bFtIUZIHv84sS80Izy6sERHMX5Y+cK7ZqfS7KicFRFomLos/QfMS5gRotpeVvR87
-# 8fqGx3le1ycCYJNhJCpG7R8qPZIbFP2HMpNKUY37eFjC1tmAcuvHnpF1JU5ZF3rj
-# 5/5BqEV+nj1zs63rrAd2Y6lyFErv9e8AMKr2wDz9hPDZ6JKJaa3aAMQSd8B/pt39
-# PeSAAmgj3MSXz2Rwehdz8MqhReyS6CBOKuv20A==
+# BDEWBBT75K2IWi++/GDtZDZaqcd029tVMzANBgkqhkiG9w0BAQEFAASCAgCK8rRa
+# 6vhDmwvu4ZdGcIRDIs9Coy8DSkG9ru6IfB0LUyNcrzj019kOLC+ZaLw3oisDWbOL
+# t+mmoHDHSwj6/PIVpCLP11wnW8GKoUkBfWCXFrXxzy6nCUmG/EC4R/eqb5DDj6fz
+# m/l9SVJxoaxH58kqc4miwx46dIJKZjbGFEsE/Wr/r4DvFIW+k2l8kSpcgHGeQX3o
+# 3AhEd3ZCt/a8g6tXoUfD7N+14duC7dCakOdX2P8c7Sx5h3SGSAf3jkPD2rarWEs8
+# ZS0ua3OI127e4yT77YoQswP/GRpCWFvA2DHkFyd1hbJZDClpX5wKfIyjFaxOal7t
+# +GcEx/OpjdEeDbLOeC7dbgj0o3s02qYXaoFGBfymMvXjVWhXeZKOzg9/Plka1J+W
+# 0n8XQl4Kxs1mVsvzssXmwrRUWA/MqCzsx7ELBqU/WbrBa9dus7M+c2fbQXSpLVO1
+# mRNwJFsuzKgZvYJXSu9XNnopRoPbnQ36UnTTMt1D4gmpRMzeF9hWAQLK35aGg/je
+# OpGjKDZsM4VMkffaGO5/Dje2quw/6qgkpjrk0X8Ine2ODG65TKYQNm9uwiYCN+RU
+# Dq3tmLwFPJnwKPT0R8hi0CCCmzjvNK3ssuNKxQHyT7HVrmN77V7/ZegDOZQ7y2Hi
+# jr3IQQYVDZZUcgtfnpUlrfD8uPUqiSniRV0hDA==
 # SIG # End signature block
