@@ -6,7 +6,7 @@ BeforeAll{
 Describe 'Get-Geolocation'{
     Context 'no parameters' {
         It 'contains a status field equal to "success"'{
-            $status = (Get-Geolocation | select status).status
+            $status = (Get-Geolocation | Select-Object status).status
             $status  | Should -Be 'success'
         }
     }
