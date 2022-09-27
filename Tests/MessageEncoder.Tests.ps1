@@ -1,7 +1,7 @@
 BeforeAll{
     $ModuleName = "MessageEncoder"
     Remove-Module $ModuleName -Force -ErrorAction SilentlyContinue
-    Import-Module "$PSScriptRoot\..\APS\Modules\AutoConfiguration" 
+    Import-Module "$PSScriptRoot\..\APS\Modules\AutoConfiguration"
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
     Mock Read-Password -ModuleName $ModuleName {("pass" | ConvertTo-SecureString -AsPlainText -Force)}
     Mock explorer.exe -ModuleName $ModuleName {}
@@ -12,7 +12,7 @@ BeforeAll{
 }
 AfterAll{
     Remove-Item -Force -Recurse "$HOME\.keys\My\$keyName*"
-    Get-ChildItem Cert:\CurrentUser\My | Where-Object -Property Subject -Like *$keyName  | Remove-Item -Force 
+    Get-ChildItem Cert:\CurrentUser\My | Where-Object -Property Subject -Like *$keyName  | Remove-Item -Force
 }
 Describe 'New-EncryptionKey'{
     It 'creates private key'{
@@ -22,7 +22,7 @@ Describe 'New-EncryptionKey'{
         "$keysDir\$keyName.pub.cer" | Should -Exist
     }
     It 'installs the certificate in the appropriate store'{
-        $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object -Property Subject -Like *$keyName 
+        $cert = Get-ChildItem Cert:\CurrentUser\My | Where-Object -Property Subject -Like *$keyName
         $cert | Should -BeOfType "System.Security.Cryptography.X509Certificates.X509Certificate2"
     }
 }
