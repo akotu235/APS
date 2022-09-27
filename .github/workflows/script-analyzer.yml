@@ -16,5 +16,5 @@ jobs:
       run: |
         Set-PSRepository psgallery -InstallationPolicy trusted
         Install-Module -Name PSScriptAnalyzer -Force
-        Invoke-ScriptAnalyzer -Path .\ -Recurse -ExcludeRule PSAvoidUsingWriteHost 
+        Invoke-ScriptAnalyzer -Path .\APS -Recurse -ExcludeRule PSAvoidUsingWriteHost | Select-Object ScriptName, Line, Severity, Message | Format-Table -AutoSize -Wrap -GroupBy ScriptName -Property Severity, Line, Message
       shell: pwsh
