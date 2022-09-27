@@ -11,10 +11,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Run Pester tests (pwsh)
       run: |
-        Write-host $PSVersionTable.PSVersion.Major $PSVersionTable.PSRemotingProtocolVersion.Minor
+        Write-host "PSVersion: $($PSVersionTable.PSVersion)`nPSRemotingProtocolVersion: $($PSVersionTable.PSRemotingProtocolVersion)"
         Set-PSRepository psgallery -InstallationPolicy trusted
         Install-Module -Name Pester -RequiredVersion 5.0.4 -confirm:$false -Force
-        Invoke-Pester -Output Detailed -Path "Tests"
+        Invoke-Pester -Path "Tests"
       shell: pwsh
   
   test-posh:
@@ -23,9 +23,9 @@ jobs:
     - uses: actions/checkout@v3
     - name: Run Pester tests (PowerShell)
       run: |
-        Write-host $PSVersionTable.PSVersion.Major $PSVersionTable.PSRemotingProtocolVersion.Minor
+        Write-host "PSVersion: $($PSVersionTable.PSVersion)`nPSRemotingProtocolVersion: $($PSVersionTable.PSRemotingProtocolVersion)"
         Set-PSRepository psgallery -InstallationPolicy trusted
         Install-Module -Name Pester -RequiredVersion 5.0.4 -Confirm:$false -Force
-        Invoke-Pester -Output Detailed -Path "Tests"
-        if ($Error[0].Fullyqualifiederrorid -eq 'PesterAssertionFailed') {exit 1}        
+        Invoke-Pester -Path "Tests"
+        if ($Error[0].Fullyqualifiederrorid -eq 'PesterAssertionFailed') {exit 1}
       shell: powershell
