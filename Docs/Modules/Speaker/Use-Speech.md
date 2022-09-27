@@ -5,7 +5,7 @@ Changes text to speech.
 
 ## SYNTAX
 ```
-Use-Speech [-TextToSpeech] <String> [<CommonParameters>]
+Use-Speech [-TextToSpeech] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -15,7 +15,7 @@ Speaks the text specified in the parameter aloud.
 ### -TextToSpeech
 
 ```yaml
-Type: String
+Type: String[]
 Required: true
 Position: 1
 Default value: none
