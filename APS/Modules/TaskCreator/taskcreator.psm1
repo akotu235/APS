@@ -19,7 +19,7 @@ New-APSTask -Command '[console]::beep(5000,3500)' -StartTime 6:00:00 -TaskName "
 function New-APSTask {
     [CmdletBinding(SupportsShouldProcess)]
     Param(
-        [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
+        [Parameter(Mandatory=$true)]
         [System.String]$Command,
         [System.DateTime]$StartTime = $((Get-Date).AddSeconds(3)),
         [System.String]$TaskName = "APS Task($($Command.TrimStart('"& {').Split(" ")[0]))",
@@ -55,8 +55,8 @@ function New-APSTask {
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUfvSv7KNdLkRT5VJowZzUCVz6
-# DtOgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlLPBoNJhdNtSHL1kl83FLR6k
+# CxagggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -86,16 +86,16 @@ function New-APSTask {
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBSPW/dJnLmJRiByPWLiQaBNcaPmETANBgkqhkiG9w0BAQEFAASCAgBP13qh
-# W5fZnM2U+T491td4/gnE/8vhMPObo7jcs7pBdUsJED8dvOe7gkwF4OKqiGe2/P4i
-# 0C7X8m8crTjvyUE6RX3Frg/Ii17V7/UI7mu0WstxasEDs6dLuEm4g8lbYIstSP4n
-# P/s+QNy4e8pPrXDIurd8xvgixvfDfibmmmjfYiQaQ8JI7OQXTBTfCuYQEzCSKHE1
-# rNjmeaTw2e+OeeycakNqJ5Mt/1RVe7iB3cbFsKRT2ump+S95VuWixkCo1h20XA2A
-# fSj1UJqNGdfOe8YKU/jdNT1ZUClwqkWuXrc878WnUF60LTjQgFwiWJDRJ7t7RznZ
-# KctbFhap60RBC8lBX3pPYhYyYdl8EzkCiIwXqiYdggFCRrKjWAYXFutfTNMH+vUR
-# 09FPjOjjRTnFOtGBb8tta7mfXerJ6dEM3KjMoTEydhH4k09Y5Iivt3LqtoMnIZ8N
-# StkhniK9zm3kozSsiphwrE2d+ApBSiy0IIFZOReWJ7mWba3bozdEJbqkIMPyRKxy
-# 7BHq/oHFpWV/S25eCjtuGuuIweiuUkyELvZ1ey1B1m/R7MI2qau6HJzX6N4DT358
-# qPNrzP6PxIONGQBqUrThNtfwxaKqH/Z9wTPQqmt/o7ooQEAvGHkeQ6w5ax2UE2z2
-# Dhi86o7JweOUkZEVRP7T80Ow95/StJxsxEeW+g==
+# BDEWBBQ/zviKPZI9dFyNjWQKg3qqtBTuLTANBgkqhkiG9w0BAQEFAASCAgC7HfPC
+# XsZ3N5MX+tuOfNxLcTjJxlw16pprndFTT1DJ6NggQ0lkJs44vwJsMuW4xWGvfY4J
+# ZGZcvgFu6ABuF0aHeiokexPg2YZQeWWbLWdoYVduMcZ10BxMVu4rWODqWeCiMsb1
+# ilxHGEquKc+Otk6QGjJdCxpyo3HTIeLbz6as+kWsFhLEcRbbbJk3dyHW7djBS4Sm
+# aY2VQZyiyAzO5r9rFIKvGlxR4TDx3U0U4wNH72BZQ5cjKAGAM0hqpvqF4PWg0t7n
+# FrKpYyurbOhNngYvU821ISEnS+huU0FQ0vWtfwFAZQBCItJEGRslHaZS2yquvccV
+# 3MhGDV8VxWjhgYpfiqLo4yi/MjYZAOsF+tgB8DTsqjzaJA3U3UJtWiFPmEt21tHL
+# csR73tjq4velVbHK7C2avRDGz39BfjP9ISroKvVaHEyodQppMEIQMU6paJ9Fgah5
+# FLZC4TdW0E+o9QBsAcX+paiHEvH7Pp7NiUPb0sn5Oifh2kpP/4ffNO3DtTpVt2hc
+# d8xR768QAsTStX0fXth4M0ochVcjAorm4EHbVvzErpkXUIlnECzrnmkgmZte5Vbx
+# DAHDKYO7eK+xLdcPlCTy1yiw4QP7BdTRvZysQJvoRmtnSzuK+h+JPbguaSMM3kpV
+# Pao5a0Ro3S6Frj5idcF3372bqM1Dmh2F7CZsmA==
 # SIG # End signature block

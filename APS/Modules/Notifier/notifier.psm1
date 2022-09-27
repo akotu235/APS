@@ -23,7 +23,7 @@ function Set-Notification{
     Param(
         [Parameter(Position=0)]
         [System.DateTime]$Time = $((Get-Date).AddSeconds(3)),
-        [Parameter(Mandatory=$true, ValuefromPipeline=$true, Position=1)]
+        [Parameter(Mandatory=$true, Position=1)]
         [System.String]$Text,
         [System.String]$Title,
         [Parameter(ParameterSetName='OnlyVoiceNotification')]
@@ -67,7 +67,7 @@ function Show-Notification{
     [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
     [CmdletBinding(DefaultParameterSetName='Default')]
     Param(
-        [Parameter(Mandatory=$true, ValuefromPipeline=$true, Position=0)]
+        [Parameter(Mandatory=$true, Position=0)]
         [System.String]$Text,
         [System.String]$Title,
         [Parameter(ParameterSetName='OnlyVoiceNotification')]
@@ -98,8 +98,8 @@ function Show-Notification{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUhfdWPwOWVy+xopn1Ny8Wa4Ae
-# peigggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUmeVOGzil5FOt+ZW+iDbXdcSh
+# 8fSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -129,16 +129,16 @@ function Show-Notification{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRSPj8Xvbr4ISPhwnCj4ZRFzNKCMDANBgkqhkiG9w0BAQEFAASCAgCloKxu
-# OqVXHq3N1uVS/nblEzTcrdkhQWdmfWBicLatQ2Toly3K8dZjuQhAJ+i8EllUJ8Ib
-# vZoEpqhznjnQIZUxAdUQ0iuP9h3hTQFl1PAKG4ZlUpFXXExwHBFku045ef3aQee2
-# dUhe2B1WL6j+gX5Y3oprH0geQK34xe7DfNWNlc/QF1LbBxIDbrSB8/KvGGOCLGw0
-# bcPutKHFur40f6bQrylwoyUYkQWJD2m/zpVAi4F1VmCoxzzRvd3EK5okMiLCBZAh
-# WNzB5eTnkhJVo7xKrXNZ0vmmZEMnxDI+q2gEx6COqzcRRKgoLfqa0wQQrWXNOGXk
-# ahvnS969PVQLa6fi8XTax5SeiSF1avKR7Lse/80OVWOMs4xZn5/bYxHm1/xk6vHL
-# INbZE7mEF32YP11ZC+3JCHvh0fMfukO9YXbJK6DMoQb9EWPIn4pxu8TUmxP+Lwo6
-# pxQOYk63nC0CDiRRBnIB461IWGPI2qoC3iO0wfcTcUQrFs/BJhervOTViWM7MnHd
-# Z40EykUN2i0THnw/QkhIHrnKP+fAY0nTQxlM+rCk3VcT1MEMvNdTgvvX5goTYAuE
-# OCcaYACjtCwaZwhW5LVPd2bBBFylNAdMl/dhkGp7RssniDKN8JqdsK5wmJldR0b6
-# KH8SjpIxK0aGC574fOjlyONxCkCVcr896xuXDA==
+# BDEWBBQhat923W49rFD6w0RQYOMzZsYB+jANBgkqhkiG9w0BAQEFAASCAgAdddTQ
+# 98a/1PJjG1iFAeDQD+hxt9JudTIhLy08LjQgdYR7JCEpW5HQDlQEe+gnfV5jM1qh
+# XOxhZR74qhPaznpQaJzY0pnTez2syCHuMw9TIE8SBsyJLJ/lCUPBZUF/cn7u4kET
+# 5V6LcY4t7x9r5pnZdrXitioXZpem9sgIjna3jkGEX+UPbbS8WNVQ7ssJ70OykTQ6
+# /xxPxgmL4aB5WET1YltRY1ByyAZd6RbUnU7J/mVWAiinm6S+sKHMDzqAU2xfhFoU
+# djI1szCtzEGR3qzeIlxPEpN26FwksF3wZYvgCgxbnkC3pxn3q6KTl0Aq1vahqcHB
+# gsgnrDLmhvkLw+x8ldTxMwZMm+qTLdU6hPSxsyACfwqMhr6kUVdFkz+kmbAn7p9z
+# E9+F7fJDE7ytuFN7s6NlV0yhifq3z4ZInbogx4teY0BPjetFhAXYuORjjXIItTa8
+# aePXZ1LH01IRX/2urz9TQ6jHNPBZvJxzeW65Nu7UYZKfkb6SJxowGNXAvOM/vrB/
+# KfayCLsuztOswCyIzwr3hu1mP5eIydTb+KvquNCpe8xHxj8PqqS/8ncAPqgNo8AB
+# FjQz6f6G6rzaP8aY49d2tzFoHDTHuodFvZeNjLJf1cfy6x3fVC+XOuIl/6Q7ODRS
+# IFB5pDSh6xIzo40IBOaORh/8yfVpPerl121t+Q==
 # SIG # End signature block

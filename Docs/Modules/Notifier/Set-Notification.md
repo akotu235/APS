@@ -32,7 +32,7 @@ Type: String
 Required: true
 Position: 2
 Default value: none
-Accept pipeline input: true (ByValue)
+Accept pipeline input: false
 Accept wildcard characters: false
 ```
 
