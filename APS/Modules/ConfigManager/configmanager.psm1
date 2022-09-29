@@ -13,7 +13,7 @@ Specifies a custom settings file path.
 Get-Config $ModuleBase
 #>
 function Get-Config{
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding(DefaultParameterSetName = 'Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigManager/Get-Config.md")]
     param(
         [Parameter(Mandatory=$true, ParameterSetName='Default', Position=0)]
         [System.String]$ModuleBase,
@@ -62,7 +62,7 @@ Specifies a custom settings file path.
 Set-ConfigField $ModuleBase "Field" "Value"
 #>
 function Set-ConfigField{
-    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigManager/Set-ConfigField.md")]
     param(
         [Parameter(Mandatory=$true, ParameterSetName='Default', Position=0)]
         [System.String]$ModuleBase,
@@ -112,7 +112,7 @@ Specifies a custom name for the settings file.
 Remove-Config $ModuleBase "Field"
 #>
 function Remove-Config{
-    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigManager/Remove-Config.md")]
     param(
         [Parameter(Mandatory=$true, ParameterSetName='Default', Position=0)]
         [System.String]$ModuleBase,
@@ -167,7 +167,7 @@ Specifies a custom settings file path.
 Save-Config $ModuleBase $Config
 #>
 function Save-Config{
-    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default')]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ConfigManager/Save-Config.md")]
     param(
         [Parameter(Mandatory=$true, ParameterSetName='Default', Position=0)]
         [System.String]$ModuleBase,
@@ -215,8 +215,8 @@ function Get-ConfigPath{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUcK6Q9ZU4Dkoi8J3R0+UgrFfB
-# riugggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU/izl5wCuztH0zHXLLJLcDfWK
+# SqagggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -246,16 +246,16 @@ function Get-ConfigPath{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQTCXBQjS2eqMIRS65nrs/5uoY4wzANBgkqhkiG9w0BAQEFAASCAgB4s0YW
-# Tsdx0BVVgeserzCT70kW9SfpysUTiQkPiAxR2g2YgWtR5lfqZJ8iSAmoJHe3JYCk
-# +Z7swrIgsHG2KilciTSpF9SXtq7GWOF5LBmJqhKLbsXesOKjRe+oHxXbianwkl6q
-# IB9HLOmngjXOdVVPT24v+9DGNjA4QsMlLW6TQ2hNNJ24JUMD6iSnSlbnPz6wOJBj
-# TilXbd8qOLU9T7qWaLtKuCqJe/AfyQriiew65vAqk8z1z3Wa4i+omGVhWeMkqpwf
-# BKic5Cj2l1CFufLffm7a05A02MRYOuSq3spfBedUcwbDjfO9S4/GVC4Cwi5oz75u
-# jBDg5ebbW1z6U89jIbCeLzzjtEOFNG4AI/PTeDQmKky1o5QkVHbRkh9oCw3SPSJp
-# 5zmPk7D2MrPubj2OJ7SX+uylzPbCLHzQu0nC9JUaX7Nr/jBrgce2coI5pb/qETbh
-# xe/gCqlhRqphEo1/LQMtNyj0UmfpIGrl0JSb4NU2yu2ZWxr2So+QqSyhMYyyrprl
-# huXh+xcJqoYQYaOIUemAB62d2I95JaHqwTiMnSQMDS4HINIU+31HKi3cyUny/r5A
-# ZSBi2g02j0yn4kBOlGde33wHVJcWR8faynlsOw73zFMv5OpOeCYrXl/Akrd0ZUqp
-# xMdnHBFEvcAW60r818PzuhIAd9pxwpTcwUfHhA==
+# BDEWBBTAMVsoP5rJc23bal1hsONcnaJpojANBgkqhkiG9w0BAQEFAASCAgBT+XEW
+# qdFccim30Rsnv0g1imaw/ZyGXZ2VI/oEjVKjrDge5Li3lIVhIBhziIZapNOf6beq
+# +vKMyNOM13rXv/1bGB4VUv2kgMWCOEhYLL7Ylc3YuXCoAsf4RQgJKkMBYEK3UxUG
+# fOyDZ0PdwhWCyHSrsqm9na/aCxQvShgOv7qa7lftk3B2lYHCBpvSSvF2cnbYVxGq
+# wZ54NcIusRD1DuUGYirtmCKZRubRrW3DSz6N4uOBBGZRY4Q4fQlPySLjh+GgrCRt
+# zXX2mX/mj2L0QTTv+cFUVgGG/j4P6UzpfxT8a2/BXkw9wQXiutA/Ywfi9egJY19O
+# BvPLfHPwfz0RInpKiW796REd/Op0x4lUdtHHt31QG5hE9vhEjcukD5h8fxiClAW5
+# jqpNB9n3mUfuLf+iuUAz31YfUBU8QxZT5hPYLNIRvKRSu8R2mK2d/MDZytkgwHal
+# eDdkxSiom2BmpdSEnHr2C2Sgojx/zaabXqOY+DBOEY+hy90j9kRkaC9V9V4nW9u7
+# CM1h7hz+epCGlkYx2t+Qm5aWwU1tmCUT0HNJx2DwQvBLozNO1EDZOh+lZ9RosOsn
+# hMGue4+YweCV5d7BRJv/I+I8NYC8G6DNHyBhrS4s+fiFVTrqGxEqtXbp3HyYGqmy
+# /GaAJAsMPigWTcVXOw1Hk+YX78aEn9VwUem24A==
 # SIG # End signature block

@@ -28,7 +28,7 @@ Get-Weather Krakow -Detailed -Units standard
 #>
 function Get-Weather{
     [OutputType([System.String])]
-    [CmdletBinding(DefaultParameterSetName = 'Temperature')]
+    [CmdletBinding(DefaultParameterSetName = 'Temperature', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Weather/Get-Weather.md")]
     param(
         [Parameter(ParameterSetName='Temperature', Position=0)]
         [Parameter(ParameterSetName='Detailed', Position=0)]
@@ -191,8 +191,8 @@ Set-Alias "pogoda" Get-Weather
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUR9dk2EdR1VAN7E3rQ4B07AJ1
-# Fw2gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUFIt7uuL19dZXdRqabpTKBT4N
+# 8e2gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -222,16 +222,16 @@ Set-Alias "pogoda" Get-Weather
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRJ9EijfwlLCBMEsJ9LTxYAf9Xt2TANBgkqhkiG9w0BAQEFAASCAgCRqq0v
-# tGfzii9GoMost08vipwjbDzNwXDZzV377VIVZUvwGy/9gyJludkj89LhdcwBwjIV
-# uUi+hs2ND6GI82NIhidZ3nlgDR1Y8Bp+yI0UAtVcSFnehD+x3XrV1OzxR58JDy/p
-# W07eJABkwtpXc8EwHdBcZic28BGa2wsTX4vuoXhnlKhqesOqnyn2hjYnVes44t3V
-# 3SHkW+WB5afsTpQ4mGhdVOl3d1O4LFn0IEviAqNPvl8UhjNlxR35bxkGkU/2W4rU
-# 8qz8rW2nBorHSyUxbb6bed2hNAN7ntDQWiQVArkJy2TUSsFlQ1WNsApEC7TQYeWY
-# T/mWYewwXWl+ym1Fu/cPFjGygPo0SgvtaDVYCDgqPIqqANu5RFhyk4n2d3KgRKmS
-# dyPfDtiT6O1QinAt2XS3aobdQjiA92rV5L9ceHLSSUlAopliDaOxT782jSSv/M/T
-# 3h7ZYBEoB5CGQNFa1j8nyXsq/Cbj4Q0voZtgp6mq8VLDmcOd74Qdwt+Y8/TeYPwo
-# KsG4WiWsdg9rDdZelmF2CePXsg4q90UIkbiFeMriek/SUD69XHhyaT3u+XMXsQ0S
-# sM/x0TXkPvX0wVOFbQ5zMA+ZtOuCjXD9ik+8p79uCwVR+8Y1yE/pc5tOKnXYkENd
-# f4MbPsoC04a0POaaGhD6Q+caiK7ACLxGwOncPg==
+# BDEWBBTBfLM2Tl+UtqVS61PM6EhVg3zxXzANBgkqhkiG9w0BAQEFAASCAgAaV0/z
+# EFr084ooaiVmL0fWwgL2EICT2C/GH5rsx4BV1TpFzXxFMnHPWdzDvrKJnBNQR52/
+# 8B2/M4sURmEQPQ32W6Uc+UBUMpjzUDNlNmbX1kCiJgklXfpP1Q5fDWRtB0z7sR2P
+# ZVchC14qy4DKP7sdkn04YBHQ6WHK7A9lkHLlktJkBlSWIyvhkR/2MwERmeZEa98h
+# wQrTIFKpcKIAWmhOZQ01IuHowwb0nE0s7nuZsIH1vfhzhg8GDl78h5bHMS6tZeuC
+# QKm1jfZ/YERMPACtAwKHVTi1W63+NlfvCWtn6pOGKYmf5EIXiP1uVSeT5ZzbWOUn
+# a1bAP3/rV8hFLawKu0Azxxrvis6lDrpYY50xuhPRsdb0MR/lLozs3K5B6a5Fndt7
+# yIXe3TjPTGSPELV8QnTvB753ghxPqSK0/07LxOB9WtumoqoFrALPQiRtbOJffWNM
+# md0Qa3/2Kpgf78MZi6IAeEsxazzOT72ug8xaaUXQmiskvQOe4Q2LRrWmRnw+S8Vi
+# ukBlTJJMTZoEwkn7bgaYs4RtOWM5rTYQd9wczMC5IcgmRqjLFxQLEmejlrdwE+Ve
+# 0E8it5yeW7GrM6JfF6g9MSCgRYnCjPRrgcdyGHnlUxyjlSNBD9bdtGTIGGz+UNMI
+# ePRj9C37iMG1VtTHWiPtx1idgx0FqWwumuR3qQ==
 # SIG # End signature block

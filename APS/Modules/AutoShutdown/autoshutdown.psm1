@@ -20,7 +20,7 @@ Stop-ComputrLater -Cancel
 #>
 function Stop-ComputerLater{
     [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoShutdown/Stop-ComputerLater.md")]
     Param(
         [Parameter(ParameterSetName='Default', Position=0)]
         [System.String]$Minutes = 120,
@@ -98,8 +98,8 @@ Set-Alias -Name "spcl" -Value Stop-ComputerLater
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUkVg7CpOlOeiKidD7293nVRCs
-# YyCgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUw2E/sgSbhmiSU+GEhc4P5VeN
+# jECgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -129,16 +129,16 @@ Set-Alias -Name "spcl" -Value Stop-ComputerLater
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQ7ShXQI581PmDM9s3DMGSECr1/LDANBgkqhkiG9w0BAQEFAASCAgAB5Bm2
-# FQO+9sgB+uWG/5cPadrkeA9IAaA4CdDR76hC/xqV1mDBJTIaowPX7uu2MhtQ12Mq
-# rGwtCqxKJsUvz/VQmbeKKNIWROl9utVRQf28Mc9SINJGMAPzhYku+b5j2M3uIlwR
-# HEvp7McWnU8ix+EkzponfdTmft8q0BcTH/4BAx5ZZWTc4lUr4U1ngPCTpmvJR5P1
-# QPilp7ujVmfUVYSpKt67Qjkgpbm4U+XevOGOviElhGDnWTWbSWMj5vAONB2MMdgV
-# 0YPPDiBQ+zdz5Iw+B16zq9O5NECDZ/o7BNup8WAvubIRiKp1Z8daE98DialsKsND
-# U9ln0gd4xQTKk1k1wNtZkppbRNyLu914a3//sJnhSSE2QB0ON/dzAFZsQU7xSFY6
-# lSTudLs2a6sQ3yNk/drqyoRULWuIAlflqrf258H+82zoaqTz0DrBfo2N86aSKIwA
-# NgxQNnClDEJnYn5sf+XKpGjRH2WN+N3btVcExO/alG8evWW113fUVo5x6zhlIfyW
-# d1HDJIdgH4wJg/EgogYivXYNFadW9cnynEkpirUQIwGeeqeD+AqLOhCp9BNtuAvv
-# JJVFOib5gaGpiW66PR8vwJrmOCBplpScbcRDPfJt7lZLfodPwPCV8CARoC8Bti7I
-# rPNc3qmhSNfcPzqdh86W2vGPsTt9UMlvVQJmBw==
+# BDEWBBT2UI8VPSo3oECzOWhXSI9WlDVzPjANBgkqhkiG9w0BAQEFAASCAgBSvuLl
+# 9eTuYhyEEH0SPLQAs6+gcB6Pd4vKazhdzwqnKPAn/4vubcqn2oaqlwl2x9ezwUEj
+# TcPTkqP+Diy3JXRwuk4q1NuR8s8hxs5ICLkrI6kA8PB0iibh0KAU2wIWCUODBzzg
+# Lv37Lgavt0fC23lk9D9/6NRIQlG6Jci4bTDCyNugKctOp4qp4g7Ri3ikE6viKYL9
+# CXqRaX+zoV72LfyZS2C43XUAdLYZbgdX9Jyy6u8GkJBj+7wiO+eU66gPKwmhhC3Y
+# 7UbSeQc0o89PsGZPEcDbh7io/EXJUjy9BfFZMO9aYQvdnxMs9Jd+XOvb4Hl6q5tL
+# ToTrRnp0oRNGsQVWpozGw9zU+TMXY9YkyXzJzTe0b0bm07GlNCh/aVTpz3bWpj7v
+# OHSMestiDGmRumW+tT5KnHZJSlRDtrV2r/wZIJD9r6sIKMBmX2q/M/VcZ6FApHIu
+# 568CJX/bKko0B6Hqts7pq3yvOwoz9HrAiX7vSDRwS5u+Zc3wnyvaOm95Gj6oSGY3
+# 22kSrt3pxYCxmFc1IIdBKpJgiNzi/64z9ideLIvX1m5YyrMZ80QwMFeIt/2c4mJQ
+# qo+3XKM28+SCO55gz/TckDX+o/Lj13J5wBJNnq5K/cQSuC2tAIPpIKCOdC+H9Q53
+# vfiHBwzVOtasr69nyEY0s4v2imB/S5embaUIQw==
 # SIG # End signature block

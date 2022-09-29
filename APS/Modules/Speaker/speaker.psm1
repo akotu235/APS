@@ -7,7 +7,7 @@ Speaks the text specified in the parameter aloud.
 Use-Speech "hello"
 #>
 function Use-Speech {
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Speaker/Use-Speech.md")]
     Param(
         [Parameter(Mandatory=$true, ValuefromPipeline=$true)]
         [System.String[]]$TextToSpeech
@@ -38,8 +38,8 @@ function Use-Speech {
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUXcm46WU6hD7RQMbixJkG/u+C
-# JQKgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUnmmYBIVaTUn6o+/O6FaKdZDk
+# Tn+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -69,16 +69,16 @@ function Use-Speech {
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBTkTHqJMej3z6bQsPBSG5S+XjdY0DANBgkqhkiG9w0BAQEFAASCAgBL7FK5
-# 4zhEi30yyTZUn4ffwc0uUwlHmLK6lffga+LRby/Uv+hyDXdrHu+W0mFZMAnrezHZ
-# cpLIlI/kBl5+OV3CtGq43wZIUB7YjNUBU3haygV2UgRumGBGO7i5pgtas4hbanYQ
-# OFxfqCP3vxu9DU5awtTYrR8E5Rb6em84P8JvuQlxfdoKnj4UKIV8jwkR9G9IcAWP
-# U6LFRu1JSMfu9lC9RNMUYBdrKXxaDZQnOYPdtrzKsnCVsVV4/zWCRcVHXhg7aS2q
-# ATDMCX9qj6MlNl7nyEjD//RRZ8q7UGJMv8tU1qOLnl9O7/duFBHKzNYQiFZY9ZEi
-# YSMkqRZRAdhJul1EdpE+sPwjyv7oe6cZFJeykEBWHkoEUTLlR4tBpJCZxL1kwpbK
-# 2bIpNlcENhsZU69Jlldg8Pn5GnonIlL1gySd3dffRVBgw/8Us7u5GSh3GtAmV03B
-# Luv5V1js/zMw8v+jzViYHTiPBGZPTi4vgPnEQ3ga5Xu/5hQnoTiVpflE5Y0uUQyz
-# FBcVgCe4/FCQVKgjzuPStVOPbtDwUnaca3qw/MdcxXHCSgkyj4gxJ+nBqVFC6+Lj
-# maTOXG2rdwJmOrOg98tmccrgOl2DLkMfpRKEdWXFyNXUC5jKKYZO8qISPBZB1Yvi
-# RCwNdgOnEmv+EE+ih1sKlQHr8dlDHF1myjcG9A==
+# BDEWBBSwurcZb91Ya3VnBeKXp1BZ/XlzAzANBgkqhkiG9w0BAQEFAASCAgBlsGqc
+# h2gkvxS8pa9YIjqOJpE5o7RmAdWmbDxDq/pYE9Q9d0vcYmd7k54PQvhomzHXLcfQ
+# 8+O1yXQGztOMKYMU/6zDVglQAaTMFr2yHWw0Svh3XeTRMrru2ZVcTtxgmpUmaKq3
+# D0JFkTN5DOaWRW1kFQbjgJyVr53Swe4mu4cW5wEMJr7SMMRVcH8slVObAR2ome8u
+# utHRp58Y2f8S7rV8uxk7+RucHehFr+OTRCJ42nI0QkyTr3H3gds/E4D9lRtiaRP7
+# tYCzOkIkBcXzOmiNPkwRBw8iX37PqdEDE6B1VHFfPaKS6Ml82m2vTcuoK+amq5WK
+# ZoYHTi909GH8PG/yqFWjAqDPSMte4kG76WBfv61ZWd4vmkorJPniOfLTStGOXhtH
+# MTQAaLihKTle4C1hRryMEcenwf414sNiUx+wotDzTBbHo+cUjeQlydEhC7AcVkrU
+# neyjNla9OOWpIg4TEkUJJa63J3EnY51wZfH4t7MXqK/zMUn9u1K7vidCsd5o/CYC
+# GegG8dbScUanP5+qiNAL3PBPZGwM03rgpeqDjOn04q4pwWWmfFDbeWectIOvyaOr
+# Admdbw/12NstTP6Ts+RP8xoRj9Qmn70CYralSoCN6YaeqEpCFFBgvrr31fCqPOVQ
+# wXaLDGWfbbX7aLkXkM4oTjcM2yT5cVsJQ2WCUw==
 # SIG # End signature block

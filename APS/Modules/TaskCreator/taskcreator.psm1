@@ -17,7 +17,7 @@ Specifies whether the task after execution is to be kept in the task schedule.
 New-APSTask -Command '[console]::beep(5000,3500)' -StartTime 6:00:00 -TaskName "Alarm"
 #>
 function New-APSTask {
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/TaskCreator/New-APSTask.md")]
     Param(
         [Parameter(Mandatory=$true)]
         [System.String]$Command,
@@ -55,8 +55,8 @@ function New-APSTask {
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlLPBoNJhdNtSHL1kl83FLR6k
-# CxagggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUBfmsfdoQ53SOeMun/Z6E1rCq
+# 10SgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -86,16 +86,16 @@ function New-APSTask {
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQ/zviKPZI9dFyNjWQKg3qqtBTuLTANBgkqhkiG9w0BAQEFAASCAgC7HfPC
-# XsZ3N5MX+tuOfNxLcTjJxlw16pprndFTT1DJ6NggQ0lkJs44vwJsMuW4xWGvfY4J
-# ZGZcvgFu6ABuF0aHeiokexPg2YZQeWWbLWdoYVduMcZ10BxMVu4rWODqWeCiMsb1
-# ilxHGEquKc+Otk6QGjJdCxpyo3HTIeLbz6as+kWsFhLEcRbbbJk3dyHW7djBS4Sm
-# aY2VQZyiyAzO5r9rFIKvGlxR4TDx3U0U4wNH72BZQ5cjKAGAM0hqpvqF4PWg0t7n
-# FrKpYyurbOhNngYvU821ISEnS+huU0FQ0vWtfwFAZQBCItJEGRslHaZS2yquvccV
-# 3MhGDV8VxWjhgYpfiqLo4yi/MjYZAOsF+tgB8DTsqjzaJA3U3UJtWiFPmEt21tHL
-# csR73tjq4velVbHK7C2avRDGz39BfjP9ISroKvVaHEyodQppMEIQMU6paJ9Fgah5
-# FLZC4TdW0E+o9QBsAcX+paiHEvH7Pp7NiUPb0sn5Oifh2kpP/4ffNO3DtTpVt2hc
-# d8xR768QAsTStX0fXth4M0ochVcjAorm4EHbVvzErpkXUIlnECzrnmkgmZte5Vbx
-# DAHDKYO7eK+xLdcPlCTy1yiw4QP7BdTRvZysQJvoRmtnSzuK+h+JPbguaSMM3kpV
-# Pao5a0Ro3S6Frj5idcF3372bqM1Dmh2F7CZsmA==
+# BDEWBBRn038bLF1OLHz7LUI9qctTFTzptzANBgkqhkiG9w0BAQEFAASCAgBu6ffy
+# E+IYQGYA8SLNBBqt5zFLAARjrZlJZ5C3L2xCEbtPsmhYL9P4Wisug1YcchkxWRcs
+# yqgkW+yOvPbb8pDuSzOmt8TsZZzLQ6LXEDwaBUjnfbcpvu76GfoVW1FSFZGGGawV
+# 85sSZkVtN0vEKfJhKI1XJVrSSW1UjAYGtpUxVaUEdkz2XB9SEdbzzvqI35fv976h
+# nD2FJ2RueBUw0awThmv0aSb8H7vhH3HPbh73XkOTnWZ9PSP5FmKCY8bb6iGDYHt4
+# +5cdQofGQF0o0LIf9+kpWwXaRfX2rgY2V0rZAV7tUb86AwADVge3cqnJbEMLCJgd
+# MpyOJYP74d7brsRakHWSu1mcJokxS0JwXLufV4NiI8UuHp+RCHwLEQIhnjKxzV4z
+# z3i6N/2vlOLnv0ZydrbBxsN7G0n/i3WUMq95ac8Y9HI0e2eJKwIL6LQz9PU/NyJb
+# gqMvViO4rQFxdunI20B+rGIv6yL+NJsC9/ppchiUJtilmuJmFlj+Fwa51RWKFhpJ
+# M+NzUv0nlX91ObpmD947wLt1B82il3O5CdVtHw4SqP6FwlyTVX10cnlfdrZHbsGn
+# UX3WEw4L0OP4Q7N8LGx4nQwrKmA8V1knHZAE2/T9oTXdGY9x5yUFJclEmEhvjiQA
+# eiSpxNfODj7o36xyrJTNs0S5itZ5i7WNbr8kQQ==
 # SIG # End signature block

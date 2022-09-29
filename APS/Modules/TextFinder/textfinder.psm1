@@ -20,7 +20,7 @@ Search-InFile C:\File.txt 'phrase you are looking for'
 #>
 function Search-InFile{
     [OutputType([System.Boolean])]
-    [CmdletBinding(DefaultParameterSetName = 'Default')]
+    [CmdletBinding(DefaultParameterSetName = 'Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/TextFinder/Search-InFile.md")]
     param(
         [SupportsWildcards()]
         [Parameter(ParameterSetName='Default', Position=0)]
@@ -216,8 +216,8 @@ function Measure-Time{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU7lrFrtGet5CjMamclKg7b5AM
-# qvGgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU8u5QMRqhuIJDvAVCc4EfmA46
+# 16KgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -247,16 +247,16 @@ function Measure-Time{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQQcJY23cHe3ereVl77XwJQgjV0EjANBgkqhkiG9w0BAQEFAASCAgA6viZy
-# C4U8D4r6zNFZuBs4wn1TdJeFD6Nwren62FADQy0iMrCmVdE6Y6EsuDlQdqXrPmGK
-# 2LlSmTq1Cbp49SW+z/IC3VJZPZGsiiUTYKaR2QTuP+L5hRBPLgpcs9nFo6ouAGgB
-# O03v3MkCUL8K1hLFAzfD4z9bvFdvwQPWPAhcxcStGo9zXVN/ycQCfTgS0SSZM/lX
-# kyEbG7Bm2FNABSxos4TV8FyxHmULLwrTi6gWVyXkAUso7JlsKP8M8XYttjieKcwx
-# moFnmWBtp9buW4YktCweK/lt0Fpwew0HXfuKrd3VwXHHJQukD03NrAYEGze0w48b
-# 9iWw7B6K1A+W6sF1vUVgTu8Qj6q4iKIbAD10jpVqXx+yaMFD43ZExD2HZXPsdjSD
-# +wTo6qFMId5jz2YjwiIc89kLoQ/rkyr4dspff/VfIAeHQhTCRdQker32Ifr0/p6S
-# iI0c+i3h4h9+J0NjUldq6d/0A/luEUTyuvMUEgv1f5EQel+6xk3GX59HzQ35uuVr
-# dHaA7e8SxA9um0RStQiCUbRYu0FlwteVs7BpwyfvC+5t+JcjlNo3sX4Vi6rFgX2g
-# mFi3lb9uc3/JQsPfN2Ny4IUL/FbvuFRi9BJEJYhvrMNTa0LhjtTxRFbPaPtPcKiT
-# 2jfJQgPwisZGhF8KM1vbA46qYrR8D/uYAvpoYQ==
+# BDEWBBRnEyJlDo7UdOikZPOcxoVURmlHZzANBgkqhkiG9w0BAQEFAASCAgBg4wGC
+# BgnyWIkVRQD5yl+SUKfh4zRCeHqxqVV+Eo3RSlSFWUprwuRdqHLwpJSDrylWq3xM
+# cfx51YKP2AX5R+H836laORfOuRPiZSKe67ddyHQ+c0u3gEZZiBobxFq45TWOF2zP
+# TzUM2ubSSVOGuFz5/UR3jw/obWUDu1qPl/Guu3a9ZD8GsNnPTdoUruP4YppCKh9/
+# dmKYC0/DmcgLu6SRh3slE7IWxYyMjVW8iym1XGai5Tf71JozxAM8eFgqZAwan40M
+# UUicQnhpJGpu+Utzhk8mfgzFNDMPcImRAINiowS9vwTeS2MlFhRdUrrCNUeXv0Fw
+# hQ/MEeTgi+v/uYslfNu7I35WaaCiDv0myS6qSQ+OeXHfkCasCyskJ7oDOfo2bdlk
+# 7Ft6qVevbvrdkGSmMXPruqDXgNRQ6qdyF0wY/pJAXK3fd6qDEPHI5WsylupqmNTj
+# H/rqYICDdN18Baxoru/fTV9n7vUr3MEwVigvZNaMpeKR3mzCPCGcTEqGne6P2EqA
+# +o9MZGi1jfW5z88JbHOvKG4+hk+w67pMukYyRxEUucPKZrm+9MFXg+MWFcC6nlNw
+# g3ygFzbDiBFmAzN54D94uPIATf/+5rQo++IZxSlNSwHuTrp9apcZMDlT2BjxXNys
+# 8ZPjlhZcS1YXVIqSSaof77AcF+X7DVL8VOg8Kg==
 # SIG # End signature block

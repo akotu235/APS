@@ -19,7 +19,7 @@ Saves the task in the task schedule. By default they are removed after execution
 Set-Notification 23:30 "Go to sleep!"
 #>
 function Set-Notification{
-    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName='Default')]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName='Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Notifier/Set-Notification.md")]
     Param(
         [Parameter(Position=0)]
         [System.DateTime]$Time = $((Get-Date).AddSeconds(3)),
@@ -65,7 +65,7 @@ Show-Notification -Text "Text" -Title "Title"
 #>
 function Show-Notification{
     [OutputType([Windows.UI.Notifications.ToastNotificationManager])]
-    [CmdletBinding(DefaultParameterSetName='Default')]
+    [CmdletBinding(DefaultParameterSetName='Default', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Notifier/Show-Notification.md")]
     Param(
         [Parameter(Mandatory=$true, Position=0)]
         [System.String]$Text,
@@ -98,8 +98,8 @@ function Show-Notification{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUmeVOGzil5FOt+ZW+iDbXdcSh
-# 8fSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlWcsCneFHRr8P0X+YC7yZnR+
+# X7ugggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -129,16 +129,16 @@ function Show-Notification{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQhat923W49rFD6w0RQYOMzZsYB+jANBgkqhkiG9w0BAQEFAASCAgAdddTQ
-# 98a/1PJjG1iFAeDQD+hxt9JudTIhLy08LjQgdYR7JCEpW5HQDlQEe+gnfV5jM1qh
-# XOxhZR74qhPaznpQaJzY0pnTez2syCHuMw9TIE8SBsyJLJ/lCUPBZUF/cn7u4kET
-# 5V6LcY4t7x9r5pnZdrXitioXZpem9sgIjna3jkGEX+UPbbS8WNVQ7ssJ70OykTQ6
-# /xxPxgmL4aB5WET1YltRY1ByyAZd6RbUnU7J/mVWAiinm6S+sKHMDzqAU2xfhFoU
-# djI1szCtzEGR3qzeIlxPEpN26FwksF3wZYvgCgxbnkC3pxn3q6KTl0Aq1vahqcHB
-# gsgnrDLmhvkLw+x8ldTxMwZMm+qTLdU6hPSxsyACfwqMhr6kUVdFkz+kmbAn7p9z
-# E9+F7fJDE7ytuFN7s6NlV0yhifq3z4ZInbogx4teY0BPjetFhAXYuORjjXIItTa8
-# aePXZ1LH01IRX/2urz9TQ6jHNPBZvJxzeW65Nu7UYZKfkb6SJxowGNXAvOM/vrB/
-# KfayCLsuztOswCyIzwr3hu1mP5eIydTb+KvquNCpe8xHxj8PqqS/8ncAPqgNo8AB
-# FjQz6f6G6rzaP8aY49d2tzFoHDTHuodFvZeNjLJf1cfy6x3fVC+XOuIl/6Q7ODRS
-# IFB5pDSh6xIzo40IBOaORh/8yfVpPerl121t+Q==
+# BDEWBBTpsXR8d1kXI8icuY/hxwztNp0vZTANBgkqhkiG9w0BAQEFAASCAgB2a3xg
+# /O894pCAbDj4Q6nWjwosbTzv3C8XZhk47EAHVlzhBaIT9M+htuKqYddA0ypfLX4+
+# jHyr+IDJqfuGJ/4qgVdOBYQEl9azEOGTLMkIt9piWcQSVWZzk6PEH1wkWoNrXD+m
+# tFBEE5BxRU4hderR8mvIwzGHfAacyoGNCyK3dXs2oNEs+QVd8VcMCeHjS3r/TdUd
+# trmWSVXaqh7nw5MQGacH72luLYO2XDCq0RlTx8M21p/mHgqZiOrKUV/gSpawX/Vg
+# Y3b2UO443qRRWeIzYI6c/p0PkwE6OBJFUdwe75BivVe4vJAxU0YmWrCgteh0QVtz
+# HYwCYqHkaLVB4W+tzju34xXon2D9Q/KvwmKOIEZtolcTc67pSJGjNiNXPsbel3l8
+# +jkPEHA6t5eX9GLLySER+Hx2YyCHwf31LlyLBmMbWAfE/VLOQC5KFwhXtVkKqHqF
+# 3UxMzWtys6OHf/KHbqx5/QNIDvQo7v1/6UK+XwYu8tpiZcis3a0z3sBuxU7V19ef
+# uq6dwB8a4HfclgazQOHEOuhUbnDnCPjqUvopMkz0dhB/aUg8LDLQT3XV+PtKDBzX
+# wfLW/GuZQhmnoXyLdhBn/031BOrgxGOAt6TyX5wUTrl3uZVsoDRczckpKyjT/1MP
+# OEio46GINc4P5OMkaOxTHzB88/srebjnPzQx9g==
 # SIG # End signature block

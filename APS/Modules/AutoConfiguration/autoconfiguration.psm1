@@ -11,7 +11,7 @@ Does not exit after running commands.
 Confirm-Admin -ScriptBlock {Start-Service sshd}
 #>
 function Confirm-Admin{
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/Confirm-Admin.md")]
     param(
         [System.String]$ScriptBlock,
         [switch]$NoExit
@@ -56,8 +56,9 @@ If the current user is an administrator it returns true else returns false.
 Test-Admin
 #>
 function Test-Admin {
-  $currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
-  $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/Test-Admin.md")]
+    $currentUser = New-Object Security.Principal.WindowsPrincipal $([Security.Principal.WindowsIdentity]::GetCurrent())
+    $currentUser.IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 }
 
 <#
@@ -73,6 +74,7 @@ Configures firewall.
 sudo Install-SSH
 #>
 function Install-SSH {
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/Install-SSH.md")]
     $obj=Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH.Client*'
     if($obj.State -like "Installed"){
         Write-Output "$($obj.Name) already installed."
@@ -109,6 +111,8 @@ Configures pubkey authentication.
 Protect-SSH
 #>
 function Protect-SSH{
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/Protect-SSH.md")]
+    param()
     ssh-keygen -t ed25519
     Confirm-Admin -NoExit {
         Get-Service ssh-agent | Set-Service -StartupType Automatic
@@ -133,7 +137,7 @@ Creates and secures a script signing certificate and places it in the appropriat
 New-CodeSigningCert
 #>
 function New-CodeSigningCert{
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/New-CodeSigningCert.md")]
     param(
         [System.String]$Name = "PowerShell Local CA"
     )
@@ -188,7 +192,7 @@ Read-Password -MinimumLength -UppercaseAndLowercaseRequired -NumberRequired -Spe
 #>
 function Read-Password{
     [OutputType([System.Security.SecureString])]
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/AutoConfiguration/Read-Password.md")]
     param(
         [System.String]$Prompt = "Create a password",
         [ValidateRange(0,32)]
@@ -252,8 +256,8 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0rQbvTv/JPYG7/OW5J6HDPYI
-# Eh+gggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUWEgz8tpB1S/TVsqIzC8d4OSj
+# GrCgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -283,16 +287,16 @@ Set-Alias -Name "sudo" -Value Confirm-Admin
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBQf2VLm8PL5yhalumQfp0iM7eKhdDANBgkqhkiG9w0BAQEFAASCAgB+lZlj
-# oNNIKNfGnG1lc/I5/h4TInbYNrQpAaGUC/AqbgOF9rMs+booL2P60Lh7BOStSQ8d
-# obcxTSprrUfYG2lwJikOphVv1281YKmoL/+iL+Vx+fTxVnOiGSJo670rPPeFvYvV
-# 0dGOdqLeAvrumr3Fl7rlVleHqHd71CEOH8PoRVVpg0yLi/A9IFCCRZuvP09uIbZZ
-# +U99sWGdAWXJPTCVbPBcSuCShzyGpmS9Rt9U3gZ0iGxmxFiDcv5RRYGi4RDhr8CO
-# XhiRrx3FmAm6XcazO2JUZ9KjADw0KsZrwsBPt0YAewDG1I3ToxmjRzTrOWECbzh2
-# gebNS3RLsAzKA/F/2//DD0soCpCxcX7regGoKAdbBwH1NBWnwZzRh1qAM+IjxlWv
-# dgpMgghxtCE++uVyo8NoWtVdXH6wOUZblaIKz97xqm57qnk0lszYdmGlwDPu2Sw0
-# o9uk1guRklRN4/DvATTbJIhR5vSgmt7MS7QmE75NMnTPozBbzBXjtM5G1YLK5AWM
-# DC+Fq2W8BQvYjuKH8/oCNu8T0mCaFbAaYG5ArVDiXqYItQ+NJg1dSuw+YUldeVQt
-# ubspG6tuJEHgLaOaiyV8H1cimg/Z1nJqQjGymuRXFZPdW47Ko5lJ3dbLkoisUO1A
-# dW0w8f6whBNbdowRHqYLdkQuS8AZUFoshzrKPw==
+# BDEWBBSSo1j8+FPugQnNIJm05R0nbMi+XjANBgkqhkiG9w0BAQEFAASCAgAefVl0
+# 01zErQURVchfb9fOwhURkbp8sbhJXJKXS/VW87RawlF2OWY2V9J0Dk4F/1H20Fr4
+# J5e4SBAK0QvZvxXmuekIam8s/m6yoxX/F8HorjnTrjTwTkqclD3vp28y6o68k+Wa
+# 6iDTYNe33u+CmzJRfBwsr0xudx0wrxU1fWFNRpavZTZUs6cWRTL0b50G0gYz5pUG
+# wX8AU0RCGLqYblSDqXNRZlVMd6XTo1d0VlckSFAnYzImWoJS6X5hd3Qt8HwasTBN
+# eJbAI8CQ4yrfV7AA6Kebpuj84wGjvLkzYBmMUB/4vnbOF1bcZEDiSvuUKCd4aMHQ
+# VG+RKeMt8h+u7WYtknmRO+LepifZGOmtIOkpK95G30IfgwaOXkZAj7yKnyexYUSS
+# Z/hSY/JUWqzKs9aGr+NEbHaRYExIqafGcA+1ETvDntViZnHmFH4EpmxZR4UXSnBd
+# UX3V/Cq66ndQjLkVFS/tXuozFAmma+bx73KyMqpORDyp+r/W2t706BDOf1/l2ACD
+# dvlaL3XDJL4d/7ndeovA8+9ZgtkBA4tM1O0xKeU8lrtXU67GVTDxz9T/qzVhOGYp
+# 6IJz9E54eg/5uHtx3dKaAD3m1PgK3afzDeMr191LckGyvUTOR4qxC00xvhWFFfxg
+# Exh9Xj/5AdPql6rPzitWtrbLqFJ+WmW3/Oguaw==
 # SIG # End signature block

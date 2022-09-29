@@ -7,6 +7,8 @@ Displays information selected in a configuration file.
 Show-APSGreeting
 #>
 function Show-APSGreeting{
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Greeter/Show-APSGreeting.md")]
+    param()
     if(-not ($Config = Get-Config $PSScriptRoot)){
         $Config = Set-APSGreeting -Default
     }
@@ -58,7 +60,7 @@ Disables ``Show-APSGreeting`` functions.
 Set-APSGreeting
 #>
 function Set-APSGreeting{
-    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName="NoParameter")]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName="NoParameter", HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Greeter/Set-APSGreeting.md")]
     param(
         [Parameter(ParameterSetName='Default')]
         [switch]$Default,
@@ -100,8 +102,8 @@ function Set-APSGreeting{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUvjc2EBHp8/R9kYVDCvxUaEg1
-# amugggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUlsfYKQLURH2b2MN7BjkOi3Xz
+# srigggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -131,16 +133,16 @@ function Set-APSGreeting{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBSVzELYoxxf/lIpRgxUG2rc9+JqjTANBgkqhkiG9w0BAQEFAASCAgCzx+Jj
-# AygCKl9+mRn8Y/ctWAhhcMooGGipbnoGU2C5ELMVEzwLWGVsdArZA3flOJS1qyzd
-# JD0E9KTwNMXOpKUaG/GSAj+rb7N3oWZ9TL9Owiw0ELq8coSFONjl471Cc7UpHWRr
-# QtIdvbdqkoap0SVKXbEGzRKZgBxvEkX8lmV2vOeNMtRBjQs91GghQ/oI1kkRYDs1
-# /nKG8XTZxvZw8zFGsxPEZ3rSkEpFaCXYWK0Aj4MGK5qgmGK49VGBLN6fT8BEGAEW
-# nxrWfWhi0UPLWzRxOIBpeau3LI7dv7IHSg5GjnobZ13ehJwMc2uvWxdDyGPRuFWD
-# pERo8cVDidvMBOMHHx6A0DjBlsc+/Z+oRLFPnrrSIFqJlhNDLyKcbP0FBb9jN6cP
-# mXAqDwTPDG+P+ngdHdjJgeih0AesO7dKqF1mtVg/pjB53fpXYzjWws9SodcvWy71
-# Iwu7N5/OoYOC6P0haZVtjCCVY97/+OkuITl2kBUF25EyH2iL46DDHgBRclWYQt2U
-# KMR76WC0IwTInyyRxmRNZKAOpOE+mDkrxFz3fdhniMZTaEab2xsVhmxW0/GitZob
-# ydyECSu6e7Kia8LVt7uNwJ7Gj6VnCQ2MiHJtmSiVMDBiRdL3gQPKVMGT91WHdgtj
-# KnHb73/27yZFiMON4fBNGOYPd1jlfH6EUGz1Xg==
+# BDEWBBS7WBnkZ7nDW0e1CPs/AxvBJ13w+zANBgkqhkiG9w0BAQEFAASCAgAHMu9y
+# ZGcS5oF5iqBz6mxLx+aiIeJYGHGHSnLne6CvuROzfXZpyaOW/DsvNlCZD8uoabRJ
+# 4eevniYHztAjUfiXVASkxcG9+J287RnDqMi/M9jmZir/hpOYhSlFI+2dTZZa1/Bq
+# j2QDfVBi/bMyLk4tX+XI+/3bJ8o1e7zHMMnWoO2IjEo+9cw0B8WMVjOc/XobmlTW
+# tLVOsHway9TzU+d5RmQBQOzQW3zye4CMBLeY0PnBveKkQoYDaoAkvv7/G5UKdBYX
+# ztbBVw0m3kX6HDFwCVzwvnC/3EUbz30U1fJYA3JoBOS5eV/9QLEF173hxWAs6qp+
+# 64VAqdSebQ72j8cT4F9iMEDj/5DCTYU+BZrJS/eFhJ6TxDLkLMWqor8XAode4/Y3
+# DGIINZ7pVeErpTIpmsirFj6fKNdaRCOoj/qbv99pvcr0+Zxi4/AAHL/W4dX5RSin
+# UGBi0SLDBpZpnay3gub0XfHl1jI2fo4QKYTFV1Qjhv1X62GbxSBqbLy+Hr1UimQh
+# 3OP7lXkCiBKx+kJyWtvFe63yXig569ZSMiz4RODob7AMF2isCLAKodx+VRFxyGDB
+# ZvfOAovV+F0L1B8Yu8WJ+ufx0ZQ6t5VeDMfKOD7kCBXT5z0iVMD1ebOQ/Ix1Itby
+# 7acEXR17rnjw4UKfoT67Zw2SHSpS0tsiDLsZuQ==
 # SIG # End signature block

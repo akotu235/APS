@@ -9,7 +9,7 @@ Specifies the name of the certificate. This name will be used by users who encry
 New-EncryptionKey "CertificateName"
 #>
 function New-EncryptionKey{
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/MessageEncoder/New-EncryptionKey.md")]
     Param(
         [Parameter(Mandatory=$true)]
         [System.String]$Name
@@ -57,7 +57,7 @@ Protect-Message "<secret>"
 #>
 function Protect-Message{
     [OutputType([System.String])]
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/MessageEncoder/Protect-Message.md")]
     Param(
         [Parameter(Mandatory=$true)]
         [System.String]$Message
@@ -101,7 +101,7 @@ Specify an encrypted message.
 Unprotect-Message "<encrypted message>"
 #>
 function Unprotect-Message{
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/MessageEncoder/Unprotect-Message.md")]
     Param(
         [Parameter(Mandatory=$true)]
         [System.String]$Message
@@ -120,8 +120,8 @@ function Unprotect-Message{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQURDUZuMnEAJlnSQ7O7T++oSUO
-# vyWgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUzWHZL/5LWXirH8jQyXhF+Qbd
+# JxSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -151,16 +151,16 @@ function Unprotect-Message{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBT75K2IWi++/GDtZDZaqcd029tVMzANBgkqhkiG9w0BAQEFAASCAgCK8rRa
-# 6vhDmwvu4ZdGcIRDIs9Coy8DSkG9ru6IfB0LUyNcrzj019kOLC+ZaLw3oisDWbOL
-# t+mmoHDHSwj6/PIVpCLP11wnW8GKoUkBfWCXFrXxzy6nCUmG/EC4R/eqb5DDj6fz
-# m/l9SVJxoaxH58kqc4miwx46dIJKZjbGFEsE/Wr/r4DvFIW+k2l8kSpcgHGeQX3o
-# 3AhEd3ZCt/a8g6tXoUfD7N+14duC7dCakOdX2P8c7Sx5h3SGSAf3jkPD2rarWEs8
-# ZS0ua3OI127e4yT77YoQswP/GRpCWFvA2DHkFyd1hbJZDClpX5wKfIyjFaxOal7t
-# +GcEx/OpjdEeDbLOeC7dbgj0o3s02qYXaoFGBfymMvXjVWhXeZKOzg9/Plka1J+W
-# 0n8XQl4Kxs1mVsvzssXmwrRUWA/MqCzsx7ELBqU/WbrBa9dus7M+c2fbQXSpLVO1
-# mRNwJFsuzKgZvYJXSu9XNnopRoPbnQ36UnTTMt1D4gmpRMzeF9hWAQLK35aGg/je
-# OpGjKDZsM4VMkffaGO5/Dje2quw/6qgkpjrk0X8Ine2ODG65TKYQNm9uwiYCN+RU
-# Dq3tmLwFPJnwKPT0R8hi0CCCmzjvNK3ssuNKxQHyT7HVrmN77V7/ZegDOZQ7y2Hi
-# jr3IQQYVDZZUcgtfnpUlrfD8uPUqiSniRV0hDA==
+# BDEWBBQ5CCPwc4ZP24WiVBGrr+9oG7nu2jANBgkqhkiG9w0BAQEFAASCAgBS1TDN
+# N0PR8baKC3j1K6VbqoW7Pm0J0SKLbCiL9ro7eZNKJ87alJnFoTFr4XzoYKj9rt3z
+# 9icci5BVKJ35HWAnMhdd2BhWilRC3HbqdYVor5D0igQ5ZF3ALrIHwLZeRIUCqQaN
+# OJTmJ06Aiq/9PgeN7+hBz8KS8R5eJa0mNThDlKSPni/Rq0CjCiRZAcXcXvpFZ9HS
+# u5ukMgXSHgd3Yj5Bc/IOZWGg+yCYKToCp9YEYYAPHpSbvQqLxwYw4I1MTlvBxhTa
+# NCKs52gDqR28t2VqKN3CL+ENUBIBwbRDV5K3El9AF4YDlCYaVKIX0/jcQry9Zbtf
+# TdMhFE5rQdmEXYY1HHhzoZZgYgGsoCV+Z/5vDdy1BGzvaNSkCFSSOQuAvCQtogL/
+# i3bUeyQgMLgFStNNxLZG2GCSgQ2tZSBWDELQxdnmX/lUwwpkyst0S7XEy1yyf1BQ
+# xEW8qG2j/vMjXZkRIByilDxgTHU6rpKDJa0GbhrPBWU4QET6Nt+dnW0vezbbwUxK
+# VybHSPipSUHWuoWEkvVOQJuFtTVjwGzPciRbwNRBEMo+9OOwIRXkEMCJioHSrdrV
+# K3DIi6VqrjbCqpujwJNozz4576dyJbEgPi1EK+6LoftFOJEDQ2mF+SonyOPATArv
+# OUpPa75xazDAtlHR2RujQ/tgbYd//1PtJ9HLVQ==
 # SIG # End signature block

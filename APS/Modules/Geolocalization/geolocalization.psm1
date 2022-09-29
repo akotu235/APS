@@ -11,7 +11,7 @@ Get-Geolocation
 Get-Geolocation -City
 #>
 function Get-Geolocation{
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/Geolocalization/Get-Geolocation.md")]
     param(
         [switch]$City
     )
@@ -40,8 +40,8 @@ function Get-Geolocation{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUxl3xo9t8gSIuuG24f9Dr/3Sn
-# ytCgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUG4SzJdnK3aSYKMc0BuLkhYSi
+# WCigggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -71,16 +71,16 @@ function Get-Geolocation{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBTWRNPC4HjVEm8ah4eVE986iiHS1TANBgkqhkiG9w0BAQEFAASCAgBZdUa+
-# zyBQ7Rj/KteHRnbjfW8VoOEEtmtmkwBPMTJsenupmHf1KlMwcdebLutGc3a5mqOp
-# sHrt6lwwsKwGVGTc3cekbi/nopqzLBOBolTVa7EZ80uOh8fZoCGOm6kwaYg2HXgN
-# B84p2iOan9QRUz9CI75IRhNWdSEd4156JLIDnGtw4fAMNvs5kyGjijDuTYWb3bI+
-# 5RnDe/LFqfBXQL/rk+0m1SCUXORNH8OQHpakEnv+HCaGyh7yanAGaEtCjQj+WyQV
-# cFcU7Spz9EeEhsi0kydk8vRCpV8NrORMNdOKgkkmpPCMkux1MN6ukZ7wVsxW0XKA
-# rqIYpyL49he6eMangR7YYtEuxeSwXt/0yOiR0H9bBZiPYe/QYP8pHew09JZhGO0W
-# /deG0jV42y+i+/kE/aTs8XwvLYHxKleUKdozsvtC3f2t0GU85ZhIodJqiYzEW6n6
-# p+mPh59hZhXwWvDg7IA82SnVHDQjwD/sObPnCB3GsRuzFO6qbkQcXpQFtvQgcW3o
-# X/sJIwLoG+WQs/ERen15pMFK/DjggpRhdcBB+Na7B2cvT7TnrFLv65kSxowdTZda
-# jViK4O76jl3TOcrs1zwwQQNOE7+IWVdvLYRzc8nMAJ2xJoFJ9/+2ki84gPfaBGyr
-# R2dU7eXESmZkexF7tXEfOIKzEwFRG1zRJZRGfA==
+# BDEWBBQ1XnKTeT9iSc/IGEmkVpK53zokUzANBgkqhkiG9w0BAQEFAASCAgAEKVkN
+# H/FOcvpW7FtSxXQAPpVOz9Z2t0jrU9mvFkal9uWf8HiuARqmK9ezNt7oAuKhvk+E
+# mPgESadnr+9nEiYqKbSwA2iStsKoCZVUeT25omXxpDHUCbniMZEtWxTt67bi9UWi
+# saLpjbE1FnYmMay83khF/NeDTk6iQYqrpWW/QZknx02uJj0R8DGAsfeYmVkmkBQF
+# TGNkSfyYxZyG024Z1XQI7eD/qbf+3oIEYG+bgD45ygIZiXdomppK+MJNkA5ifwJ3
+# a3F8RVa80tp+9DBlzIz0qQCgD+iYqgEqK0RwvVlhFcvK1mpWQUbhsVkiiombep78
+# 360qfwQV7xrks6Gl+VVQUoyYRjOM6GJ4DPKO4zgxgTdErEdzajx/VHEHlKZV2zIb
+# zLlGO+nDM3qAJPQPAEqZTZ8rGaSPQJRYfsSVw+nEz20b/eeH5S4YG4myAdSXE4MM
+# eVnorfa/dIpofgyYaMsuEmih27LNuVjDuUO+eu45k/Uyqtnh5cT7U6KnpWU+LVE+
+# 1Vcq8p75ZFsGVwIfmMvk0I77ZBZKM86qKE/AkmHGsCq3K8MbzR5MUQKAFssm/AmJ
+# 9jY3LhKNW54PLw/SPooOq+FomqP9wsmxwHKJrazH86uCouvk4TgoKXzs8VK9yqNJ
+# dlokbQ+9zFrpHz+4pCtDE891qjrcoABowydyXw==
 # SIG # End signature block

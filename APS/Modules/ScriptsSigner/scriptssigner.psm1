@@ -9,7 +9,7 @@ Specifies the file to be signed. If a directory is selected, all scripts in it a
 Add-Signature -File ".\scriptToSign.ps1"
 #>
 function Add-Signature{
-    [CmdletBinding()]
+    [CmdletBinding(HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ScriptsSigner/Add-Signature.md")]
     param(
         [Parameter(Mandatory=$true)]
         [System.String]$File
@@ -91,7 +91,7 @@ Specifies the file to remove the signature.
 .\Remove-Signature.ps1 -File .\scriptNmae.ps1
 #>
 function Remove-Signature{
-    [CmdletBinding(SupportsShouldProcess)]
+    [CmdletBinding(SupportsShouldProcess, HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/ScriptsSigner/Remove-Signature.md")]
     param(
         [Parameter(Mandatory=$true)]
         [System.String]$File
@@ -123,8 +123,8 @@ function Remove-Signature{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU4zv9b7DW0XtjX/OwilJgEkTa
-# d+KgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUNFWExT/KGhk7YRheBra0e8Ij
+# kiygggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -154,16 +154,16 @@ function Remove-Signature{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBTIDmp1DzWE1+XIVrgM49KeuCEKMzANBgkqhkiG9w0BAQEFAASCAgCTik8u
-# N7Vt7K05HultAUxu3ztFDUHW+G0ghAch5EcsLAZiDib0tvB7HYuX82dPkPH5J4u5
-# KP7IsZ5rhnuC+4tKJ2PVBD5RJ0rpTl7zjcXvXVSImnHO87pWR8WW8wL8pBl2QsbC
-# KwIVjBrT+9zMEsXTOMV8TChrhrwDa90kvgDeOZi9WLhtmJaFdBWk8DKKn6988H1k
-# ze3Uw8/KVCeJTpHPoCiV3pwbZNGNMemI9pwMB8wYzMXfN2aDgJS+448BIdNy1pnA
-# zunitq7o7am50c333oxaWRrclvxyNA5aVH3AFXj+bBXrCMwlxh4fS7xNA52LsrBF
-# HMUdeQbwrXGmVPmUNBFqxPExWwBkb+1mIOsRtAV+PPBMahGi4XTXERbzi8p+pfsG
-# H0SZwrf5mJXMr3B/C0HcRkoNG7rQtzpkYI03pHOXsfSD6rW6Nqt3ZNblbzpdmwLG
-# 7n5ZGSsWkeUG6arDOROKF+xE88oXpESt33dO5lrNfq3F32NVI5yl9/H18lZQRUXa
-# t8dzjpNH1mZPYzNlZJHDMX66WSXoRIdIkKCv/CdwaOxciO5BA4zWPAqKIN8uyPJZ
-# W+ufqqdvNS026nhUlSGNjH6lVG9wV0af5CtK0k9bAtbNA/1+9A3XR1mhDT6/b31k
-# Y11nY55Lu/ediSAh6FNUHTglH9yAVP8bS23wPg==
+# BDEWBBR+mY1181B+FMu9h3zmCb8qDeiAYDANBgkqhkiG9w0BAQEFAASCAgCICRSy
+# DZtHLMVuyyqE4n+JM7UfMAvaIcqzkbUZFIYkQlrYtAZy2LsoJELF6vdeeQBv7zZq
+# wUQZSSrCLxx/0PJfqQTCCYGLvXOtfeGmDXs716unDYDYs0im04TPBEVwyCQFJ43+
+# B22UADA3ifBIBoiPvvPOEvw6XIq2I+okRxzyuyopx+8u7AubEkI21UfMXkcugBse
+# A0EjzV5PCz3u7Hz+M7lrgY1Sj5T/8h4bUpizxx1J+NeYllv0DhSnzpuORYT6gRTT
+# GMJu6cH0g/0mPl2P9L0/3zW2dzl6i0XrbqR7Ekdivl8cb44Ih1n4U4ZXg2BaQ2mf
+# kodNVAFIn5LcP0h7g5JYEokazmcohCweC8Om0m0Purj7Bjw/SjSfil11CQmi69Jm
+# zJ4F/bAufo6lKN4e6R7l5TnR8svaDYlMkjX9dSHmqkC0dXRvgn5douGRLd8/kQYZ
+# tPqwGfo552Lch39+DeVWyxKoPjCKI4x7Uv9y4IN+6MIFlKMjSKmWiTr23JWtTamp
+# nWzZbA1wJZMWmaa4oA76XGkox1R1dmQEpg1Y8YHUDwt3dQc0ufA/CPcp4xJ0IyF5
+# PmEaJ6Ykfsl/Weqxn025YuOemcirftx2/Ep4kB649gPFn8GyHRyZEkkGmxTNgvhs
+# bEqYW/R/6ofyPtrgrMWLFkJ74XeNYTUmqiYXrg==
 # SIG # End signature block

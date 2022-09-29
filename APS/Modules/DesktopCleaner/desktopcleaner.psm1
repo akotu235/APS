@@ -25,7 +25,7 @@ Clear-Desktop -Autorun
 Clear-Desktop -SetDefaultExceptionList
 #>
 function Clear-Desktop{
-    [CmdletBinding(DefaultParameterSetName = 'NoParameter')]
+    [CmdletBinding(DefaultParameterSetName = 'NoParameter', HelpUri="https://github.com/akotu235/APS/blob/master/Docs/Modules/DesktopCleaner/Clear-Desktop.md")]
     Param(
         [Parameter(Mandatory = $true, ParameterSetName='Autorun')]
         [switch]$Autorun,
@@ -139,8 +139,8 @@ function Clear-Desktop{
 # SIG # Begin signature block
 # MIIIWAYJKoZIhvcNAQcCoIIISTCCCEUCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUMw+ZP0nfAojI13lGFJr7Fxg9
-# hFSgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU0NYAeUha6SHgeGNV65H2bNEJ
+# TwGgggT6MIIE9jCCAt6gAwIBAgIQYYPyfUBBC6pE/rAfOslXOzANBgkqhkiG9w0B
 # AQsFADATMREwDwYDVQQDDAhha290dSBDQTAeFw0yMjA5MjAxOTQ4MDFaFw0zMjA5
 # MjAxOTU4MDFaMBMxETAPBgNVBAMMCGFrb3R1IENBMIICIjANBgkqhkiG9w0BAQEF
 # AAOCAg8AMIICCgKCAgEAvGcae/FCZugTbghxO7Qv9wQKvRvp9/WvJyJci/SIsPr1
@@ -170,16 +170,16 @@ function Clear-Desktop{
 # ETAPBgNVBAMMCGFrb3R1IENBAhBhg/J9QEELqkT+sB86yVc7MAkGBSsOAwIaBQCg
 # eDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJAzEMBgorBgEE
 # AYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMCMGCSqGSIb3DQEJ
-# BDEWBBRTKjCun05Gm/HKGWebI/XEKBuhgTANBgkqhkiG9w0BAQEFAASCAgAGZM3j
-# kjRxdJRJKho6kJtJt83MY7EI+zirWpglndcqSFKLrRaIPjYrRxalxnyhILLp7Ugm
-# +SsQHS7faFim1EDavfut5uNa68tdIP/AsLWN35r9lO8kaZc6LXYPUYyuT9puw0i3
-# wA+MbmdKe9XHTJtasAVD6g1BbZs6HmkT1vXTPE6Hc/lkLvZ7mI+6zpl1YeO+2aj+
-# mEdqBv/3xS6bX+2773bmYAlEULWw18UQQ6Tq2kk64df7f77VDzkeEWpF4s0sCWEA
-# NLhMcHRhqXcGJtg+XNuvB8LnkWASePDpdCTVP36Um1hLG6lvmOVubpLB32XsK4Wq
-# PMTUOcMoqYsf/xuXZXC6ZU9dl6cb1jfLS4x6U/id7nbLJg+rTWSkOvzAyPjq6spg
-# CjRXZptAx/LqF4ekk0gRKMru0Jsxq40Xa0WhGZsGaj3uP4Ef+TRgBLiaXVSsIueb
-# c9Ah8dxUdmSMEe/fVQUB7+HPeOzunZcTtIoUoKgkfURqZbXb5D+InNOggTQXY38o
-# fSQeigYsWcP0iNAz24gux2O5e/Xf2+EUXqmjo3lxC2tZqoK1dVcay07KRb4c1bax
-# c+tL2v2YnHxAHqJuBxEVUhuf5Rm6YHH46EDlorwZLIVEVYng7WA3qmn431unvSt6
-# GDHd3bWP0muAR1zaTyTF1eaa1a3585hSocV9cw==
+# BDEWBBRZoxCTOxmyzaEJfl/GsRU64Hv49zANBgkqhkiG9w0BAQEFAASCAgBfNewS
+# WIybOx742QyPvLf5D/vD4cmSJheW96o0PzcQbIk03pbr8CLUqopKr8CfNqAan4eq
+# dZu7nFB59R0jBiqfg5o+5rHKDWpJVKAZpYfcj5waj+T33W6Kd5X2bDaKxBzKQ24D
+# NufgRPE67dv10oWJabi+T0mZKE8JwaJAZ1ZAwXelyWDjnj5jsSGvqwOIooloU01V
+# QjMWeLMM4u3Le8qOLHV6MJbeZDZ7oCWzbGYS0Z6rv6V8IXla4BVUGis/zMyqPz65
+# CdS6WUQ1QsCLpt+DS6iebPsuZwjXKJW2pA4syhBi+dpn12VjVwLE8CpU3eERozr5
+# 9Z5f+YCuxAmr9JVrW7wuc11DH49c/N0fLFwsv71HhuDlQiuJy6v+OM5N7pT31kmS
+# rtymc8NEqC4VTdD4umFz0wlx2trDvjZVkYXw7XaB0Fzkui5+IeEQq4HFlZnX/ifo
+# QFYrwfzC6lH//AAAid5ex7syAJvM0F0qtTcbqzTNet2B2SLwg4PpvHY5uO+qoRTf
+# MDbUsc8yox33KzBOzuGPkfNfaIarAEbIsT5xdT2UA9QRF0+HU3PsZemI5WDmvL11
+# 0fmilPkYU7E4ApKTkBSAFCLTzGmr0pJ8Y3MIxnjoTnMPb9wjemXQUTZP6leKN+Bg
+# F74PTroc1U2LEeISUrF5Afey6eCENeVE2zOCiw==
 # SIG # End signature block
