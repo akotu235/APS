@@ -2,19 +2,21 @@ BeforeAll{
     $ModuleName = "TextFinder"
     Remove-Module $ModuleName -Force -ErrorAction SilentlyContinue
     Import-Module "$PSScriptRoot\..\APS\Modules\$ModuleName"
-    $samples = "$([System.IO.Path]::GetTempPath())\APSTests"
-    $file1 = New-Item "$samples\file1.txt" -Force
-    $file2 = New-Item "$samples\file2.txt" -Force
-    $file3 = New-Item "$samples\directory\file3.txt" -Force
-    $file1 | Set-Content -Value "Dog`nCat`nRabbit`nBird`nHorse`nBear`nDeer`nCat`n"
-    $file2 | Set-Content -Value "Horse`nChicken`nSnake`nFish`nBird`nLion`nCowCowCow`n"
-    $file3 | Set-Content -Value "Horse`nAnt`nPig`nDuck`nShark`nWolf`nMonkey`n"
-    Mock Write-Line -ModuleName $ModuleName {}
-}
-AfterAll{
-    Remove-Item -Recurse -Force -Path $samples
 }
 Describe 'Search-InFile'{
+    BeforeAll{
+        $samples = "$([System.IO.Path]::GetTempPath())\APSTests"
+        $file1 = New-Item "$samples\file1.txt" -Force
+        $file2 = New-Item "$samples\file2.txt" -Force
+        $file3 = New-Item "$samples\directory\file3.txt" -Force
+        $file1 | Set-Content -Value "Dog`nCat`nRabbit`nBird`nHorse`nBear`nDeer`nCat`n"
+        $file2 | Set-Content -Value "Horse`nChicken`nSnake`nFish`nBird`nLion`nCowCowCow`n"
+        $file3 | Set-Content -Value "Horse`nAnt`nPig`nDuck`nShark`nWolf`nMonkey`n"
+        Mock Write-Line -ModuleName $ModuleName {}
+    }
+    AfterAll{
+        Remove-Item -Recurse -Force -Path $samples
+    }
     Context 'in a specific file'{
         It 'returns true if a phrase exists in the searched file'{
             $result = Search-InFile -Phrase bit -Path $file1

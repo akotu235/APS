@@ -114,7 +114,7 @@ Context 'config exists'{
     }
 }
 Context 'configuration does not exist'{
-    AfterAll{
+    BeforeEach{
         Remove-Item $samples -Recurse -Force -ErrorAction SilentlyContinue
     }
     Context 'witch -ModuleBase'{
