@@ -1,6 +1,8 @@
 # APS
 APS PowerShell
 
+[![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/APS)](https://www.powershellgallery.com/packages/APS)
+
 ## Description
 A set of useful tools in the form of a PowerShell module.
 
