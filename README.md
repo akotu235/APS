@@ -11,6 +11,8 @@ Run the command below in PowerShell.
 Install-Script -Name APS.Installer -Scope CurrentUser;Set-ExecutionPolicy Bypass -Scope Process -Force;& "$((Get-InstalledScript -Name APS.Installer).InstalledLocation)\APS.Installer.ps1"
 ```
 
+![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/APS)
+
 ## Update
 Upgrade to the latest version using the command:
 ```Powershell
