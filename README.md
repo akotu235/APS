@@ -38,6 +38,8 @@ Update-APS
 ## License
 Distributed under the MIT License. See [LICENSE.md](https://github.com/akotu235/APS/blob/master/LICENSE.md) for more information.
 
+[![GitHub](https://img.shields.io/github/license/akotu235/APS)](https://github.com/akotu235/APS/blob/master/LICENSE.md)
+
 ## Contact
 Andrew - [Report a problem or ask your question online](https://akotu235.github.io/)
 
