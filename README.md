@@ -46,3 +46,9 @@ Distributed under the MIT License. See [LICENSE.md](https://github.com/akotu235/
 Andrew - [Report a problem or ask your question online](https://akotu235.github.io/)
 
 Project Link: [https://github.com/akotu235/APS](https://github.com/akotu235/APS)
+
+## Donation
+
+If you enjoy my content, please consider supporting what I do. Thank you.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=HDU4X9TF9Y5AY)
